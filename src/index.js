@@ -13,46 +13,50 @@ try {
 	log(`Lingo module issue ${err}`);
 }
 
-console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-lingo
-	.fetchKit(capswanKitUuid)
-	.then(o => log(`o: ${JSON.stringify(o, null, 2)}`));
-
-console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-function getSectionHeaderUuid(sectionName) {
-	return lingo
-		.fetchKitOutline(capswanKitUuid, 0)
-		.then(sections => {
-			// log(`sections: ${JSON.stringify(sections[0], null, 2)}`);
-			let uuid;
-			log(`sections: ${JSON.stringify(sections, null, 2)}`);
-			sections[0].headers.forEach((v, idx) => {
-				// log(`idx:${idx}\nv:${JSON.stringify(v, null, 2)}`);
-				if (v.name === sectionName) {
-					// console.log(`v.uuid: ${v.uuid}`);
-					uuid = v.uuid;
-				}
-			});
-			return uuid;
-		})
-		.catch(err => {
-			log(`getSectionHeaderUuid() ${err}`);
-		});
+function getSectionUuid(kitUuid, kitVersion) {
+	return lingo.fetchKitOutline(kitUuid, kitVersion).then(o => {
+		return o.uuid;
+	});
+}
+async function init() {
+	let uuid = await getSectionUuid(capswanKitUuid, 0);
+	log(`uuid: ${uuid}`);
 }
 
-function getAssetUuids(sectionUuid) {
-	lingo
-		// .fetchSection(sectionUuid, 0)
-		.fetchSection("9533C6B8-599E-4709-9120-9DA8E10A2922", 0)
-		.then(v => {
-			console.log(v);
-			return v;
-		})
-		.catch(err => {
-			log(`getAssetUuids() ${err}`);
-		});
-	log(`sectionUuid: ${sectionUuid}`);
-}
+// function getSectionHeaderUuid(sectionName) {
+// 	return lingo
+// 		.fetchKitOutline(capswanKitUuid, 0)
+// 		.then(sections => {
+// 			// log(`sections: ${JSON.stringify(sections[0], null, 2)}`);
+// 			let uuid;
+// 			log(`sections: ${JSON.stringify(sections, null, 2)}`);
+// 			sections[0].headers.forEach((v, idx) => {
+// 				// log(`idx:${idx}\nv:${JSON.stringify(v, null, 2)}`);
+// 				if (v.name === sectionName) {
+// 					// console.log(`v.uuid: ${v.uuid}`);
+// 					uuid = v.uuid;
+// 				}
+// 			});
+// 			return uuid;
+// 		})
+// 		.catch(err => {
+// 			log(`getSectionHeaderUuid() ${err}`);
+// 		});
+// }
+
+// function getAssetUuids(sectionUuid) {
+// 	lingo
+// 		// .fetchSection(sectionUuid, 0)
+// 		.fetchSection("9533C6B8-599E-4709-9120-9DA8E10A2922", 0)
+// 		.then(v => {
+// 			console.log(v);
+// 			return v;
+// 		})
+// 		.catch(err => {
+// 			log(`getAssetUuids() ${err}`);
+// 		});
+// 	log(`sectionUuid: ${sectionUuid}`);
+// }
 
 // getSectionHeaderUuid("Icons")
 // 	.then(sectionUuid => {
