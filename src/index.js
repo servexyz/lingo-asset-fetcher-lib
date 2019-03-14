@@ -12,7 +12,7 @@ try {
 	lingo
 		.fetchKits()
 		.then(kits => {
-			console.log(`kits: ${kits}`);
+			console.log(`kits: ${JSON.stringify(kits, null, 2)}`);
 		})
 		.catch(err => {
 			console.log(`fetchKits() ${err}`);
