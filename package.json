@@ -29,6 +29,7 @@
 		"webpack-node-externals": "^1.7.2"
 	},
 	"dependencies": {
+		"Lingojs": "git+https://github.com/TheNounProject/LingoJS.git",
 		"dotenv": "^6.1.0"
 	},
 	"scripts": {
