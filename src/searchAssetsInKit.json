@@ -1,0 +1,611 @@
+{
+  "generated_at": "2019-03-18 17:57:00.698149",
+  "page": 1,
+  "query": "Icons",
+  "sections": [
+    {
+      "items": [
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:46.117518+0000",
+            "date_updated": "2019-03-12 22:52:46.117518+0000",
+            "dimensions": "24.0x24.0",
+            "file_hash": "1e9fbf0b78ca6bf5dbe7597ae5af9a1b976f77da",
+            "file_id": "492fe6b8-8e09-410b-ac17-cf674bf7d8b3",
+            "file_updated": "2019-03-12 22:52:46.117518+0000",
+            "keywords": "Kit , Icon ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "921486dbb723d166506a5b0632108bd2c0c5a8c4",
+              "external_id": "DAB197BF-63AB-4A4B-80FC-AA3E5DFF3F74",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Kit / Icon / icon-drag-handle"
+            },
+            "name": "icon-drag-handle",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8/download?asset_token=YBlDT7f_3OXStYFLng7S3GCAcQ9edRTll8orzX8xglE",
+            "size": 12136,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8/preview?size=292&asset_token=YBlDT7f_3OXStYFLng7S3GCAcQ9edRTll8orzX8xglE",
+              "480": "https://api.lingoapp.com/v4/assets/3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8/preview?size=480&asset_token=YBlDT7f_3OXStYFLng7S3GCAcQ9edRTll8orzX8xglE",
+              "1232": "https://api.lingoapp.com/v4/assets/3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8/preview?size=1232&asset_token=YBlDT7f_3OXStYFLng7S3GCAcQ9edRTll8orzX8xglE"
+            },
+            "token": "YBlDT7f_3OXStYFLng7S3GCAcQ9edRTll8orzX8xglE",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8"
+          },
+          "asset_uuid": "3C2C4B5B-BD47-488C-8C3C-BE6CAB967FC8",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:46.117598+0000",
+          "date_updated": "2019-03-12 23:05:39.052782+0000",
+          "display_order": -77,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "5541AAD7-661E-41CC-92A1-AEB6B210873D",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.544959+0000",
+            "date_updated": "2019-03-12 22:52:42.544959+0000",
+            "dimensions": "48.0x48.0",
+            "file_hash": "82245de2be043b4e2001077c6a0ee71943a50a73",
+            "file_id": "4705a453-f5bc-4649-b615-f21c6128660e",
+            "file_updated": "2019-03-12 22:52:42.544959+0000",
+            "keywords": "Icon , Close ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "e164a678a12a3495ff4393d8fef5b78191429c25",
+              "external_id": "4850BFCA-DA63-424E-B0D2-ACB579CF37B3",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Icon / Close / Black"
+            },
+            "name": "Black",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/918274C0-7996-451F-B943-318AAD01A279/download?asset_token=WTbelpCRIqcl9LL4gn7lgzxB39WPT7gKFNQrwZrKJ7E",
+            "size": 6629,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/918274C0-7996-451F-B943-318AAD01A279/preview?size=292&asset_token=WTbelpCRIqcl9LL4gn7lgzxB39WPT7gKFNQrwZrKJ7E",
+              "480": "https://api.lingoapp.com/v4/assets/918274C0-7996-451F-B943-318AAD01A279/preview?size=480&asset_token=WTbelpCRIqcl9LL4gn7lgzxB39WPT7gKFNQrwZrKJ7E",
+              "1232": "https://api.lingoapp.com/v4/assets/918274C0-7996-451F-B943-318AAD01A279/preview?size=1232&asset_token=WTbelpCRIqcl9LL4gn7lgzxB39WPT7gKFNQrwZrKJ7E"
+            },
+            "token": "WTbelpCRIqcl9LL4gn7lgzxB39WPT7gKFNQrwZrKJ7E",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "918274C0-7996-451F-B943-318AAD01A279"
+          },
+          "asset_uuid": "918274C0-7996-451F-B943-318AAD01A279",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.545083+0000",
+          "date_updated": "2019-03-12 23:05:39.052664+0000",
+          "display_order": -127,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "4E02973C-159F-4738-A7D4-CDE1476FFE75",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.635970+0000",
+            "date_updated": "2019-03-12 22:52:42.635970+0000",
+            "dimensions": "48.0x48.0",
+            "file_hash": "be728f78fc9ebf0603216eac5578bab7c94b849e",
+            "file_id": "34495c3a-53bc-4a97-a275-5d4183b7c0b5",
+            "file_updated": "2019-03-12 22:52:42.635970+0000",
+            "keywords": " Dollar ,Icon ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "a9905c8eddfa95ffac3aa3c55b89f3cf14ee8659",
+              "external_id": "E7F8D3BB-07C5-48D2-935C-C4F8EA1F413A",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Icon / Dollar / Green"
+            },
+            "name": "Green",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/95939202-A3D9-411D-A1B5-17931DEA7146/download?asset_token=L56tX9xaUWmi6WQ0pWmT4BVfiLcUT_ACuLy-H0aS788",
+            "size": 6469,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/95939202-A3D9-411D-A1B5-17931DEA7146/preview?size=292&asset_token=L56tX9xaUWmi6WQ0pWmT4BVfiLcUT_ACuLy-H0aS788",
+              "480": "https://api.lingoapp.com/v4/assets/95939202-A3D9-411D-A1B5-17931DEA7146/preview?size=480&asset_token=L56tX9xaUWmi6WQ0pWmT4BVfiLcUT_ACuLy-H0aS788",
+              "1232": "https://api.lingoapp.com/v4/assets/95939202-A3D9-411D-A1B5-17931DEA7146/preview?size=1232&asset_token=L56tX9xaUWmi6WQ0pWmT4BVfiLcUT_ACuLy-H0aS788"
+            },
+            "token": "L56tX9xaUWmi6WQ0pWmT4BVfiLcUT_ACuLy-H0aS788",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "95939202-A3D9-411D-A1B5-17931DEA7146"
+          },
+          "asset_uuid": "95939202-A3D9-411D-A1B5-17931DEA7146",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.636103+0000",
+          "date_updated": "2019-03-12 23:05:39.052656+0000",
+          "display_order": -124,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "87072984-0348-4243-BDFA-2E779D6BA642",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.654427+0000",
+            "date_updated": "2019-03-12 22:52:42.654427+0000",
+            "dimensions": "48.0x48.0",
+            "file_hash": "31642753f1674897d3a7a1eb9ee364889275c564",
+            "file_id": "20be4015-6734-41f1-9054-461a6daac8a2",
+            "file_updated": "2019-03-12 22:52:42.654427+0000",
+            "keywords": " Dollar ,Icon ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "ac04f21c792c8a33d5798ba1cf5d25ddbfec31a5",
+              "external_id": "26A0F2E9-5263-4418-92D5-CFF9C8A5CD36",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Icon / Dollar / White"
+            },
+            "name": "White",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3/download?asset_token=wUYeXjXAQTMnuUQYywf8_alY3IfxknrovRxMUOFub3M",
+            "size": 6998,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3/preview?size=292&asset_token=wUYeXjXAQTMnuUQYywf8_alY3IfxknrovRxMUOFub3M",
+              "480": "https://api.lingoapp.com/v4/assets/DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3/preview?size=480&asset_token=wUYeXjXAQTMnuUQYywf8_alY3IfxknrovRxMUOFub3M",
+              "1232": "https://api.lingoapp.com/v4/assets/DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3/preview?size=1232&asset_token=wUYeXjXAQTMnuUQYywf8_alY3IfxknrovRxMUOFub3M"
+            },
+            "token": "wUYeXjXAQTMnuUQYywf8_alY3IfxknrovRxMUOFub3M",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3"
+          },
+          "asset_uuid": "DCDF6096-28BB-4DA9-9A94-C7F48FC9ADF3",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.654577+0000",
+          "date_updated": "2019-03-12 23:05:39.052653+0000",
+          "display_order": -123,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "96867008-E071-4160-AB67-55AEC7FEF214",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.736382+0000",
+            "date_updated": "2019-03-12 22:52:42.736382+0000",
+            "dimensions": "35.0x35.0",
+            "file_hash": "e785db050183d16ba6f43dae96d8a84b94e62773",
+            "file_id": "61ad83ff-8a83-4b07-b466-9b57cd024d73",
+            "file_updated": "2019-03-12 22:52:42.736382+0000",
+            "keywords": " Icon ,Key ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "e874fb4dc65f864a8022bbab6cf33d6a5ed1068d",
+              "external_id": "D1DC577F-E160-4B1B-BDE8-AEE566D529E9",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Key / Icon / 3"
+            },
+            "name": "3",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/FB5338BA-7BEF-4A5D-963F-866CE73D1198/download?asset_token=1IU3QmTIRjxrzdITh6crnNUuKY0eWIlmGFMQdYlpgBA",
+            "size": 10815,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/FB5338BA-7BEF-4A5D-963F-866CE73D1198/preview?size=292&asset_token=1IU3QmTIRjxrzdITh6crnNUuKY0eWIlmGFMQdYlpgBA",
+              "480": "https://api.lingoapp.com/v4/assets/FB5338BA-7BEF-4A5D-963F-866CE73D1198/preview?size=480&asset_token=1IU3QmTIRjxrzdITh6crnNUuKY0eWIlmGFMQdYlpgBA",
+              "1232": "https://api.lingoapp.com/v4/assets/FB5338BA-7BEF-4A5D-963F-866CE73D1198/preview?size=1232&asset_token=1IU3QmTIRjxrzdITh6crnNUuKY0eWIlmGFMQdYlpgBA"
+            },
+            "token": "1IU3QmTIRjxrzdITh6crnNUuKY0eWIlmGFMQdYlpgBA",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "FB5338BA-7BEF-4A5D-963F-866CE73D1198"
+          },
+          "asset_uuid": "FB5338BA-7BEF-4A5D-963F-866CE73D1198",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.736507+0000",
+          "date_updated": "2019-03-12 23:05:39.052645+0000",
+          "display_order": -120,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "F82A2350-8D7A-4559-9D3A-8133721F4097",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.560530+0000",
+            "date_updated": "2019-03-12 22:52:42.560530+0000",
+            "dimensions": "48.0x48.0",
+            "file_hash": "d5d407d5dbec5644f7c58dd1c530b0ab705f0342",
+            "file_id": "d754ddba-1009-4f2e-9913-4a2045e13716",
+            "file_updated": "2019-03-12 22:52:42.560530+0000",
+            "keywords": "Icon , Close ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "b7f251d0bf1d8aa96df6e0fa8d720327b2f8a7cd",
+              "external_id": "518AC74A-E123-47AB-9F2B-F4A11040C32D",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Icon / Close / White"
+            },
+            "name": "White",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/1484328B-A8C2-410A-A02F-AA8873407707/download?asset_token=wQwfyR-zJy0OEx9HCCWRt_UinVAGGsqB_BXbXhwKGt4",
+            "size": 6630,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/1484328B-A8C2-410A-A02F-AA8873407707/preview?size=292&asset_token=wQwfyR-zJy0OEx9HCCWRt_UinVAGGsqB_BXbXhwKGt4",
+              "480": "https://api.lingoapp.com/v4/assets/1484328B-A8C2-410A-A02F-AA8873407707/preview?size=480&asset_token=wQwfyR-zJy0OEx9HCCWRt_UinVAGGsqB_BXbXhwKGt4",
+              "1232": "https://api.lingoapp.com/v4/assets/1484328B-A8C2-410A-A02F-AA8873407707/preview?size=1232&asset_token=wQwfyR-zJy0OEx9HCCWRt_UinVAGGsqB_BXbXhwKGt4"
+            },
+            "token": "wQwfyR-zJy0OEx9HCCWRt_UinVAGGsqB_BXbXhwKGt4",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "1484328B-A8C2-410A-A02F-AA8873407707"
+          },
+          "asset_uuid": "1484328B-A8C2-410A-A02F-AA8873407707",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.560624+0000",
+          "date_updated": "2019-03-12 23:05:39.052662+0000",
+          "display_order": -126,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "68434E13-AB9B-4033-8EB9-AE3A0977BED4",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.696277+0000",
+            "date_updated": "2019-03-12 22:52:42.696277+0000",
+            "dimensions": "35.0x35.0",
+            "file_hash": "3ed223b0328fc0dd36ab6d196eac2c9cea13b247",
+            "file_id": "c58f5c7a-54c7-475a-80a3-01e9aa516697",
+            "file_updated": "2019-03-12 22:52:42.696277+0000",
+            "keywords": " Icon ,Key ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "ffadb73726027fbc218964a1f1ab20fde41a21a1",
+              "external_id": "872A4CE6-5DED-4412-93B2-517AEA274023",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Key / Icon / 1"
+            },
+            "name": "1",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/8E264682-E790-4A05-BE82-5BDB2D223CBD/download?asset_token=iX65q-ud_Gu1loRYsXVFtO_n8_fHuw4WLrVlNX5HeOU",
+            "size": 11231,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/8E264682-E790-4A05-BE82-5BDB2D223CBD/preview?size=292&asset_token=iX65q-ud_Gu1loRYsXVFtO_n8_fHuw4WLrVlNX5HeOU",
+              "480": "https://api.lingoapp.com/v4/assets/8E264682-E790-4A05-BE82-5BDB2D223CBD/preview?size=480&asset_token=iX65q-ud_Gu1loRYsXVFtO_n8_fHuw4WLrVlNX5HeOU",
+              "1232": "https://api.lingoapp.com/v4/assets/8E264682-E790-4A05-BE82-5BDB2D223CBD/preview?size=1232&asset_token=iX65q-ud_Gu1loRYsXVFtO_n8_fHuw4WLrVlNX5HeOU"
+            },
+            "token": "iX65q-ud_Gu1loRYsXVFtO_n8_fHuw4WLrVlNX5HeOU",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "8E264682-E790-4A05-BE82-5BDB2D223CBD"
+          },
+          "asset_uuid": "8E264682-E790-4A05-BE82-5BDB2D223CBD",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.696404+0000",
+          "date_updated": "2019-03-12 23:05:39.052651+0000",
+          "display_order": -122,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "D38D678C-F15B-4E16-A200-1C3937C0EE46",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.756166+0000",
+            "date_updated": "2019-03-12 22:52:42.756166+0000",
+            "dimensions": "35.0x35.0",
+            "file_hash": "c608df87e49de66856c1c512eaac01570f0de4e3",
+            "file_id": "7b8279e2-6be3-4733-82f8-563b65e1d26b",
+            "file_updated": "2019-03-12 22:52:42.756166+0000",
+            "keywords": " Icon ,Key ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "5a876b98c82ceb3ea6abc2409919261f3b9f0e7b",
+              "external_id": "55CA8C2B-7362-44D9-AD63-5CB586196F19",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Key / Icon / 4"
+            },
+            "name": "4",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/E7E66DE6-68A3-45CE-806A-6C3EEBE70831/download?asset_token=XGI_WZukzdiEv_WnRXpPfqfopydIQNPITnZ93SVjfe4",
+            "size": 11392,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/E7E66DE6-68A3-45CE-806A-6C3EEBE70831/preview?size=292&asset_token=XGI_WZukzdiEv_WnRXpPfqfopydIQNPITnZ93SVjfe4",
+              "480": "https://api.lingoapp.com/v4/assets/E7E66DE6-68A3-45CE-806A-6C3EEBE70831/preview?size=480&asset_token=XGI_WZukzdiEv_WnRXpPfqfopydIQNPITnZ93SVjfe4",
+              "1232": "https://api.lingoapp.com/v4/assets/E7E66DE6-68A3-45CE-806A-6C3EEBE70831/preview?size=1232&asset_token=XGI_WZukzdiEv_WnRXpPfqfopydIQNPITnZ93SVjfe4"
+            },
+            "token": "XGI_WZukzdiEv_WnRXpPfqfopydIQNPITnZ93SVjfe4",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "E7E66DE6-68A3-45CE-806A-6C3EEBE70831"
+          },
+          "asset_uuid": "E7E66DE6-68A3-45CE-806A-6C3EEBE70831",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.756295+0000",
+          "date_updated": "2019-03-12 23:05:39.052643+0000",
+          "display_order": -119,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "5A64BAB2-4BE7-445D-AD28-C5CEF6BD78C3",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.716481+0000",
+            "date_updated": "2019-03-12 22:52:42.716481+0000",
+            "dimensions": "35.0x35.0",
+            "file_hash": "043825cb1adcb9b79a614a942918851f3fe5ecc4",
+            "file_id": "f2865666-e4b3-43c8-b7fb-9716ca18fdb9",
+            "file_updated": "2019-03-12 22:52:42.716481+0000",
+            "keywords": " Icon ,Key ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "2527aa6935b7ac2d9746d1e4b0cc9e818e9cc66e",
+              "external_id": "23070B81-6465-4C5F-B960-47827A733D6F",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Key / Icon / 2"
+            },
+            "name": "2",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/55E8D327-28D3-42CC-9CFB-E64E45C1C2FD/download?asset_token=plFItrH5YsPw3b66K-cMiFb_pJEQD42U027JOhMsePk",
+            "size": 10976,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/55E8D327-28D3-42CC-9CFB-E64E45C1C2FD/preview?size=292&asset_token=plFItrH5YsPw3b66K-cMiFb_pJEQD42U027JOhMsePk",
+              "480": "https://api.lingoapp.com/v4/assets/55E8D327-28D3-42CC-9CFB-E64E45C1C2FD/preview?size=480&asset_token=plFItrH5YsPw3b66K-cMiFb_pJEQD42U027JOhMsePk",
+              "1232": "https://api.lingoapp.com/v4/assets/55E8D327-28D3-42CC-9CFB-E64E45C1C2FD/preview?size=1232&asset_token=plFItrH5YsPw3b66K-cMiFb_pJEQD42U027JOhMsePk"
+            },
+            "token": "plFItrH5YsPw3b66K-cMiFb_pJEQD42U027JOhMsePk",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "55E8D327-28D3-42CC-9CFB-E64E45C1C2FD"
+          },
+          "asset_uuid": "55E8D327-28D3-42CC-9CFB-E64E45C1C2FD",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.716608+0000",
+          "date_updated": "2019-03-12 23:05:39.052648+0000",
+          "display_order": -121,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "E9BCDA00-4B7B-44EF-B77C-A21E70D6A0F3",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.617925+0000",
+            "date_updated": "2019-03-12 22:52:42.617925+0000",
+            "dimensions": "48.0x48.0",
+            "file_hash": "5fa8964ae5ddc2e8af4aa9467cd76e73b38f6dbd",
+            "file_id": "dd761c83-486c-434f-a6d1-6dfaa1f37744",
+            "file_updated": "2019-03-12 22:52:42.617925+0000",
+            "keywords": " Dollar ,Icon ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "cb2fa4a1258194c52de29966cb031afba6fb7937",
+              "external_id": "9E61442C-5EF0-4423-9F20-8FF8D96780CC",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Icon / Dollar / Black"
+            },
+            "name": "Black",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/39DFF001-D4E2-4CA2-B6A7-6626F1859594/download?asset_token=OMPHaNLQASOGmNRBDHLeOTb6tfB3hf4igU7nxbpSzAg",
+            "size": 6363,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/39DFF001-D4E2-4CA2-B6A7-6626F1859594/preview?size=292&asset_token=OMPHaNLQASOGmNRBDHLeOTb6tfB3hf4igU7nxbpSzAg",
+              "480": "https://api.lingoapp.com/v4/assets/39DFF001-D4E2-4CA2-B6A7-6626F1859594/preview?size=480&asset_token=OMPHaNLQASOGmNRBDHLeOTb6tfB3hf4igU7nxbpSzAg",
+              "1232": "https://api.lingoapp.com/v4/assets/39DFF001-D4E2-4CA2-B6A7-6626F1859594/preview?size=1232&asset_token=OMPHaNLQASOGmNRBDHLeOTb6tfB3hf4igU7nxbpSzAg"
+            },
+            "token": "OMPHaNLQASOGmNRBDHLeOTb6tfB3hf4igU7nxbpSzAg",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "39DFF001-D4E2-4CA2-B6A7-6626F1859594"
+          },
+          "asset_uuid": "39DFF001-D4E2-4CA2-B6A7-6626F1859594",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.618044+0000",
+          "date_updated": "2019-03-12 23:05:39.052659+0000",
+          "display_order": -125,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "792B08CE-91D9-4D23-90B9-37E1F9C693A0",
+          "version": 0
+        },
+        {
+          "asset": {
+            "category": "sketch",
+            "colors": [],
+            "date_added": "2019-03-12 22:52:42.774788+0000",
+            "date_updated": "2019-03-12 22:52:42.774788+0000",
+            "dimensions": "35.0x35.0",
+            "file_hash": "f29c20503a778d50365285079d79addff07949a2",
+            "file_id": "84dd1eed-5f21-4117-a85c-48bfed54e764",
+            "file_updated": "2019-03-12 22:52:42.774788+0000",
+            "keywords": " Icon ,Key ",
+            "meta": {
+              "embedded_cuts": "SVG,PDF",
+              "external_hash": "0fd604d226cd803f5a0fbea15d4f95a3113fca00",
+              "external_id": "1A59FFC9-64F1-452B-825D-087AEE92F08F",
+              "sketch_format_version": "116_2",
+              "sketch_pathname": "Key / Icon / 5"
+            },
+            "name": "5",
+            "notes": "",
+            "permalink": "https://api.lingoapp.com/v4/assets/360F9890-E195-4A32-A7F8-F849EF382170/download?asset_token=Xds8skNpsUrmDfk2PqkIM0OAZO7gSHdvdv7FedGsbHQ",
+            "size": 12712,
+            "space_id": 96871,
+            "thumbnail_placeholders": {
+              "292": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/292x292.png",
+              "480": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/480x480.png",
+              "1232": "https://lingo-production.s3.amazonaws.com/thumbnails/placeholder/sketch_symbol/1232x1232.png"
+            },
+            "thumbnails": {
+              "292": "https://api.lingoapp.com/v4/assets/360F9890-E195-4A32-A7F8-F849EF382170/preview?size=292&asset_token=Xds8skNpsUrmDfk2PqkIM0OAZO7gSHdvdv7FedGsbHQ",
+              "480": "https://api.lingoapp.com/v4/assets/360F9890-E195-4A32-A7F8-F849EF382170/preview?size=480&asset_token=Xds8skNpsUrmDfk2PqkIM0OAZO7gSHdvdv7FedGsbHQ",
+              "1232": "https://api.lingoapp.com/v4/assets/360F9890-E195-4A32-A7F8-F849EF382170/preview?size=1232&asset_token=Xds8skNpsUrmDfk2PqkIM0OAZO7gSHdvdv7FedGsbHQ"
+            },
+            "token": "Xds8skNpsUrmDfk2PqkIM0OAZO7gSHdvdv7FedGsbHQ",
+            "type": "SKETCH_SYMBOL",
+            "uploader_id": 59634,
+            "uuid": "360F9890-E195-4A32-A7F8-F849EF382170"
+          },
+          "asset_uuid": "360F9890-E195-4A32-A7F8-F849EF382170",
+          "data": {
+            "display_size": "0"
+          },
+          "date_added": "2019-03-12 22:52:42.774912+0000",
+          "date_updated": "2019-03-12 23:05:39.052640+0000",
+          "display_order": -118,
+          "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+          "section_uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+          "space_id": 96871,
+          "status": "active",
+          "type": "asset",
+          "uuid": "22EF0FA0-017E-496A-8CBB-A34ED3934169",
+          "version": 0
+        }
+      ],
+      "section": {
+        "counts": {
+          "assets": 212,
+          "items": 221
+        },
+        "creator_id": 59634,
+        "date_added": "2019-03-12 22:49:04.472459+0000",
+        "date_updated": "2019-03-12 22:49:04.472459+0000",
+        "display_order": 0,
+        "kit_uuid": "5889C55A-CDD4-48D7-9F6F-28B92635E5A6",
+        "name": "Icons",
+        "status": "active",
+        "uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+        "version": 0
+      },
+      "total": 11
+    }
+  ],
+  "total": 11
+}

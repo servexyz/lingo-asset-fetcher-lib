@@ -1,0 +1,64 @@
+[
+  {
+    "display_order": 0,
+    "headers": [
+      {
+        "display_order": -155,
+        "name": "Icons",
+        "uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94",
+        "version": 0
+      },
+      {
+        "display_order": -72,
+        "name": "Components",
+        "uuid": "51CA5C83-10FA-4420-B768-A68306EF7656",
+        "version": 0
+      },
+      {
+        "display_order": -43,
+        "name": "Cards",
+        "uuid": "30022795-1C54-47F8-A908-51822C4B5C61",
+        "version": 0
+      },
+      {
+        "display_order": -31,
+        "name": "Images",
+        "uuid": "858C4427-ACE3-4097-A406-64C40C08B81B",
+        "version": 0
+      },
+      {
+        "display_order": -26,
+        "name": "Fonts",
+        "uuid": "77241E88-EDC7-4786-B0F4-1755CFCE1DF1",
+        "version": 0
+      },
+      {
+        "display_order": -20,
+        "name": "Color - Hexcodes",
+        "uuid": "46791A96-E3B1-44D5-AB7A-E5752691846F",
+        "version": 0
+      },
+      {
+        "display_order": -6,
+        "name": "Color - Swatches - 1",
+        "uuid": "0B0EEB54-9138-4319-AB07-5ABE47071FF3",
+        "version": 0
+      },
+      {
+        "display_order": 250,
+        "name": "Color - Swatches - 2",
+        "uuid": "9FC7ADA2-6B75-49A6-A970-278D36FA5B30",
+        "version": 0
+      },
+      {
+        "display_order": 699,
+        "name": "Color - Swatches - 3",
+        "uuid": "15770C6C-CFB6-437F-AC39-B26542A015D3",
+        "version": 0
+      }
+    ],
+    "name": "Icons",
+    "uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
+    "version": 0
+  }
+]

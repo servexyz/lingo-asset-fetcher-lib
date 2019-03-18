@@ -15,26 +15,51 @@ try {
 	log(`Lingo module issue ${err}`);
 }
 
+// lingo
+// 	.searchAssetsInKit(capswanKitUuid, 0, "Icons", 1, 500)
+// 	.then(sections => {
+// 		log(`sections: ${JSON.stringify(sections, null, 2)}`);
+// 		fs.writeFileSync(
+// 			`./src/searchAssetsInKit.json`,
+// 			JSON.stringify(sections, null, 2)
+// 		);
+// 	})
+// 	.catch(err => {
+// 		log(`searchAssetsInKit() ${err}`);
+// 	});
 function getSectionUuid(kitUuid, kitVersion) {
 	try {
 		return lingo.fetchKitOutline(kitUuid, kitVersion).then(kit => {
-			log(`kit[0].uuid: ${kit[0].uuid}`);
-			return kit[0].uuid;
+			// log(`section uuid aka. kit[0].uuid: ${kit[0].uuid}`);
+			fs.writeFileSync("./src/kitOutline.json", JSON.stringify(kit, null, 2));
+			return kit[0].uuid; //sectionUuid
 		});
 	} catch (err) {
 		length(`getSectionUuid() ${err}`);
 	}
 }
-async function getAssetUuids(sectionUuid, version = 0, page = 1, limit = 500) {
+async function getAssetUuids(
+	sectionUuid,
+	headerUuid,
+	version = 0,
+	page = 1,
+	limit = 500
+) {
 	try {
 		let section = await lingo.fetchSection(sectionUuid, 0, 1, 500);
-		// log(`section: ${JSON.stringify(section, null, 2)}`);
-		let x = Object.entries(section.items).forEach((v, idx) => {
+		let y = [];
+		Object.entries(section.items).forEach((v, idx) => {
 			// log(`idx:${idx}\nv:${JSON.stringify(v[1], null, 2)}`);
 			// log(`asset_uuid: ${v[1].asset_uuid}`);
-			return v[1].asset_uuid;
+			let uuid = v[1].asset_uuid;
+			if (uuid !== null && v[1].section_uuid === sectionUuid) {
+				log(`sectionUuid: ${v[1].section_uuid}`);
+				y.push(v[1].asset_uuid);
+			}
 		});
-		log(`x: ${x}`);
+		// y.shift(); //get rid of empty first
+		log(`y: ${y.length}`);
+		return y;
 	} catch (err) {
 		log(`getAssetUuids() ${err}`);
 	}
@@ -44,7 +69,7 @@ async function init() {
 	try {
 		let sectionUuid = await getSectionUuid(capswanKitUuid, 0);
 		let assetUuids = await getAssetUuids(sectionUuid);
-		log(`assetUuids: ${assetUuids}`);
+		log(`assetUuids: ${JSON.stringify(assetUuids, null, "\t")}`);
 	} catch (err) {
 		log(`init() ${err}`);
 	}
