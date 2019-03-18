@@ -27,39 +27,31 @@ try {
 // 	.catch(err => {
 // 		log(`searchAssetsInKit() ${err}`);
 // 	});
-function getSectionUuid(kitUuid, kitVersion) {
+
+function getHeaderUuid(kitUuid, kitVersion, headerName = "Icons") {
 	try {
 		return lingo.fetchKitOutline(kitUuid, kitVersion).then(kit => {
-			// log(`section uuid aka. kit[0].uuid: ${kit[0].uuid}`);
 			fs.writeFileSync("./src/kitOutline.json", JSON.stringify(kit, null, 2));
-			return kit[0].uuid; //sectionUuid
+			let uuid = 1;
+			kit[0].headers.forEach(v => {
+				// log(`v: ${JSON.stringify(v, null, 2)}\n`);
+				// log(`name:${v.name}\nuuid:${v.uuid}`);
+				if (v.name === headerName) {
+					// log(`yes, headerName: ${v.name}`);
+					// log(`v.uuid:${v.uuid}`);
+					uuid = v.uuid;
+				}
+			});
+			return uuid;
 		});
 	} catch (err) {
-		length(`getSectionUuid() ${err}`);
+		log(`getHeaderUuid() ${err}`);
 	}
 }
-async function getAssetUuids(
-	sectionUuid,
-	headerUuid,
-	version = 0,
-	page = 1,
-	limit = 500
-) {
+async function getAssetUuids(headerUuid, version = 0, page = 1, limit = 500) {
 	try {
-		let section = await lingo.fetchSection(sectionUuid, 0, 1, 500);
-		let y = [];
-		Object.entries(section.items).forEach((v, idx) => {
-			// log(`idx:${idx}\nv:${JSON.stringify(v[1], null, 2)}`);
-			// log(`asset_uuid: ${v[1].asset_uuid}`);
-			let uuid = v[1].asset_uuid;
-			if (uuid !== null && v[1].section_uuid === sectionUuid) {
-				log(`sectionUuid: ${v[1].section_uuid}`);
-				y.push(v[1].asset_uuid);
-			}
-		});
-		// y.shift(); //get rid of empty first
-		log(`y: ${y.length}`);
-		return y;
+		log(`headerUuid: ${headerUuid}`);
+		return await lingo.fetchAssetsForHeading(headerUuid);
 	} catch (err) {
 		log(`getAssetUuids() ${err}`);
 	}
@@ -67,9 +59,10 @@ async function getAssetUuids(
 
 async function init() {
 	try {
-		let sectionUuid = await getSectionUuid(capswanKitUuid, 0);
-		let assetUuids = await getAssetUuids(sectionUuid);
+		let headerUuid = await getHeaderUuid(capswanKitUuid, 0);
+		let assetUuids = await getAssetUuids(headerUuid);
 		log(`assetUuids: ${JSON.stringify(assetUuids, null, "\t")}`);
+		log(`headerUuid: ${headerUuid}`);
 	} catch (err) {
 		log(`init() ${err}`);
 	}
