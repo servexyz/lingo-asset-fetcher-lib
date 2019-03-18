@@ -31,41 +31,74 @@ try {
 function getHeaderUuid(kitUuid, kitVersion, headerName = "Icons") {
 	try {
 		return lingo.fetchKitOutline(kitUuid, kitVersion).then(kit => {
-			fs.writeFileSync("./src/kitOutline.json", JSON.stringify(kit, null, 2));
-			let uuid = 1;
+			// fs.writeFileSync("./src/kitOutline.json", JSON.stringify(kit, null, 2));
+			let sectionUuid = kit[0].uuid;
+			// log(`kit[0].uuid:${kit[0].uuid}`);
+			let headerUuid;
 			kit[0].headers.forEach(v => {
 				// log(`v: ${JSON.stringify(v, null, 2)}\n`);
 				// log(`name:${v.name}\nuuid:${v.uuid}`);
 				if (v.name === headerName) {
 					// log(`yes, headerName: ${v.name}`);
 					// log(`v.uuid:${v.uuid}`);
-					uuid = v.uuid;
+					headerUuid = v.uuid;
 				}
 			});
-			return uuid;
+			return [sectionUuid, headerUuid];
 		});
 	} catch (err) {
 		log(`getHeaderUuid() ${err}`);
 	}
 }
-async function getAssetUuids(headerUuid, version = 0, page = 1, limit = 500) {
+async function getAssetUuids(
+	sectionUuid,
+	headerUuid,
+	version = 0,
+	page = 1,
+	limit = 500
+) {
 	try {
 		log(`headerUuid: ${headerUuid}`);
-		return await lingo.fetchAssetsForHeading(headerUuid);
+		let assetsInHeader = await lingo.fetchAssetsForHeading(
+			sectionUuid,
+			headerUuid,
+			version
+		);
+		// log(`assetsInHeader:${JSON.stringify(assetsInHeader, null, 2)}`);
+		var assetUuids = [];
+		for (const [k, v] of Object.entries(assetsInHeader)) {
+			// log(`assetUuids: ${v.asset_uuid}`);
+			assetUuids.push(v.asset_uuid);
+			// return v.asset_uuid;
+		}
+		return assetUuids;
+		// fs.writeFileSync("./src/assetUuidsV2.json", JSON.stringify(x, null, 2));
+		// log(`x: ${JSON.stringify(x, null, 2)}`);
+		// log(`x.length: ${x.length}`);
 	} catch (err) {
 		log(`getAssetUuids() ${err}`);
 	}
 }
 
-async function init() {
+async function downloadAssets(headerName, fileFormat) {
 	try {
-		let headerUuid = await getHeaderUuid(capswanKitUuid, 0);
-		let assetUuids = await getAssetUuids(headerUuid);
-		log(`assetUuids: ${JSON.stringify(assetUuids, null, "\t")}`);
-		log(`headerUuid: ${headerUuid}`);
+		let [sectionUuid, headerUuid] = await getHeaderUuid(
+			capswanKitUuid,
+			0,
+			headerName
+		);
+		let assetUuids = await getAssetUuids(sectionUuid, headerUuid);
+		assetUuids.forEach(async (uuid, idx) => {
+			log(`uuid: ${uuid}\nfileFormat:${fileFormat}`);
+			let x = await lingo.downloadAsset(uuid, fileFormat);
+			fs.writeFile(`./src/img${idx}`, x, "binary", err => {
+				if (err) throw err;
+				log(`...${idx}.PNG file saved`);
+			});
+		});
 	} catch (err) {
 		log(`init() ${err}`);
 	}
 }
 
-init();
+downloadAssets("Icons", "PNG");
