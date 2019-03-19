@@ -91,7 +91,7 @@ async function downloadAssets(headerName, fileFormat) {
 		assetUuids.forEach(async (uuid, idx) => {
 			log(`uuid: ${uuid}\nfileFormat:${fileFormat}`);
 			let x = await lingo.downloadAsset(uuid, fileFormat);
-			fs.writeFile(`./src/img${idx}`, x, "binary", err => {
+			fs.writeFile(`./src/img/${idx}`, x, "binary", err => {
 				if (err) throw err;
 				log(`...${idx}.PNG file saved`);
 			});

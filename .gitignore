@@ -1,5 +1,6 @@
 .DS_Store
 # Logs
+src/img
 logs
 *.log
 npm-debug.log*
