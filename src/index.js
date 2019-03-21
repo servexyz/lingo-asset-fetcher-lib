@@ -28,7 +28,7 @@ async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 		let kits = await lingo.fetchKits();
 		// log(`kits: ${JSON.stringify(kits, null, 2)}`);
 		kits.forEach(v => {
-			log(`v:${JSON.stringify(v, null, 2)}`);
+			// log(`v:${JSON.stringify(v, null, 2)}`);
 			if (v.name === kitName) {
 				// log(`v.name: ${v.name}`);
 				// log(`v.kit_uuid:${v.kit_uuid}`);
@@ -52,7 +52,6 @@ async function getRelevantAssetContainers(
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
 		// log(`outline: ${JSON.stringify(outline, null, 2)}`);
 		// log(`kitId: ${kitId}`);
-		//TODO: Make this work with capswanExampleTargetTwo (ie. Single section per kit)
 		extractTarget.sections.forEach(targetSec => {
 			// log(`targetSec:${JSON.stringify(targetSec, null, 2)}`);
 			//TODO: Rename "originSec" to "outlineSec" for clarity
@@ -157,11 +156,11 @@ async function init(
 	if (extractTarget == null) {
 		throw Error("Extract Target is required");
 	}
-	log(`kitName: ${kitName}`);
+	// log(`kitName: ${kitName}`);
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
 	let kitId = await getKitId(kitName);
-	log(`kitId: ${kitId}`);
+	// log(`kitId: ${kitId}`);
 	await getRelevantAssetContainers(kitId, extractTarget, kitVersion);
 }
 
