@@ -48,7 +48,6 @@ async function getRelevantAssetContainers(
 		let uuids = { sections: [] };
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
 		//TODO: Make this work with capswanExampleTargetTwo (ie. Single section per kit)
-
 		extractTarget.sections.forEach(targetSec => {
 			// log(`targetSec:${JSON.stringify(targetSec, null, 2)}`);
 			//TODO: Rename "originSec" to "outlineSec" for clarity
@@ -121,11 +120,13 @@ let capswanSampleExtractTargetOne = {
 }
 */
 
-let capswanSampleExtractTargetTwo = [
-	{
-		Icons: ["Icons"]
-	}
-];
+let capswanSampleExtractTargetTwo = {
+	sections: [
+		{
+			Icons: ["Icons"]
+		}
+	]
+};
 
 async function init(
 	extractTarget = null,
