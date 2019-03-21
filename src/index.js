@@ -18,7 +18,7 @@ function getLingoSetupVariables(spaceId, apiToken) {
  *
  * @param {string} kitName
  */
-
+// kitName = "Capswan - Mobile App - Style Guide"
 async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	//TODO: Add test for accounts which only have single kit
 	//? Not sure whether this is going to be an issue given that the data
@@ -26,12 +26,15 @@ async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	let kitUuid;
 	try {
 		let kits = await lingo.fetchKits();
+		log(`kits: ${JSON.stringify(kits, null, 2)}`);
+
 		for (const [k, v] of Object.entries(kits)) {
-			// log(`k: ${JSON.stringify(k, null, 2)}\nv:${JSON.stringify(v, null, 2)}`);
+			log(`k: ${JSON.stringify(k, null, 2)}\nv:${JSON.stringify(v, null, 2)}`);
 			if (v.name === kitName) {
+				log(`v.name: ${v.name}`);
 				kitUuid = v.kit_uuid;
 			}
-			// log(`kitUuid: ${kitUuid}`);
+			log(`kitUuid: ${kitUuid}`);
 			return kitUuid;
 		}
 	} catch (err) {
@@ -47,6 +50,7 @@ async function getRelevantAssetContainers(
 	try {
 		let uuids = { sections: [] };
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
+		log(`outline: ${JSON.stringify(outline, null, 2)}`);
 		//TODO: Make this work with capswanExampleTargetTwo (ie. Single section per kit)
 		extractTarget.sections.forEach(targetSec => {
 			// log(`targetSec:${JSON.stringify(targetSec, null, 2)}`);
@@ -89,6 +93,21 @@ async function getRelevantAssetContainers(
 	}
 }
 
+let testMeExtractTargetOne = {
+	sections: [
+		{
+			name: "illustrations"
+		}
+	]
+};
+let testMeExtractTargetTwo = {
+	sections: [
+		{
+			name: "illustrations",
+			headers: ["Lined"]
+		}
+	]
+};
 let capswanSampleExtractTargetOne = {
 	sections: [
 		{
@@ -129,6 +148,7 @@ let capswanSampleExtractTargetTwo = {
 };
 
 async function init(
+	kitName = "Capswan - Mobile App - Style Guide",
 	extractTarget = null,
 	spaceId = null,
 	apiToken = null,
@@ -139,8 +159,13 @@ async function init(
 	}
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	await getRelevantAssetContainers(await getKitId(), extractTarget, kitVersion);
+	await getRelevantAssetContainers(
+		await getKitId(kitName),
+		extractTarget,
+		kitVersion
+	);
 }
 
-//TODO: Change this to TargetTwo
-init(capswanSampleExtractTargetOne);
+// init(capswanSampleExtractTargetOne);
+// init(capswanSampleExtractTargetTwo);
+init("Test Me", testMeExtractTargetOne);
