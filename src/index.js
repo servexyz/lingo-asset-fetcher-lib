@@ -6,7 +6,7 @@ const lingo = require("Lingojs");
  * @param {int} spaceId :: Lingo Space ID (6 digits)
  * @param {int} apiToken :: Account root API
  */
-function getLingoSetupVariables(spaceId, apiToken) {
+export function getLingoSetupVariables(spaceId, apiToken) {
 	if (spaceId == null || apiToken == null) {
 		return [process.env.SPACE_ID, process.env.API_TOKEN];
 	} else {
@@ -19,7 +19,7 @@ function getLingoSetupVariables(spaceId, apiToken) {
  * @param {string} kitName
  */
 // kitName = "Capswan - Mobile App - Style Guide"
-async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
+export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	//TODO: Add test for accounts which only have single kit
 	//? Not sure whether this is going to be an issue given that the data
 	//? structure would change based on how many kits are returned
@@ -42,7 +42,7 @@ async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	}
 }
 
-async function getRelevantAssetContainers(
+export async function getRelevantAssetContainers(
 	kitId,
 	extractTarget,
 	kitVersion = 0
@@ -86,67 +86,14 @@ async function getRelevantAssetContainers(
 				}
 			});
 		});
-		log(JSON.stringify(uuids, null, 2));
+		// log(JSON.stringify(uuids, null, 2));
+		return uuids;
 	} catch (err) {
 		log(`getRelevantAssetContainers() ${err}`);
 	}
 }
 
-let testMeExtractTargetOne = {
-	sections: [
-		{
-			name: "illustrations"
-		}
-	]
-};
-let testMeExtractTargetTwo = {
-	sections: [
-		{
-			name: "illustrations",
-			headers: ["Lined"]
-		}
-	]
-};
-let capswanSampleExtractTargetOne = {
-	sections: [
-		{
-			name: "Illustrations"
-		},
-		{
-			name: "Icons",
-			headers: ["Icons", "Components"]
-		}
-	]
-	/* Sample output from capswanExampleExtractTargetOne =>
-	{
-		"sections": [
-			{
-				"name": "Illustrations",
-				"uuid": "EE0669EA-0FA8-451D-B911-F7299602458F",
-				"headers": []
-			},
-			{
-				"name": "Icons",
-				"uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
-				"headers": [
-					"32CACAE6-AD11-4FD6-B204-A16A17239D94",
-					"51CA5C83-10FA-4420-B768-A68306EF7656"
-				]
-			}
-		]
-	}
-	*/
-};
-
-let capswanSampleExtractTargetTwo = {
-	sections: [
-		{
-			name: "Icons"
-		}
-	]
-};
-
-async function init(
+export default async function init(
 	kitName = "Capswan - Mobile App - Style Guide",
 	extractTarget = null,
 	spaceId = null,
@@ -167,4 +114,4 @@ async function init(
 // init("Capswan - Mobile App - Style Guide", capswanSampleExtractTargetOne);
 // init("Capswan - Mobile App - Style Guide", capswanSampleExtractTargetTwo);
 // init("Test Me", testMeExtractTargetOne);
-init("Test Me", testMeExtractTargetTwo);
+// init("Test Me", testMeExtractTargetTwo);
