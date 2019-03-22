@@ -111,9 +111,50 @@ export function formatAssetContainers({ sections } = assetContainers) {
 	// log(`singleton: ${JSON.stringify(singletonUuids, null, 2)}`);
 	return singletonUuids;
 }
-export function getAssetUuids(singletonUuids) {
-	singletonUuids.forEach();
+
+export async function getAssetUuids(singletonUuids) {
+	//TODO: Revisit formatAssetContainers and consider consolidating functions
+	//? This feels super clunky.
+	var assetUuids = [];
+	try {
+		for (let s of singletonUuids) {
+			let sectionUuid = Object.keys(s)[0];
+			let headerUuid = Object.values(s)[0];
+			// log(`sectionUuid; ${sectionUuid}`);
+			// log(`headerUuid: ${headerUuid}`);
+			if (headerUuid === null) {
+				var section = await lingo.fetchSection(sectionUuid);
+				// fs.writeFileSync(
+				// 	"./src/samplePayloads/section.json",
+				// 	JSON.stringify(section, null, 2)
+				// );
+				for (let k of section.items) {
+					if (k.asset_uuid !== null) {
+						assetUuids.push(k.asset_uuid);
+					}
+				}
+			} else {
+				var headerAssets = await lingo.fetchAssetsForHeading(
+					sectionUuid,
+					headerUuid
+				);
+				// fs.writeFileSync(
+				// 	"./src/samplePayloads/headerAssets.json",
+				// 	JSON.stringify(headerAssets, null, 2)
+				// );
+				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
+					if (v.asset_uuid !== null) {
+						assetUuids.push(v.asset_uuid);
+					}
+				}
+			}
+		}
+		return assetUuids;
+	} catch (err) {
+		log(`getAssetUuids() ${err}`);
+	}
 }
+
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 // export async function batchDownload(assetUuids) {
@@ -136,11 +177,13 @@ export default async function init(
 	}
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	let uuidsInInit = await formatAssetContainers(
-		await getRelevantAssetContainers(
-			await getKitId(kitName),
-			extractTarget,
-			kitVersion
+	let uuidsInInit = await getAssetUuids(
+		formatAssetContainers(
+			await getRelevantAssetContainers(
+				await getKitId(kitName),
+				extractTarget,
+				kitVersion
+			)
 		)
 	);
 	log(`uuidsInInit: ${uuidsInInit}`);
