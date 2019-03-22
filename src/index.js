@@ -155,13 +155,21 @@ export async function getAssetUuids(singletonUuids) {
 	}
 }
 
+//TODO: Extract name from getAssetUuid (to name the file)
+//TODO: Add param comments
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-// export async function batchDownload(assetUuids) {
-// 	assetUuids.forEach(uuid => {
-// 		log(`uuid: ${JSON.stringify(uuid, null, 2)}`);
-// 	});
-// }
+export async function batchDownload(assetUuids, format = "PNG") {
+	try {
+		assetUuids.forEach(uuid => {
+			let buffer = lingo.downloadAsset(uuid, format);
+			fs.writeFile();
+			log(`uuid: ${JSON.stringify(uuid, null, 2)}`);
+		});
+	} catch (err) {
+		log(`batchDownload(): ${err}`);
+	}
+}
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
