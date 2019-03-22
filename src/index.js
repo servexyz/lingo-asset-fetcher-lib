@@ -94,35 +94,35 @@ export async function getRelevantAssetContainers(
 	}
 }
 
-export async function getAssetUuids(assetContainer) {
-	let { sections } = assetContainer;
-	log(`assetContainer.section: ${JSON.stringify(sections, null, 2)}`);
-	let assetUuids = sections.map(async sec => {
-		var uuids = [];
-		log(`sec: ${JSON.stringify(sec, null, 2)}`);
-		log(`uuids1:${uuids}`);
-		if (sec.headers.length == 0) {
-			let newSec = await lingo.fetchSection(sec.uuid);
-			Object.values(newSec.items).map(v => {
-				log(`v.asset_uuid: ${v.asset_uuid}`);
-
-				uuids.push(v.asset_uuid);
-				log(`uuids2:${uuids}\n`);
-				// log(`v: ${JSON.stringify(v.asset_uuid, null, 2)}`);
-				// return uuids;
+export function formatAssetContainers({ sections } = assetContainers) {
+	let singletonUuids = [];
+	//? Not mapping because assetContainers will always be small.
+	//? Unnecessary loops won't impact performance.
+	sections.forEach((section, idx) => {
+		// log(`section ${idx}: ${JSON.stringify(section, null, 2)}`);
+		if (section.hasOwnProperty("headers") && section.headers.length === 0) {
+			singletonUuids.push(Object.assign({}, { [section.uuid]: null }));
+		} else {
+			section.headers.forEach(header => {
+				singletonUuids.push(Object.assign({}, { [section.uuid]: header }));
 			});
 		}
-		log(`assetUuids: ${assetUuids}`);
-		return assetUuids;
 	});
-	// log(`uuids: ${JSON.stringify(uuids, null, 2)}`);
-	// return uuids;
+	// log(`singleton: ${JSON.stringify(singletonUuids, null, 2)}`);
+	return singletonUuids;
 }
+export function getAssetUuids(singletonUuids) {
+	singletonUuids.forEach();
+}
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 // export async function batchDownload(assetUuids) {
 // 	assetUuids.forEach(uuid => {
 // 		log(`uuid: ${JSON.stringify(uuid, null, 2)}`);
 // 	});
 // }
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 
 export default async function init(
 	kitName = "Capswan - Mobile App - Style Guide",
@@ -136,7 +136,7 @@ export default async function init(
 	}
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	let uuidsInInit = await getAssetUuids(
+	let uuidsInInit = await formatAssetContainers(
 		await getRelevantAssetContainers(
 			await getKitId(kitName),
 			extractTarget,
@@ -147,6 +147,6 @@ export default async function init(
 }
 
 // init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
-init("Test Me", config.testMe.targetOne);
+init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
+// init("Test Me", config.testMe.targetOne);
 // init("Test Me", config.testMe.targetTwo);
