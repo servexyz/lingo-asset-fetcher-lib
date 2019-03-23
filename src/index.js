@@ -144,14 +144,13 @@ export async function getAssetUuids(
 					if (item.asset_uuid !== null) {
 						assetUuids.push(item.asset_uuid);
 					}
-					// if (item.asset_uuid !== null) {
-					// 	assetUuids.push(
-					// 		Object.assign(
-					// 			{},
-					// 			{ [item.asset_uuid]: item.meta.sketch_pathname }
-					// 		)
-					// 	);
-					// }
+					// uuid: name
+					/*
+						1. strip whitespace
+						2. separate by comma
+						3. append
+						eg. name_keyword_keyword.FORMAT
+					*/
 				}
 			} else {
 				// http://developer.lingoapp.com/lingojs/#heading-contents
@@ -167,12 +166,6 @@ export async function getAssetUuids(
 				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
 					if (v.asset_uuid !== null) {
 						assetUuids.push(v.asset_uuid);
-						// log(`v.meta: ${v.meta}`);
-						// log(`v.meta.sketch_pathname: ${v.meta.sketch_pathname}`);
-						// assetUuids.push(
-						// 	Object.assign({}, { [v.asset_uuid]: v.meta.sketch_pathname })
-						// );
-						//? Using sketch_pathname instead of asset_name because the asset_name is more likely to have conflicts
 					}
 				}
 			}
