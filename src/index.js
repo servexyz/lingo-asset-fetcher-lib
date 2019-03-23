@@ -112,7 +112,12 @@ export function formatAssetContainers({ sections } = assetContainers) {
 	return singletonUuids;
 }
 
-export async function getAssetUuids(singletonUuids) {
+export async function getAssetUuids(
+	singletonUuids,
+	version = 0,
+	page = 1,
+	limit = 2000
+) {
 	//TODO: Revisit formatAssetContainers and consider consolidating functions
 	//? This feels super clunky.
 	var assetUuids = [];
@@ -123,7 +128,13 @@ export async function getAssetUuids(singletonUuids) {
 			// log(`sectionUuid; ${sectionUuid}`);
 			// log(`headerUuid: ${headerUuid}`);
 			if (headerUuid === null) {
-				var section = await lingo.fetchSection(sectionUuid);
+				// http://developer.lingoapp.com/lingojs/#sections
+				var section = await lingo.fetchSection(
+					sectionUuid,
+					version,
+					page,
+					limit
+				);
 				// fs.writeFileSync(
 				// 	"./src/samplePayloads/section.json",
 				// 	JSON.stringify(section, null, 2)
@@ -143,6 +154,7 @@ export async function getAssetUuids(singletonUuids) {
 					// }
 				}
 			} else {
+				// http://developer.lingoapp.com/lingojs/#heading-contents
 				var headerAssets = await lingo.fetchAssetsForHeading(
 					sectionUuid,
 					headerUuid
@@ -151,6 +163,7 @@ export async function getAssetUuids(singletonUuids) {
 				// 	"./src/samplePayloads/headerAssets.json",
 				// 	JSON.stringify(headerAssets, null, 2)
 				// );
+
 				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
 					if (v.asset_uuid !== null) {
 						assetUuids.push(v.asset_uuid);
@@ -211,9 +224,10 @@ export default async function init(
 		)
 	);
 	log(`uuidsInInit: ${uuidsInInit}`);
+	log(`items: ${uuidsInInit.length}`);
 }
 
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
-init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
+// init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
+init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
 // init("Test Me", config.testMe.targetOne);
 // init("Test Me", config.testMe.targetTwo);
