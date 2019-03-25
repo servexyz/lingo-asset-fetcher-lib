@@ -204,6 +204,7 @@ export async function getAssetUuids(
 
 //TODO: Extract name from getAssetUuid (to name the file)
 //TODO: Add param comments
+//TODO: Consider checking all file names for duplicates (to prevent unnecessary overwrites)
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 export async function batchDownload(
