@@ -112,6 +112,26 @@ export function formatAssetContainers({ sections } = assetContainers) {
 	return singletonUuids;
 }
 
+function buildFileName(assetName, assetKeywords) {
+	//TODO: Make this extensible so people can pass their own options
+	if (assetKeywords.length >= 1) {
+		let tags = assetKeywords
+			.split(",")
+			.map(tag => {
+				return tag.trim();
+			})
+			.map(trimmed => {
+				return trimmed.replace(/ /g, "_");
+			});
+		let underscoredKeywords = tags.join("_");
+		let underscoredAssetName = assetName.replace(/ /g, "_");
+		let newName = underscoredAssetName + "_" + underscoredKeywords;
+		return newName;
+	} else {
+		return assetName;
+	}
+}
+
 export async function getAssetUuids(
 	singletonUuids,
 	version = 0,
@@ -125,8 +145,6 @@ export async function getAssetUuids(
 		for (let s of singletonUuids) {
 			let sectionUuid = Object.keys(s)[0];
 			let headerUuid = Object.values(s)[0];
-			// log(`sectionUuid; ${sectionUuid}`);
-			// log(`headerUuid: ${headerUuid}`);
 			if (headerUuid === null) {
 				// http://developer.lingoapp.com/lingojs/#sections
 				var section = await lingo.fetchSection(
@@ -140,17 +158,17 @@ export async function getAssetUuids(
 				// 	JSON.stringify(section, null, 2)
 				// );
 				for (let item of section.items) {
-					// log(`item: ${JSON.stringify(item, null, 2)}`);
 					if (item.asset_uuid !== null) {
-						assetUuids.push(item.asset_uuid);
+						if (item.asset.hasOwnProperty("keywords")) {
+							var fileName = buildFileName(
+								item.asset.name,
+								item.asset.keywords
+							);
+						} else {
+							fileName = item.asset.name;
+						}
+						assetUuids.push(Object.assign({}, { [item.asset_uuid]: fileName }));
 					}
-					// uuid: name
-					/*
-						1. strip whitespace
-						2. separate by comma
-						3. append
-						eg. name_keyword_keyword.FORMAT
-					*/
 				}
 			} else {
 				// http://developer.lingoapp.com/lingojs/#heading-contents
@@ -165,7 +183,15 @@ export async function getAssetUuids(
 
 				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
 					if (v.asset_uuid !== null) {
-						assetUuids.push(v.asset_uuid);
+						// log(`v.asset.name: ${v.asset.name}`);
+						// log(`v.asset.keywords: ${v.asset.keywords}`);
+						if (v.asset.hasOwnProperty("keywords")) {
+							var fileName = buildFileName(v.asset.name, v.asset.keywords);
+						} else {
+							fileName = v.asset.name;
+						}
+						// log(`header fileName: ${fileName}`);
+						assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
 					}
 				}
 			}
@@ -216,11 +242,11 @@ export default async function init(
 			)
 		)
 	);
-	log(`uuidsInInit: ${uuidsInInit}`);
+	log(`uuidsInInit: ${JSON.stringify(uuidsInInit, null, 2)}`);
 	log(`items: ${uuidsInInit.length}`);
 }
 
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
-init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
+init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
+// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
 // init("Test Me", config.testMe.targetOne);
 // init("Test Me", config.testMe.targetTwo);
