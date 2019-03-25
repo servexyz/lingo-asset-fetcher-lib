@@ -1,6 +1,6 @@
 require("dotenv").config();
 const log = console.log;
-import fs from "fs";
+import fs from "fs-extra";
 import lingo from "Lingojs";
 import config from "./index.config";
 /**
@@ -206,12 +206,31 @@ export async function getAssetUuids(
 //TODO: Add param comments
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-export async function batchDownload(assetUuids, format = "PNG") {
+export async function batchDownload(
+	asset,
+	outFormat = "png",
+	outDir = "./laf_downloads"
+) {
 	try {
-		assetUuids.forEach(uuid => {
-			// let buffer = lingo.downloadAsset(uuid, format);
-			// fs.writeFile();
-			log(`uuid: ${JSON.stringify(uuid, null, 2)}`);
+		await fs.ensureDir(outDir);
+		asset.forEach(async a => {
+			let uuid = Object.keys(a);
+			let fileName = Object.values(a);
+			var buffer;
+			try {
+				buffer = await lingo.downloadAsset(uuid, outFormat.toUpperCase());
+				fs.writeFile(
+					`${outDir}/${fileName}.${outFormat.toLowerCase()}`,
+					buffer,
+					"binary",
+					err => {
+						if (err) throw err;
+						log(`fileName written: ${fileName}`);
+					}
+				);
+			} catch (err) {
+				log(`Err: ${err}`);
+			}
 		});
 	} catch (err) {
 		log(`batchDownload(): ${err}`);
@@ -224,6 +243,8 @@ export async function batchDownload(assetUuids, format = "PNG") {
 export default async function init(
 	kitName = "Capswan - Mobile App - Style Guide",
 	extractTarget = null,
+	outputDirectory = "./laf_downloads",
+	outputFormat = "PNG",
 	spaceId = null,
 	apiToken = null,
 	kitVersion = 0
@@ -233,20 +254,30 @@ export default async function init(
 	}
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	let uuidsInInit = await getAssetUuids(
-		formatAssetContainers(
-			await getRelevantAssetContainers(
-				await getKitId(kitName),
-				extractTarget,
-				kitVersion
+	//TODO: Move formatAssetContainers as a call into getAsssetUuids.
+	//TODO: Flatten hellback
+	await batchDownload(
+		await getAssetUuids(
+			formatAssetContainers(
+				await getRelevantAssetContainers(
+					await getKitId(kitName),
+					extractTarget,
+					kitVersion
+				)
 			)
-		)
+		),
+		outputFormat,
+		outputDirectory
 	);
-	log(`uuidsInInit: ${JSON.stringify(uuidsInInit, null, 2)}`);
-	log(`items: ${uuidsInInit.length}`);
+	// log(`uuidsInInit: ${JSON.stringify(uuidsInInit, null, 2)}`);
+	// log(`items: ${uuidsInInit.length}`);
 }
 
-init("Capswan - Mobile App - Style Guide", config.capswan.targetOne);
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo);
-// init("Test Me", config.testMe.targetOne);
-// init("Test Me", config.testMe.targetTwo);
+init(
+	"Capswan - Mobile App - Style Guide",
+	config.capswan.targetOne,
+	"./capswanOne"
+);
+// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./capswanTwo");
+// init("Test Me", config.testMe.targetOne, "./testMeOne");
+// init("Test Me", config.testMe.targetTwo, "./testMeTwo");
