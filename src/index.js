@@ -1,12 +1,13 @@
 require("dotenv").config();
 const log = console.log;
-const lingo = require("Lingojs");
-
+import fs from "fs-extra";
+import lingo from "Lingojs";
+import config from "./index.config";
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
  * @param {int} apiToken :: Account root API
  */
-function getLingoSetupVariables(spaceId, apiToken) {
+export function getLingoSetupVariables(spaceId, apiToken) {
 	if (spaceId == null || apiToken == null) {
 		return [process.env.SPACE_ID, process.env.API_TOKEN];
 	} else {
@@ -19,7 +20,7 @@ function getLingoSetupVariables(spaceId, apiToken) {
  * @param {string} kitName
  */
 // kitName = "Capswan - Mobile App - Style Guide"
-async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
+export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	//TODO: Add test for accounts which only have single kit
 	//? Not sure whether this is going to be an issue given that the data
 	//? structure would change based on how many kits are returned
@@ -28,7 +29,7 @@ async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 		let kits = await lingo.fetchKits();
 		// log(`kits: ${JSON.stringify(kits, null, 2)}`);
 		kits.forEach(v => {
-			log(`v:${JSON.stringify(v, null, 2)}`);
+			// log(`v:${JSON.stringify(v, null, 2)}`);
 			if (v.name === kitName) {
 				// log(`v.name: ${v.name}`);
 				// log(`v.kit_uuid:${v.kit_uuid}`);
@@ -42,7 +43,7 @@ async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 	}
 }
 
-async function getRelevantAssetContainers(
+export async function getRelevantAssetContainers(
 	kitId,
 	extractTarget,
 	kitVersion = 0
@@ -52,7 +53,6 @@ async function getRelevantAssetContainers(
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
 		// log(`outline: ${JSON.stringify(outline, null, 2)}`);
 		// log(`kitId: ${kitId}`);
-		//TODO: Make this work with capswanExampleTargetTwo (ie. Single section per kit)
 		extractTarget.sections.forEach(targetSec => {
 			// log(`targetSec:${JSON.stringify(targetSec, null, 2)}`);
 			//TODO: Rename "originSec" to "outlineSec" for clarity
@@ -87,69 +87,160 @@ async function getRelevantAssetContainers(
 				}
 			});
 		});
-		log(JSON.stringify(uuids, null, 2));
+		// log(JSON.stringify(uuids, null, 2));
+		return uuids;
 	} catch (err) {
 		log(`getRelevantAssetContainers() ${err}`);
 	}
 }
 
-let testMeExtractTargetOne = {
-	sections: [
-		{
-			name: "illustrations"
+export function formatAssetContainers({ sections } = assetContainers) {
+	let singletonUuids = [];
+	//? Not mapping because assetContainers will always be small.
+	//? Unnecessary loops won't impact performance.
+	sections.forEach((section, idx) => {
+		// log(`section ${idx}: ${JSON.stringify(section, null, 2)}`);
+		if (section.hasOwnProperty("headers") && section.headers.length === 0) {
+			singletonUuids.push(Object.assign({}, { [section.uuid]: null }));
+		} else {
+			section.headers.forEach(header => {
+				singletonUuids.push(Object.assign({}, { [section.uuid]: header }));
+			});
 		}
-	]
-};
-let testMeExtractTargetTwo = {
-	sections: [
-		{
-			name: "illustrations",
-			headers: ["Lined"]
-		}
-	]
-};
-let capswanSampleExtractTargetOne = {
-	sections: [
-		{
-			name: "Illustrations"
-		},
-		{
-			name: "Icons",
-			headers: ["Icons", "Components"]
-		}
-	]
-	/* Sample output from capswanExampleExtractTargetOne =>
-	{
-		"sections": [
-			{
-				"name": "Illustrations",
-				"uuid": "EE0669EA-0FA8-451D-B911-F7299602458F",
-				"headers": []
-			},
-			{
-				"name": "Icons",
-				"uuid": "9533C6B8-599E-4709-9120-9DA8E10A2922",
-				"headers": [
-					"32CACAE6-AD11-4FD6-B204-A16A17239D94",
-					"51CA5C83-10FA-4420-B768-A68306EF7656"
-				]
-			}
-		]
+	});
+	// log(`singleton: ${JSON.stringify(singletonUuids, null, 2)}`);
+	return singletonUuids;
+}
+
+function buildFileName(assetName, assetKeywords) {
+	//TODO: Make this extensible so people can pass their own options
+	if (assetKeywords.length >= 1) {
+		let tags = assetKeywords
+			.split(",")
+			.map(tag => {
+				return tag.trim();
+			})
+			.map(trimmed => {
+				return trimmed.replace(/ /g, "_");
+			});
+		let underscoredKeywords = tags.join("_");
+		let underscoredAssetName = assetName.replace(/ /g, "_");
+		let newName = underscoredAssetName + "_" + underscoredKeywords;
+		return newName;
+	} else {
+		return assetName;
 	}
-	*/
-};
+}
 
-let capswanSampleExtractTargetTwo = {
-	sections: [
-		{
-			name: "Icons"
+export async function getAssetUuids(
+	singletonUuids,
+	version = 0,
+	page = 1,
+	limit = 2000
+) {
+	//TODO: Revisit formatAssetContainers and consider consolidating functions
+	//? This feels super clunky.
+	var assetUuids = [];
+	try {
+		for (let s of singletonUuids) {
+			let sectionUuid = Object.keys(s)[0];
+			let headerUuid = Object.values(s)[0];
+			if (headerUuid === null) {
+				// http://developer.lingoapp.com/lingojs/#sections
+				var section = await lingo.fetchSection(
+					sectionUuid,
+					version,
+					page,
+					limit
+				);
+				// fs.writeFileSync(
+				// 	"./src/samplePayloads/section.json",
+				// 	JSON.stringify(section, null, 2)
+				// );
+				for (let item of section.items) {
+					if (item.asset_uuid !== null) {
+						if (item.asset.hasOwnProperty("keywords")) {
+							var fileName = buildFileName(
+								item.asset.name,
+								item.asset.keywords
+							);
+						} else {
+							fileName = item.asset.name;
+						}
+						assetUuids.push(Object.assign({}, { [item.asset_uuid]: fileName }));
+					}
+				}
+			} else {
+				// http://developer.lingoapp.com/lingojs/#heading-contents
+				var headerAssets = await lingo.fetchAssetsForHeading(
+					sectionUuid,
+					headerUuid
+				);
+				// fs.writeFileSync(
+				// 	"./src/samplePayloads/headerAssets.json",
+				// 	JSON.stringify(headerAssets, null, 2)
+				// );
+
+				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
+					if (v.asset_uuid !== null) {
+						// log(`v.asset.name: ${v.asset.name}`);
+						// log(`v.asset.keywords: ${v.asset.keywords}`);
+						if (v.asset.hasOwnProperty("keywords")) {
+							var fileName = buildFileName(v.asset.name, v.asset.keywords);
+						} else {
+							fileName = v.asset.name;
+						}
+						// log(`header fileName: ${fileName}`);
+						assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
+					}
+				}
+			}
 		}
-	]
-};
+		return assetUuids;
+	} catch (err) {
+		log(`getAssetUuids() ${err}`);
+	}
+}
 
-async function init(
+//TODO: Extract name from getAssetUuid (to name the file)
+//TODO: Add param comments
+//TODO: Consider checking all file names for duplicates (to prevent unnecessary overwrites)
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+export async function batchDownload(
+	asset,
+	outFormat = "png",
+	outDir = "./laf_downloads"
+) {
+	try {
+		asset.forEach(async a => {
+			let uuid = Object.keys(a);
+			let fileName = Object.values(a);
+			var buffer;
+			try {
+				buffer = await lingo.downloadAsset(uuid, outFormat.toUpperCase());
+				await fs.outputFile(
+					`${outDir}/${fileName}.${outFormat.toLowerCase()}`,
+					buffer,
+					"binary"
+				);
+			} catch (err) {
+				log(`Err: ${err}`);
+			}
+		});
+	} catch (err) {
+		log(`batchDownload(): ${err}`);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+export default async function init(
 	kitName = "Capswan - Mobile App - Style Guide",
 	extractTarget = null,
+	outputDirectory = "./laf_downloads",
+	outputFormat = "PNG",
 	spaceId = null,
 	apiToken = null,
 	kitVersion = 0
@@ -157,15 +248,31 @@ async function init(
 	if (extractTarget == null) {
 		throw Error("Extract Target is required");
 	}
-	log(`kitName: ${kitName}`);
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	let kitId = await getKitId(kitName);
-	log(`kitId: ${kitId}`);
-	await getRelevantAssetContainers(kitId, extractTarget, kitVersion);
+	//TODO: Move formatAssetContainers as a call into getAsssetUuids.
+	//TODO: Flatten hellback
+	await batchDownload(
+		await getAssetUuids(
+			formatAssetContainers(
+				await getRelevantAssetContainers(
+					await getKitId(kitName),
+					extractTarget,
+					kitVersion
+				)
+			)
+		),
+		outputFormat,
+		outputDirectory
+	);
 }
 
-// init("Capswan - Mobile App - Style Guide", capswanSampleExtractTargetOne);
-// init("Capswan - Mobile App - Style Guide", capswanSampleExtractTargetTwo);
-// init("Test Me", testMeExtractTargetOne);
-init("Test Me", testMeExtractTargetTwo);
+init(
+	"Capswan - Mobile App - Style Guide",
+	config.capswan.targetOne,
+	"./downloads/capswanOne",
+	"PNG"
+);
+// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./downloads/capswanTwo", "png");
+// init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
+// init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
