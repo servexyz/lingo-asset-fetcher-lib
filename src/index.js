@@ -212,21 +212,16 @@ export async function batchDownload(
 	outDir = "./laf_downloads"
 ) {
 	try {
-		await fs.ensureDir(outDir);
 		asset.forEach(async a => {
 			let uuid = Object.keys(a);
 			let fileName = Object.values(a);
 			var buffer;
 			try {
 				buffer = await lingo.downloadAsset(uuid, outFormat.toUpperCase());
-				fs.writeFile(
+				await fs.outputFile(
 					`${outDir}/${fileName}.${outFormat.toLowerCase()}`,
 					buffer,
-					"binary",
-					err => {
-						if (err) throw err;
-						log(`fileName written: ${fileName}`);
-					}
+					"binary"
 				);
 			} catch (err) {
 				log(`Err: ${err}`);
@@ -269,15 +264,14 @@ export default async function init(
 		outputFormat,
 		outputDirectory
 	);
-	// log(`uuidsInInit: ${JSON.stringify(uuidsInInit, null, 2)}`);
-	// log(`items: ${uuidsInInit.length}`);
 }
 
 init(
 	"Capswan - Mobile App - Style Guide",
 	config.capswan.targetOne,
-	"./capswanOne"
+	"./downloads/capswanOne",
+	"PNG"
 );
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./capswanTwo");
-// init("Test Me", config.testMe.targetOne, "./testMeOne");
-// init("Test Me", config.testMe.targetTwo, "./testMeTwo");
+// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./downloads/capswanTwo", "png");
+// init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
+// init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
