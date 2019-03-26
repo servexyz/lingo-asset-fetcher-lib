@@ -156,6 +156,7 @@ export async function getAssetUuids(
 				}
 			} else {
 				// http://developer.lingoapp.com/lingojs/#heading-contents
+				//TODO: Check if possible to add version / page / limit
 				var headerAssets = await lingo.fetchAssetsForHeading(
 					sectionUuid,
 					headerUuid
@@ -227,7 +228,7 @@ export async function batchDownload(
 export default async function init(
 	kitName = "Capswan - Mobile App - Style Guide",
 	extractTarget = null,
-	outputDirectory = "./laf_downloads",
+	outputDirectory = "./downloads",
 	outputFormat = "PNG",
 	spaceId = null,
 	apiToken = null,
