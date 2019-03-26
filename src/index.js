@@ -156,6 +156,7 @@ export async function getAssetUuids(
 				}
 			} else {
 				// http://developer.lingoapp.com/lingojs/#heading-contents
+				//TODO: Check if possible to add version / page / limit
 				var headerAssets = await lingo.fetchAssetsForHeading(
 					sectionUuid,
 					headerUuid
@@ -198,7 +199,7 @@ export async function getAssetUuids(
 export async function batchDownload(
 	asset,
 	outFormat = "png",
-	outDir = "./laf_downloads"
+	outDir = "./downloads"
 ) {
 	try {
 		asset.forEach(async a => {
@@ -225,9 +226,9 @@ export async function batchDownload(
 //////////////////////////////////////////////////////////////////////////////////
 
 export default async function init(
-	kitName = "Capswan - Mobile App - Style Guide",
+	kitName = "Test Me",
 	extractTarget = null,
-	outputDirectory = "./laf_downloads",
+	outputDirectory = "./downloads",
 	outputFormat = "PNG",
 	spaceId = null,
 	apiToken = null,
@@ -255,12 +256,12 @@ export default async function init(
 	);
 }
 
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswanOne",
-	"PNG"
-);
+// init(
+// 	"Capswan - Mobile App - Style Guide",
+// 	config.capswan.targetOne,
+// 	"./downloads/capswanOne",
+// 	"PNG"
+// );
 // init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./downloads/capswanTwo", "png");
 // init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
