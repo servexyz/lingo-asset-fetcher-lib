@@ -1,0 +1,10 @@
+node_modules
+src
+tests
+.babelrc
+.env
+.gitignore
+.prettierignore
+.travis.yml
+package-lock.json
+package.json
