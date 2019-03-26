@@ -9,7 +9,8 @@ import {
 	formatAssetContainers,
 	batchDownload
 } from "../src/index";
-import init from "../src/index";
+
+import * as laf from "../build/main.js";
 import config from "../src/index.config";
 
 const kitName = "Test Me";
@@ -105,9 +106,10 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
 		)
 	);
 });
+
 test(`init :: ${kitName} - Target One`, async t => {
 	t.truthy(
-		init(
+		laf.init(
 			kitName,
 			config[kitNameAccessor]["targetOne"],
 			"./downloads/testMeOne",
@@ -115,9 +117,10 @@ test(`init :: ${kitName} - Target One`, async t => {
 		)
 	);
 });
+
 test(`init :: ${kitName} - Target Two`, async t => {
 	t.truthy(
-		init(
+		laf.init(
 			kitName,
 			config[kitNameAccessor]["targetTwo"],
 			"./downloads/testMeOne",
