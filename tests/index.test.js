@@ -16,6 +16,11 @@ import config from "../src/index.config";
 const kitName = "Test Me";
 const kitNameAccessor = "testMe";
 
+/*
+ * **********************************
+ * ./src/index.js
+ * **********************************
+ */
 test.before(t => {
 	let lsConfig = getLingoSetupVariables(
 		process.env.SPACE_ID,
@@ -31,7 +36,6 @@ TODO: Store results of each async call in global variables to avoid hitting API 
 * Skipping prevents unnecssary API roundtrips and mitigates risk of hitting rate limit.
 * Better solution would be to store return values of each stage globally and pass along.
 */
-
 //TODO: Change tests to be more concrete than snapshots
 test.skip(`getKitId :: ${kitName}`, async t => {
 	t.snapshot(await getKitId(kitName));
@@ -107,6 +111,11 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
 	);
 });
 
+/*
+ * **********************************
+ * ./build/main.js
+ * **********************************
+ */
 test(`init :: ${kitName} - Target One`, async t => {
 	t.truthy(
 		laf.init(
