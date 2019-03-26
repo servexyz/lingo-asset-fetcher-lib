@@ -1,6 +1,7 @@
 node_modules
 docs/node-starter-scripts.gif
 docs/NPM.md
+downloads
 webpack.config.js
 src
 tests
