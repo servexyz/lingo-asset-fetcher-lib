@@ -46,7 +46,7 @@
 		"build": "webpack --mode production --display minimal",
 		"publish": "npm run build && npm run publish:np",
 		"production": "npm run build && node build/main.js",
-		"publish:np": "npx np"
+		"publish:np": "npx np --yolo"
 	},
 	"ava": {
 		"files": [
