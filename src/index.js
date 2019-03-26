@@ -8,7 +8,6 @@ import config from "./index.config";
  * @param {int} spaceId :: Lingo Space ID (6 digits)
  * @param {int} apiToken :: Account root API
  */
-
 export function getLingoSetupVariables(spaceId, apiToken) {
 	if (spaceId == null || apiToken == null) {
 		return [process.env.SPACE_ID, process.env.API_TOKEN];
@@ -87,6 +86,11 @@ export function formatAssetContainers({ sections } = assetContainers) {
 	return singletonUuids;
 }
 
+/**
+ *
+ * @param {string} assetName
+ * @param {Array[string]} assetKeywords
+ */
 function buildFileName(assetName, assetKeywords) {
 	//TODO: Make this extensible so people can pass their own options
 	if (assetKeywords.length >= 1) {
@@ -119,6 +123,7 @@ export async function getAssetUuids(
 	page = 1,
 	limit = 2000
 ) {
+	//TODO: Extract name from getAssetUuid (to name the file)
 	var assetUuids = [];
 	try {
 		for (let s of singletonUuids) {
@@ -181,9 +186,6 @@ export async function getAssetUuids(
 	}
 }
 
-//TODO: Extract name from getAssetUuid (to name the file)
-//TODO: Add param comments
-//TODO: Consider checking all file names for duplicates (to prevent unnecessary overwrites)
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
