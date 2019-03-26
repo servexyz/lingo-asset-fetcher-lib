@@ -226,7 +226,7 @@ export async function batchDownload(
 //////////////////////////////////////////////////////////////////////////////////
 
 export default async function init(
-	kitName = "Capswan - Mobile App - Style Guide",
+	kitName = "Test Me",
 	extractTarget = null,
 	outputDirectory = "./downloads",
 	outputFormat = "PNG",

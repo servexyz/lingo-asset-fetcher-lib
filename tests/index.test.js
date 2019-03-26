@@ -22,9 +22,16 @@ test.before(t => {
 	);
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
 });
-//TODO: Store results of each async call in global variables to avoid hitting API rate limit
-//TODO: Change tests to be more concrete than snapshots
 
+/*
+TODO: Store results of each async call in global variables to avoid hitting API rate limit
+* All of the skipped test *should* work. 
+* They're skipped because each of the function calls is stacked. 
+* Skipping prevents unnecssary API roundtrips and mitigates risk of hitting rate limit.
+* Better solution would be to store return values of each stage globally and pass along.
+*/
+
+//TODO: Change tests to be more concrete than snapshots
 test.skip(`getKitId :: ${kitName}`, async t => {
 	t.snapshot(await getKitId(kitName));
 	// log(`id: ${id}`);
