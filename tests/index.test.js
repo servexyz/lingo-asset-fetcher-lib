@@ -9,6 +9,7 @@ import {
 	formatAssetContainers,
 	batchDownload
 } from "../src/index";
+import init from "../src/index";
 import config from "../src/index.config";
 
 const kitName = "Test Me";
@@ -24,11 +25,11 @@ test.before(t => {
 //TODO: Store results of each async call in global variables to avoid hitting API rate limit
 //TODO: Change tests to be more concrete than snapshots
 
-test(`getKitId :: ${kitName}`, async t => {
+test.skip(`getKitId :: ${kitName}`, async t => {
 	t.snapshot(await getKitId(kitName));
 	// log(`id: ${id}`);
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
+test.skip(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
 	t.snapshot(
 		await getRelevantAssetContainers(
 			await getKitId(kitName),
@@ -36,7 +37,7 @@ test(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
 		)
 	);
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
+test.skip(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await getRelevantAssetContainers(
 			await getKitId(kitName),
@@ -44,7 +45,7 @@ test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
 		)
 	);
 });
-test(`getAssetUuids :: ${kitName} - Target One`, async t => {
+test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
 	t.snapshot(
 		await getAssetUuids(
 			formatAssetContainers(
@@ -56,7 +57,7 @@ test(`getAssetUuids :: ${kitName} - Target One`, async t => {
 		)
 	);
 });
-test(`getAssetUuids :: ${kitName} - Target Two`, async t => {
+test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await getAssetUuids(
 			formatAssetContainers(
@@ -69,7 +70,7 @@ test(`getAssetUuids :: ${kitName} - Target Two`, async t => {
 	);
 });
 
-test(`batchDownloads:: ${kitName} - Target One`, async t => {
+test.skip(`batchDownloads:: ${kitName} - Target One`, async t => {
 	t.snapshot(
 		await batchDownload(
 			await getAssetUuids(
@@ -83,7 +84,7 @@ test(`batchDownloads:: ${kitName} - Target One`, async t => {
 		)
 	);
 });
-test(`batchDownloads :: ${kitName} - Target Two`, async t => {
+test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await batchDownload(
 			await getAssetUuids(
@@ -94,6 +95,26 @@ test(`batchDownloads :: ${kitName} - Target Two`, async t => {
 					)
 				)
 			)
+		)
+	);
+});
+test(`init :: ${kitName} - Target One`, async t => {
+	t.truthy(
+		init(
+			kitName,
+			config[kitNameAccessor]["targetOne"],
+			"./downloads/testMeOne",
+			"PNG"
+		)
+	);
+});
+test(`init :: ${kitName} - Target Two`, async t => {
+	t.truthy(
+		init(
+			kitName,
+			config[kitNameAccessor]["targetTwo"],
+			"./downloads/testMeOne",
+			"PNG"
 		)
 	);
 });
