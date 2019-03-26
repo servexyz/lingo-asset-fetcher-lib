@@ -1,6 +1,6 @@
 {
 	"name": "lingo-asset-fetcher-lib",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "batch downloads assets from lingo to your local project. Used by laf (the CLI version)",
 	"main": "build/main.js",
 	"license": "MIT",
@@ -44,9 +44,7 @@
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
 		"build": "webpack --mode production --display minimal",
-		"publish": "npm run build && npm run publish:np",
-		"production": "npm run build && node build/main.js",
-		"publish:np": "npx np --yolo"
+		"production": "npm run build && node build/main.js"
 	},
 	"ava": {
 		"files": [
