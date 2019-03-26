@@ -198,7 +198,7 @@ export async function getAssetUuids(
 export async function batchDownload(
 	asset,
 	outFormat = "png",
-	outDir = "./laf_downloads"
+	outDir = "./downloads"
 ) {
 	try {
 		asset.forEach(async a => {
