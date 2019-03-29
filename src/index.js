@@ -241,19 +241,23 @@ export async function init(
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
 	//TODO: Move formatAssetContainers as a call into getAsssetUuids.
 	//TODO: Flatten hellback
-	await batchDownload(
-		await getAssetUuids(
-			formatAssetContainers(
-				await getRelevantAssetContainers(
-					await getKitId(kitName),
-					extractTarget,
-					kitVersion
+	try {
+		await batchDownload(
+			await getAssetUuids(
+				formatAssetContainers(
+					await getRelevantAssetContainers(
+						await getKitId(kitName),
+						extractTarget,
+						kitVersion
+					)
 				)
-			)
-		),
-		outputFormat,
-		outputDirectory
-	);
+			),
+			outputFormat,
+			outputDirectory
+		);
+	} catch (err) {
+		log(`init() ${err}`);
+	}
 }
 
 // init(

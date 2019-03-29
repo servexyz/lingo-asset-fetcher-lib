@@ -7,10 +7,11 @@ import {
 	getLingoSetupVariables,
 	getAssetUuids,
 	formatAssetContainers,
-	batchDownload
-} from "../src/index";
+	batchDownload,
+	init
+} from "../src/index.js";
 
-import * as laf from "../build/main.js";
+// import * as laf from "../build/main.js";
 import config from "../src/index.config";
 
 const kitName = "Test Me";
@@ -69,7 +70,7 @@ test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
 		)
 	);
 });
-test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
+test(`getAssetUuids :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await getAssetUuids(
 			formatAssetContainers(
@@ -116,24 +117,35 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
  * ./build/main.js
  * **********************************
  */
-test(`init :: ${kitName} - Target One`, async t => {
-	t.truthy(
-		laf.init(
-			kitName,
-			config[kitNameAccessor]["targetOne"],
-			"./downloads/testMeOne",
-			"PNG"
-		)
+test(`init :: ${kitName} - Target One`, t => {
+	log(
+		`Config: ${JSON.stringify(config[kitNameAccessor]["targetOne"], null, 2)}`
 	);
-});
 
-test(`init :: ${kitName} - Target Two`, async t => {
-	t.truthy(
-		laf.init(
-			kitName,
-			config[kitNameAccessor]["targetTwo"],
-			"./downloads/testMeOne",
-			"PNG"
-		)
-	);
+	init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
+	// t.truthy(
+	// 	init(
+	// 		kitName,
+	// 		config[kitNameAccessor]["targetOne"],
+	// 		"../downloads/testMeOne",
+	// 		"PNG"
+	// 	)
+	// );
+	t.pass();
+});
+test.skip(`init :: ${kitName} - Target Two`, t => {
+	// log(
+	// 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetTwo"], null, 2)}`
+	// );
+
+	init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "PNG");
+	// t.truthy(
+	// 	init(
+	// 		kitName,
+	// 		config[kitNameAccessor]["targetTwo"],
+	// 		"../downloads/testMeTwo",
+	// 		"PNG"
+	// 	)
+	// );
+	t.pass();
 });
