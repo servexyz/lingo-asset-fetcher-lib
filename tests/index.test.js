@@ -1,17 +1,17 @@
 const log = console.log;
 import test from "ava";
 import lingo from "Lingojs";
-import {
-	getRelevantAssetContainers,
-	getKitId,
-	getLingoSetupVariables,
-	getAssetUuids,
-	formatAssetContainers,
-	batchDownload,
-	init
-} from "../src/index.js";
-
-// import * as laf from "../build/main.js";
+// import {
+// 	getRelevantAssetContainers,
+// 	getKitId,
+// 	getLingoSetupVariables,
+// 	getAssetUuids,
+// 	formatAssetContainers,
+// 	batchDownload,
+// 	init
+// } from "../src/index.js";
+// import * as laf from "../src/index.js";
+import * as laf from "../build/main.js";
 import config from "../src/index.config";
 
 const kitName = "Test Me";
@@ -23,7 +23,7 @@ const kitNameAccessor = "testMe";
  * **********************************
  */
 test.before(t => {
-	let lsConfig = getLingoSetupVariables(
+	let lsConfig = laf.getLingoSetupVariables(
 		process.env.SPACE_ID,
 		process.env.API_TOKEN
 	);
@@ -70,7 +70,7 @@ test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
 		)
 	);
 });
-test(`getAssetUuids :: ${kitName} - Target Two`, async t => {
+test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await getAssetUuids(
 			formatAssetContainers(
@@ -117,35 +117,53 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
  * ./build/main.js
  * **********************************
  */
-test(`init :: ${kitName} - Target One`, t => {
-	log(
-		`Config: ${JSON.stringify(config[kitNameAccessor]["targetOne"], null, 2)}`
-	);
-
-	init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
-	// t.truthy(
-	// 	init(
-	// 		kitName,
-	// 		config[kitNameAccessor]["targetOne"],
-	// 		"../downloads/testMeOne",
-	// 		"PNG"
-	// 	)
+test.skip(`init :: ${kitName} - Target One`, t => {
+	// log(
+	// 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetOne"], null, 2)}`
 	// );
-	t.pass();
+
+	t.truthy(
+		init(
+			kitName,
+			config[kitNameAccessor]["targetOne"],
+			"../downloads/testMeOne",
+			"PNG"
+		)
+	);
 });
 test.skip(`init :: ${kitName} - Target Two`, t => {
 	// log(
 	// 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetTwo"], null, 2)}`
 	// );
 
-	init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "PNG");
-	// t.truthy(
-	// 	init(
-	// 		kitName,
-	// 		config[kitNameAccessor]["targetTwo"],
-	// 		"../downloads/testMeTwo",
-	// 		"PNG"
-	// 	)
-	// );
-	t.pass();
+	t.truthy(
+		init(
+			kitName,
+			config[kitNameAccessor]["targetTwo"],
+			"../downloads/testMeTwo",
+			"PNG"
+		)
+	);
+});
+
+test(`Capswan :: targetOne`, t => {
+	t.truthy(
+		laf.init(
+			"Capswan - Mobile App - Style Guide",
+			config.capswan.targetOne,
+			"../downloads/capswan/one",
+			"PNG"
+		)
+	);
+});
+
+test.skip(`Capswan :: targetTwo`, t => {
+	t.truthy(
+		init(
+			"Capswan - Mobile App - Style Guide",
+			config.capswan.targetTwo,
+			"./downloads/capswan/two",
+			"PNG"
+		)
+	);
 });

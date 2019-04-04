@@ -260,12 +260,20 @@ export async function init(
 	}
 }
 
+// Working:
+init(
+	"Capswan - Mobile App - Style Guide",
+	config.capswan.targetOne,
+	"./downloads/capswanOne",
+	"PNG"
+);
+
+// Spontaneously stopped working:
 // init(
 // 	"Capswan - Mobile App - Style Guide",
-// 	config.capswan.targetOne,
-// 	"./downloads/capswanOne",
-// 	"PNG"
+// 	config.capswan.targetTwo,
+// 	"./downloads/capswanTwo",
+// 	"png"
 // );
-// init("Capswan - Mobile App - Style Guide", config.capswan.targetTwo, "./downloads/capswanTwo", "png");
 // init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
