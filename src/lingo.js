@@ -41,18 +41,26 @@ export async function getRelevantAssetContainers(
 	kitVersion = 0
 ) {
 	try {
+		//? Might be failing because it's only checking headers and not sections
 		let uuids = { sections: [] };
+		// let headerUuids = [];
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
+		// log(`gRAC outline: ${JSON.stringify(outline, null, 2)}`);
 		extractTarget.sections.forEach(targetSec => {
+			// log(`gRAC targetSec: ${JSON.stringify(targetSec, null, 2)}`);
+			let headerUuids = [];
 			Object.values(outline).forEach(originSec => {
+				// log(`gRAC originSec: ${JSON.stringify(originSec, null, 2)}`);
 				//TODO: Add a test for sections with duplicate names
-				let headerUuids = [];
+				// let headerUuids = [];
 				if (targetSec.name === originSec.name) {
 					if (targetSec.hasOwnProperty("headers")) {
+						log(`targetSec has headers property`);
 						//TODO: Add a test for headers with duplicate names
 						targetSec.headers.forEach(tsHeaderName => {
 							originSec.headers.forEach(osHeader => {
 								if (tsHeaderName === osHeader.name) {
+									log(`this should be added: ${osHeader.uuid}`);
 									headerUuids.push(osHeader.uuid);
 								}
 							});
@@ -66,6 +74,7 @@ export async function getRelevantAssetContainers(
 				}
 			});
 		});
+		log(`uuids: ${JSON.stringify(uuids, null, 2)}`);
 		return uuids;
 	} catch (err) {
 		log(`getRelevantAssetContainers() ${err}`);

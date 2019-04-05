@@ -7,4 +7,4 @@ export {
 	formatAssetContainers,
 	batchDownload,
 	init
-} from "../src/index.js";
+} from "./lingo";

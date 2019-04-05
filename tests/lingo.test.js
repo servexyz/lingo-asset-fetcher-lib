@@ -1,7 +1,19 @@
+require("dotenv").config();
 const log = console.log;
 import test from "ava";
 import lingo from "Lingojs";
-import * as laf from "../src/index.js";
+import {
+	SearchQuery,
+	initInk,
+	getRelevantAssetContainers,
+	getKitId,
+	getLingoSetupVariables,
+	getAssetUuids,
+	formatAssetContainers,
+	batchDownload,
+	init
+} from "../src/index.js";
+
 import config from "../src/index.config";
 
 const kitName = "Test Me";
@@ -13,7 +25,7 @@ const kitNameAccessor = "testMe";
  * **********************************
  */
 test.before(t => {
-	let lsConfig = laf.getLingoSetupVariables(
+	let lsConfig = getLingoSetupVariables(
 		process.env.SPACE_ID,
 		process.env.API_TOKEN
 	);
@@ -28,25 +40,24 @@ TODO: Store results of each async call in global variables to avoid hitting API 
 * Better solution would be to store return values of each stage globally and pass along.
 */
 //TODO: Change tests to be more concrete than snapshots
-test.skip(`getKitId :: ${kitName}`, async t => {
+test(`getKitId :: ${kitName}`, async t => {
 	t.snapshot(await getKitId(kitName));
-	// log(`id: ${id}`);
 });
-test.skip(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
-	t.snapshot(
-		await getRelevantAssetContainers(
-			await getKitId(kitName),
-			config[kitNameAccessor]["targetOne"]
-		)
+test(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
+	let containers = await getRelevantAssetContainers(
+		await getKitId(kitName),
+		config[kitNameAccessor]["targetOne"]
 	);
+	log(`containers: ${JSON.stringify(containers, null, 2)}`);
+	t.snapshot(containers);
 });
-test.skip(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
-	t.snapshot(
-		await getRelevantAssetContainers(
-			await getKitId(kitName),
-			config[kitNameAccessor]["targetTwo"]
-		)
+test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
+	let containers = await getRelevantAssetContainers(
+		await getKitId(kitName),
+		config[kitNameAccessor]["targetTwo"]
 	);
+	log(`containers: ${JSON.stringify(containers, null, 2)}`);
+	t.snapshot(containers);
 });
 test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
 	t.snapshot(
@@ -136,9 +147,9 @@ test.skip(`init :: ${kitName} - Target Two`, t => {
 	);
 });
 
-test(`Capswan :: targetOne`, t => {
+test.skip(`Capswan :: targetOne`, t => {
 	t.truthy(
-		laf.init(
+		init(
 			"Capswan - Mobile App - Style Guide",
 			config.capswan.targetOne,
 			"../downloads/capswan/one",
