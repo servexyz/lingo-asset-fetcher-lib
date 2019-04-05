@@ -1,17 +1,7 @@
 const log = console.log;
 import test from "ava";
 import lingo from "Lingojs";
-// import {
-// 	getRelevantAssetContainers,
-// 	getKitId,
-// 	getLingoSetupVariables,
-// 	getAssetUuids,
-// 	formatAssetContainers,
-// 	batchDownload,
-// 	init
-// } from "../src/index.js";
-// import * as laf from "../src/index.js";
-import * as laf from "../build/main.js";
+import * as laf from "../src/index.js";
 import config from "../src/index.config";
 
 const kitName = "Test Me";
