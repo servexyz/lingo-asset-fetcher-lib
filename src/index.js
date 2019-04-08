@@ -1,6 +1,7 @@
 export { SearchQuery, initInk } from "./generator";
 export {
 	getRelevantAssetContainers,
+	getRelevantAssetContainersTwo,
 	getKitId,
 	getLingoSetupVariables,
 	getAssetUuids,

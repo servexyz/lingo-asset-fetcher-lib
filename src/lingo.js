@@ -2,7 +2,7 @@ require("dotenv").config();
 const log = console.log;
 import fs from "fs-extra";
 import lingo from "Lingojs";
-import config from "./index.config";
+import config from "./lingo.config";
 
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
@@ -34,15 +34,15 @@ export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 		log(`getKitId() ${err}`);
 	}
 }
-
+//TODO: Experiment with functional style to try to solve scope issue
 export async function getRelevantAssetContainers(
 	kitId,
 	extractTarget,
 	kitVersion = 0
 ) {
+	const uuids = { sections: [] };
 	try {
 		//? Might be failing because it's only checking headers and not sections
-		let uuids = { sections: [] };
 		// let headerUuids = [];
 		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
 		// log(`gRAC outline: ${JSON.stringify(outline, null, 2)}`);
@@ -74,13 +74,67 @@ export async function getRelevantAssetContainers(
 				}
 			});
 		});
-		log(`uuids: ${JSON.stringify(uuids, null, 2)}`);
-		return uuids;
+		log(`uuids 1: ${JSON.stringify(uuids, null, 2)}`);
 	} catch (err) {
 		log(`getRelevantAssetContainers() ${err}`);
 	}
+	log(`uuids 2: ${JSON.stringify(uuids, null, 2)}`);
+	return uuids;
 }
 
+export async function getRAC(kitId, extractTarget, kitVersion = 0) {
+	let outline = await lingo.fetchKitOutline(kitId, kitVersion);
+
+	// Working mostly
+	const { sections } = extractTarget;
+	var uuids2 = Object.values(sections).map((extract, xIdx) => {
+		log(`extract: ${JSON.stringify(extract, null, 2)}`);
+		return Object.values(outline)
+			.filter(origin => {
+				return origin.name === extract.name;
+			})
+			.map(({ uuid, headers }) => {
+				// log(`relevantOrigin: ${JSON.stringify(relevantOrigin, null, 2)}`);
+				return Object.assign({}, { [uuid]: headers });
+			})
+			.map(slimmedOrigin => {
+				let sectionUuid = Object.keys(slimmedOrigin); // Should only ever be 1 key
+				if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
+					log(`insideee`);
+					var extractHeaders = Object.values(extract.headers).filter(exHead => {
+						return Object.values(slimmedOrigin)[0].map(orHead => {
+							if (orHead.name === exHead) {
+								return orHead.uuid;
+							}
+						});
+					});
+				} else {
+					extractHeaders = [];
+				}
+
+				/*
+						extract: {
+						"name": "Icons",
+						"headers": [
+							"Icons",
+							"Components"
+						]
+						}
+						originHeader: {
+							"display_order": -155,
+							"name": "Icons",
+							"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94",
+							"version": 0
+						}
+					*/
+				// log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+				// log(`headerszzz: ${JSON.stringify(extractHeaders, null, 2)}`);
+				return Object.assign({}, { [sectionUuid]: [...extractHeaders] });
+			});
+	});
+
+	return uuids2;
+}
 export function formatAssetContainers({ sections } = assetContainers) {
 	let singletonUuids = [];
 	sections.forEach((section, idx) => {
@@ -270,12 +324,12 @@ export async function init(
 }
 
 // Working:
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswanOne",
-	"PNG"
-);
+// init(
+// 	"Capswan - Mobile App - Style Guide",
+// 	config.capswan.targetOne,
+// 	"./downloads/capswanOne",
+// 	"PNG"
+// );
 
 // Spontaneously stopped working:
 // init(

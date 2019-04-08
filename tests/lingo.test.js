@@ -6,18 +6,21 @@ import {
 	SearchQuery,
 	initInk,
 	getRelevantAssetContainers,
+	getRAC,
 	getKitId,
 	getLingoSetupVariables,
 	getAssetUuids,
 	formatAssetContainers,
 	batchDownload,
 	init
-} from "../src/index.js";
+} from "../src/lingo.js";
 
-import config from "../src/index.config";
+import config from "../src/lingo.config";
 
 const kitName = "Test Me";
 const kitNameAccessor = "testMe";
+const kitNameCS = "Capswan - Mobile App - Style Guide";
+const kitNameAccessorCS = "capswan";
 
 /*
  * **********************************
@@ -40,23 +43,29 @@ TODO: Store results of each async call in global variables to avoid hitting API 
 * Better solution would be to store return values of each stage globally and pass along.
 */
 //TODO: Change tests to be more concrete than snapshots
-test(`getKitId :: ${kitName}`, async t => {
+test.skip(`getKitId :: ${kitName}`, async t => {
 	t.snapshot(await getKitId(kitName));
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
-	let containers = await getRelevantAssetContainers(
-		await getKitId(kitName),
-		config[kitNameAccessor]["targetOne"]
-	);
-	log(`containers: ${JSON.stringify(containers, null, 2)}`);
-	t.snapshot(containers);
+test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
+	var containers;
+	try {
+		let id = await getKitId(kitNameCS);
+		let extractTarget = config[kitNameAccessorCS]["targetOne"];
+		// log(`id: ${id}`);
+		// log(`extractTarget: ${JSON.stringify(extractTarget, null, 2)}`);
+		containers = await getRAC(id, extractTarget);
+		log(`containers: ${JSON.stringify(containers, null, 2)}`);
+	} catch (err) {
+		log(`err: ${err}`);
+	}
+	t.truthy(containers);
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
+test.skip(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
 	let containers = await getRelevantAssetContainers(
 		await getKitId(kitName),
 		config[kitNameAccessor]["targetTwo"]
 	);
-	log(`containers: ${JSON.stringify(containers, null, 2)}`);
+	log(`containers t2: ${JSON.stringify(containers, null, 2)}`);
 	t.snapshot(containers);
 });
 test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
