@@ -87,36 +87,61 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 	const { sections } = extractTarget;
 	var uuids2 = Object.values(sections).map((extract, xIdx) => {
 		log(`extract: ${JSON.stringify(extract, null, 2)}`);
-		return Object.values(outline)
-			.filter(origin => {
-				return origin.name === extract.name;
-			})
-			.map(({ uuid, headers }) => {
-				// log(`relevantOrigin: ${JSON.stringify(relevantOrigin, null, 2)}`);
-				return Object.assign({}, { [uuid]: headers });
-			})
-			.map(slimmedOrigin => {
-				let sectionUuid = Object.keys(slimmedOrigin); // Should only ever be 1 key
-				if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
-					log(`insideee`);
-					log(`slimmed0: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+		return (
+			Object.values(outline)
+				.filter(origin => {
+					return origin.name === extract.name;
+				})
+				.map(matchingOrigin => {
+					const { uuid, headers } = matchingOrigin;
+					return Object.assign({}, { [uuid]: headers });
+				})
+				.map((slimmedOrigin, oIdx) => {
+					log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+					let sectionUuid = Object.keys(slimmedOrigin);
+					let headers = Object.values(slimmedOrigin);
+					if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
+						return Object.values(extract.headers).map(
+							(extractHeaderName, xIdx) => {
+								log(`xIdx: ${xIdx}`);
 
-					log(
-						`slimmed1: ${JSON.stringify(Object.values(slimmedOrigin), null, 2)}`
-					);
-					var extractHeaders = Object.values(slimmedOrigin).filter(orHead => {
-						return Object.values(extract.headers).map(exHead => {
-							if (orHead.name === exHead) {
-								log(`uuid parrrt`);
-								return exHead.uuid;
+								log(`oIdx: ${oIdx}`);
+								// if(Object.keys(slimmedOrigin)[idx])
+								log(
+									`extractHeaderName: ${JSON.stringify(
+										extractHeaderName,
+										null,
+										2
+									)}`
+								);
+								return extractHeaderName;
 							}
-						});
-					});
-				} else {
-					extractHeaders = [];
-				}
-				return Object.assign({}, { [sectionUuid]: [...extractHeaders] });
-			});
+						);
+					} else {
+						return Object.assign({}, { [sectionUuid]: {} });
+					}
+				})
+				// .map(slimmedOrigin => {
+				// 	// log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+				// 	let flattenedHeaders = Object.values(slimmedOrigin).flat();
+				// 	// log(`flattenedHeaders: ${JSON.stringify(flattenedHeaders, null, 2)}`);
+				// 	let sectionUuid = Object.keys(slimmedOrigin); // Should only ever be 1 key
+				// 	// log(`sectionUuid: ${sectionUuid}`);
+				// 	if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
+				// 		let { name, uuid } = slimmedOrigin.headers;
+				// 		// log(`nameee: ${name}`);
+
+				// 		// log(`uuuuuuuid: ${uuid}`);
+				// 		return Object.assign({}, { [sectionUuid]: { name, uuid } });
+				// 	} else {
+				// 		return Object.assign({}, { [sectionUuid]: {} });
+				// 	}
+				// })
+				.map(extracted => {
+					log(`extracted: ${JSON.stringify(extracted, null, 2)}`);
+					return extracted;
+				})
+		);
 	});
 	/*
 		extract: {
