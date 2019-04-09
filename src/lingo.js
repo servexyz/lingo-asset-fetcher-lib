@@ -84,8 +84,6 @@ export async function getRelevantAssetContainers(
 
 export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 	let outline = await lingo.fetchKitOutline(kitId, kitVersion);
-
-	// Working mostly
 	const { sections } = extractTarget;
 	var uuids2 = Object.values(sections).map((extract, xIdx) => {
 		log(`extract: ${JSON.stringify(extract, null, 2)}`);
@@ -101,39 +99,42 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 				let sectionUuid = Object.keys(slimmedOrigin); // Should only ever be 1 key
 				if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
 					log(`insideee`);
-					var extractHeaders = Object.values(extract.headers).filter(exHead => {
-						return Object.values(slimmedOrigin)[0].map(orHead => {
+					log(`slimmed0: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+
+					log(
+						`slimmed1: ${JSON.stringify(Object.values(slimmedOrigin), null, 2)}`
+					);
+					var extractHeaders = Object.values(slimmedOrigin).filter(orHead => {
+						return Object.values(extract.headers).map(exHead => {
 							if (orHead.name === exHead) {
-								return orHead.uuid;
+								log(`uuid parrrt`);
+								return exHead.uuid;
 							}
 						});
 					});
 				} else {
 					extractHeaders = [];
 				}
-
-				/*
-						extract: {
-						"name": "Icons",
-						"headers": [
-							"Icons",
-							"Components"
-						]
-						}
-						originHeader: {
-							"display_order": -155,
-							"name": "Icons",
-							"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94",
-							"version": 0
-						}
-					*/
-				// log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
-				// log(`headerszzz: ${JSON.stringify(extractHeaders, null, 2)}`);
 				return Object.assign({}, { [sectionUuid]: [...extractHeaders] });
 			});
 	});
+	/*
+		extract: {
+			"name": "Icons",
+			"headers": [
+				"Icons",
+				"Components"
+			]
+		}
+		originHeader: {
+			"display_order": -155,
+			"name": "Icons",
+			"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94",
+			"version": 0
+		}
+	*/
 
-	return uuids2;
+	return uuids2.flat();
 }
 export function formatAssetContainers({ sections } = assetContainers) {
 	let singletonUuids = [];

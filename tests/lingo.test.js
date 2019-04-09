@@ -51,8 +51,6 @@ test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
 	try {
 		let id = await getKitId(kitNameCS);
 		let extractTarget = config[kitNameAccessorCS]["targetOne"];
-		// log(`id: ${id}`);
-		// log(`extractTarget: ${JSON.stringify(extractTarget, null, 2)}`);
 		containers = await getRAC(id, extractTarget);
 		log(`containers: ${JSON.stringify(containers, null, 2)}`);
 	} catch (err) {
