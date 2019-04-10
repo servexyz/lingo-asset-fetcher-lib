@@ -88,7 +88,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 	const { sections } = extractTarget;
 	var assetContainer = Object.values(sections)
 		.map((extract, xIdx) => {
-			log(`extract: ${JSON.stringify(extract, null, 2)}`);
+			// log(`extract: ${JSON.stringify(extract, null, 2)}`);
 			return Object.values(outline)
 				.filter(origin => {
 					return origin.name === extract.name;
@@ -123,32 +123,32 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 									// log(`xHeader${idx}: ${xHeader}`);
 									// log(`insideeee headers`);
 									if (name === xHeader) {
-										log(`insiiiiide nameXheader`);
+										// log(`insiiiiide nameXheader`);
 										return Object.assign({}, { name, uuid });
 									}
 								});
 							})
 							.map(matchedOriginHeaders => {
-								log(
-									`matchedOriginHeaders: ${JSON.stringify(
-										matchedOriginHeaders,
-										null,
-										2
-									)}`
-								);
+								// log(
+								// 	`matchedOriginHeaders: ${JSON.stringify(
+								// 		matchedOriginHeaders,
+								// 		null,
+								// 		2
+								// 	)}`
+								// );
 								const { name, uuid } = matchedOriginHeaders[0];
-								log(`name: ${name}`);
-								log(`uuid: ${uuid}`);
+								// log(`name: ${name}`);
+								// log(`uuid: ${uuid}`);
 								return Object.assign({}, { [sectionUuid]: { name, uuid } });
 							})
 							.map(matchedUuidHeaderKV => {
-								log(
-									`matchedUuidHeaderKV: ${JSON.stringify(
-										matchedUuidHeaderKV,
-										null,
-										2
-									)}`
-								);
+								// log(
+								// 	`matchedUuidHeaderKV: ${JSON.stringify(
+								// 		matchedUuidHeaderKV,
+								// 		null,
+								// 		2
+								// 	)}`
+								// );
 								return matchedUuidHeaderKV;
 							});
 					} else {
@@ -156,7 +156,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 					}
 				})
 				.map(extracted => {
-					log(`extracted: ${JSON.stringify(extracted, null, 2)}`);
+					// log(`extracted: ${JSON.stringify(extracted, null, 2)}`);
 					return extracted;
 				});
 		})

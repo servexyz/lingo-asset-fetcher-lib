@@ -58,13 +58,12 @@ test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
 	}
 	t.truthy(containers);
 });
-test.skip(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
-	let containers = await getRelevantAssetContainers(
-		await getKitId(kitName),
-		config[kitNameAccessor]["targetTwo"]
-	);
+test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
+	let id = await getKitId(kitNameCS);
+	let extractTarget = config[kitNameAccessorCS]["targetTwo"];
+	let containers = await getRAC(id, extractTarget);
 	log(`containers t2: ${JSON.stringify(containers, null, 2)}`);
-	t.snapshot(containers);
+	t.truthy(containers);
 });
 test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
 	t.snapshot(
