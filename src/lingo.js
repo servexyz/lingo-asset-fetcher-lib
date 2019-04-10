@@ -82,7 +82,15 @@ export async function getRelevantAssetContainers(
 	return uuids;
 }
 
+/**
+ * getRelevantAssetContainer
+ *  TODO: Rename getRAC to getRelevantAssetContainer after old is removed
+ * @param {*} kitId
+ * @param {*} extractTarget
+ * @param {*} kitVersion
+ */
 export async function getRAC(kitId, extractTarget, kitVersion = 0) {
+	//getRelevantAssetContainer
 	//TODO: ATTN someone brave: refactor this.
 	let outline = await lingo.fetchKitOutline(kitId, kitVersion);
 	const { sections } = extractTarget;
@@ -231,6 +239,21 @@ function buildFileName(assetName, assetKeywords) {
  * @param {integer} page
  * @param {integer} limit
  */
+
+export async function getAU(container, version = 0, page = 1, limit = 2000) {
+	return container.map(cSection => {
+		let v = Object.values(cSection);
+		log(`v: ${JSON.stringify(v, null, 2)}`);
+		log(`v: ${v}`);
+		if (Object.entries(v).length === 0 && v.constructor === Object) {
+			log(`nada`);
+		} else {
+			log(`algunos`);
+		}
+		log(`cs0: ${JSON.stringify(cSection, null, 2)}`);
+		return cSection;
+	});
+}
 export async function getAssetUuids(
 	singletonUuids,
 	version = 0,
