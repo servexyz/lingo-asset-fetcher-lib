@@ -234,24 +234,54 @@ function buildFileName(assetName, assetKeywords) {
 }
 /**
  *
- * @param {object{<string>:<string>}} singletonUuids
+ * @param {array[{object:{string: {object}}}]} container
  * @param {integer} version
  * @param {integer} page
  * @param {integer} limit
  */
 
-export async function getAU(container, version = 0, page = 1, limit = 2000) {
-	return container.map(cSection => {
-		let v = Object.values(cSection);
-		log(`v: ${JSON.stringify(v, null, 2)}`);
-		log(`v: ${v}`);
-		if (Object.entries(v).length === 0 && v.constructor === Object) {
-			log(`nada`);
-		} else {
-			log(`algunos`);
-		}
-		log(`cs0: ${JSON.stringify(cSection, null, 2)}`);
-		return cSection;
+export function getAU(container, version = 0, page = 1, limit = 2000) {
+	log(`container: ${JSON.stringify(container, null, 2)}`);
+	let assetUuids = [];
+	return Object.values(container).map(cSection => {
+		return Object.entries(cSection).map(([secUuid, header]) => {
+			if (
+				Object.entries(header).length === 0 &&
+				header.constructor === Object
+			) {
+				log(`section----------------------------`);
+				log(`secUuid: ${secUuid}`);
+				log(`header: ${JSON.stringify(header, null, 2)}`);
+				// let sec = await lingo.fetchSection(secUuid, version, page, limit);
+				let sec = lingo
+					.fetchSection(secUuid, version, page, limit)
+					.then(val => {
+						log(`val: ${JSON.stringify(val, null, 2)}`);
+						return val;
+					})
+					.catch(err => {
+						return err;
+					});
+				log(`sec: ${JSON.stringify(sec, null, 2)}`);
+				return sec;
+			} else {
+				log(`header----------------------------`);
+				log(`secUuid: ${secUuid}`);
+				log(`header: ${JSON.stringify(header, null, 2)}`);
+				log(`header.uuid: ${header.uuid}`);
+				let head = lingo
+					.fetchAssetsForHeading(secUuid, header.uuid)
+					.then(val => {
+						log(`valhead: ${JSON.stringify(val, null, 2)}`);
+						return val;
+					})
+					.catch(err => {
+						return err;
+					});
+				log(`head: ${JSON.stringify(head, null, 2)}`);
+				return head;
+			}
+		});
 	});
 }
 export async function getAssetUuids(
