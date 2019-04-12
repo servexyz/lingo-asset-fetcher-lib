@@ -173,40 +173,26 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 			return Object.values(x.flat());
 		});
 	/* Output should look something like:
-		containers: [
-			{
-				"EE0669EA-0FA8-451D-B911-F7299602458F": {}
-			},
-			{
-				"9533C6B8-599E-4709-9120-9DA8E10A2922": {
-					"name": "Icons",
-					"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
-				}
-			},
-			{
-				"9533C6B8-599E-4709-9120-9DA8E10A2922": {
-					"name": "Components",
-					"uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
-				}
-			}
-		]
-	*/
+    containers: [
+      {
+        "EE0669EA-0FA8-451D-B911-F7299602458F": {}
+      },
+      {
+        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
+          "name": "Icons",
+          "uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
+        }
+      },
+      {
+        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
+          "name": "Components",
+          "uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
+        }
+      }
+    ]
+  */
 	return assetContainer.flat();
 }
-
-// export function formatAssetContainers({ sections } = assetContainers) {
-// 	let singletonUuids = [];
-// 	sections.forEach((section, idx) => {
-// 		if (section.hasOwnProperty("headers") && section.headers.length === 0) {
-// 			singletonUuids.push(Object.assign({}, { [section.uuid]: null }));
-// 		} else {
-// 			section.headers.forEach(header => {
-// 				singletonUuids.push(Object.assign({}, { [section.uuid]: header }));
-// 			});
-// 		}
-// 	});
-// 	return singletonUuids;
-// }
 
 /**
  *
@@ -242,47 +228,41 @@ function buildFileName(assetName, assetKeywords) {
 
 export function getAU(container, version = 0, page = 1, limit = 2000) {
 	log(`container: ${JSON.stringify(container, null, 2)}`);
-	let assetUuids = [];
-	return Object.values(container).map(cSection => {
-		return Object.entries(cSection).map(([secUuid, header]) => {
-			if (
-				Object.entries(header).length === 0 &&
-				header.constructor === Object
-			) {
-				log(`section----------------------------`);
-				log(`secUuid: ${secUuid}`);
-				log(`header: ${JSON.stringify(header, null, 2)}`);
-				// let sec = await lingo.fetchSection(secUuid, version, page, limit);
-				let sec = lingo
-					.fetchSection(secUuid, version, page, limit)
-					.then(val => {
-						log(`val: ${JSON.stringify(val, null, 2)}`);
-						return val;
-					})
-					.catch(err => {
-						return err;
-					});
-				log(`sec: ${JSON.stringify(sec, null, 2)}`);
-				return sec;
-			} else {
-				log(`header----------------------------`);
-				log(`secUuid: ${secUuid}`);
-				log(`header: ${JSON.stringify(header, null, 2)}`);
-				log(`header.uuid: ${header.uuid}`);
-				let head = lingo
-					.fetchAssetsForHeading(secUuid, header.uuid)
-					.then(val => {
-						log(`valhead: ${JSON.stringify(val, null, 2)}`);
-						return val;
-					})
-					.catch(err => {
-						return err;
-					});
-				log(`head: ${JSON.stringify(head, null, 2)}`);
-				return head;
-			}
+	return Object.values(container)
+		.map(cSection => {
+			let proms = Object.entries(cSection).map(async ([secUuid, header]) => {
+				if (
+					Object.entries(header).length === 0 &&
+					header.constructor === Object
+				) {
+					log(`section----------------------------`);
+					log(`secUuid: ${secUuid}`);
+					log(`header: ${JSON.stringify(header, null, 2)}`);
+					try {
+						let x = await lingo.fetchSection(secUuid, version, page, limit);
+						log(`x: ${x}`);
+						return x;
+					} catch (err) {
+						throw err;
+					}
+				} else {
+					log(`foo`);
+				}
+			});
+			log(`proms: ${proms}`);
+			return Promise.all(proms).then(data => {
+				log(`data: ${data}`);
+				return data;
+			});
+		})
+		.map(promises => {
+			log(`typeof promises: ${typeof promises}`);
+			log(`promise.constructor: ${promises.constructor}`);
+			return new Promise.resolve(promises).then(y => {
+				log(`y:${y}`);
+				return y;
+			});
 		});
-	});
 }
 export async function getAssetUuids(
 	singletonUuids,
@@ -444,3 +424,6 @@ export async function init(
 // );
 // init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
+
+let x = 1;
+let y = x + 2; /*?*/

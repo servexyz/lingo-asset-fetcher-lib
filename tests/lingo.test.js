@@ -61,7 +61,6 @@ test(`getRelevantAssetContainers :: ${kitNameCS} - Target Two`, async t => {
 	let id = await getKitId(kitNameCS);
 	let extractTarget = config[kitNameAccessorCS]["targetTwo"];
 	let containers = await getRAC(id, extractTarget);
-	// log(`containers t2: ${JSON.stringify(containers, null, 2)}`);
 	t.truthy(containers);
 });
 
@@ -72,7 +71,12 @@ test(`getAssetUuids :: ${kitNameCS} - Target One`, async t => {
 			config[kitNameAccessorCS]["targetOne"]
 		)
 	);
-	log(`assetUuids: ${JSON.stringify(assetUuids, null, 2)}`);
+	// log(`assetUuids22: ${JSON.stringify(assetUuids, null, 2)}`);
+	// Promise.all(assetUuids).then(v => {
+	// 	log(`v: ${Promise.resolve(v).then(k => log(`k: ${k}`))}`);
+	// });
+	log(`assetUuids: ${assetUuids}`);
+	log(`assetUuids<sz>: ${JSON.stringify(assetUuids, null, 2)}`);
 	t.truthy(assetUuids);
 });
 test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
