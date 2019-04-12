@@ -64,32 +64,6 @@ test(`getRelevantAssetContainers :: ${kitNameCS} - Target Two`, async t => {
 	t.truthy(containers);
 });
 
-test(`getAssetUuids :: ${kitNameCS} - Target One`, async t => {
-	let assetUuids = await getAU(
-		await getRAC(
-			await getKitId(kitNameCS),
-			config[kitNameAccessorCS]["targetOne"]
-		)
-	);
-	// log(`assetUuids22: ${JSON.stringify(assetUuids, null, 2)}`);
-	// Promise.all(assetUuids).then(v => {
-	// 	log(`v: ${Promise.resolve(v).then(k => log(`k: ${k}`))}`);
-	// });
-	log(`assetUuids: ${assetUuids}`);
-	log(`assetUuids<sz>: ${JSON.stringify(assetUuids, null, 2)}`);
-	t.truthy(assetUuids);
-});
-test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
-	t.snapshot(
-		await getAssetUuids(
-			await getRAC(
-				await getKitId(kitName),
-				config[kitNameAccessor]["targetTwo"]
-			)
-		)
-	);
-});
-
 test.skip(`batchDownloads:: ${kitName} - Target One`, async t => {
 	t.snapshot(
 		await batchDownload(

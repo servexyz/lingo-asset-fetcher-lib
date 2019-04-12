@@ -3,6 +3,8 @@ const log = console.log;
 import fs from "fs-extra";
 import lingo from "Lingojs";
 import config from "./lingo.config";
+// import lingoConfig from "./lingo.config";
+import { DateTime } from "luxon";
 
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
@@ -228,111 +230,139 @@ function buildFileName(assetName, assetKeywords) {
 
 export function getAU(container, version = 0, page = 1, limit = 2000) {
 	log(`container: ${JSON.stringify(container, null, 2)}`);
-	return Object.values(container)
-		.map(cSection => {
-			let proms = Object.entries(cSection).map(async ([secUuid, header]) => {
-				if (
-					Object.entries(header).length === 0 &&
-					header.constructor === Object
-				) {
-					log(`section----------------------------`);
-					log(`secUuid: ${secUuid}`);
-					log(`header: ${JSON.stringify(header, null, 2)}`);
-					try {
-						let x = await lingo.fetchSection(secUuid, version, page, limit);
-						log(`x: ${x}`);
-						return x;
-					} catch (err) {
-						throw err;
-					}
-				} else {
-					log(`foo`);
-				}
-			});
-			log(`proms: ${proms}`);
-			return Promise.all(proms).then(data => {
-				log(`data: ${data}`);
-				return data;
-			});
-		})
-		.map(promises => {
-			log(`typeof promises: ${typeof promises}`);
-			log(`promise.constructor: ${promises.constructor}`);
-			return new Promise.resolve(promises).then(y => {
-				log(`y:${y}`);
-				return y;
-			});
-		});
-}
-export async function getAssetUuids(
-	singletonUuids,
-	version = 0,
-	page = 1,
-	limit = 2000
-) {
-	//TODO: Extract name from getAssetUuid (to name the file)
-	var assetUuids = [];
-	try {
-		for (let s of singletonUuids) {
-			let sectionUuid = Object.keys(s)[0];
-			let headerUuid = Object.values(s)[0];
-			if (headerUuid === null) {
-				// http://developer.lingoapp.com/lingojs/#sections
-				var section = await lingo.fetchSection(
-					sectionUuid,
-					version,
-					page,
-					limit
-				);
-				// fs.writeFileSync(
-				// 	"./src/samplePayloads/section.json",
-				// 	JSON.stringify(section, null, 2)
-				// );
-				for (let item of section.items) {
-					if (item.asset_uuid !== null) {
-						if (item.asset.hasOwnProperty("keywords")) {
-							var fileName = buildFileName(
-								item.asset.name,
-								item.asset.keywords
+	var assetUuids = []; // ?
+	Object.values(container).forEach(cSection => {
+		Object.entries(cSection).forEach(async ([secUuid, header]) => {
+			if (
+				Object.entries(header).length === 0 &&
+				header.constructor === Object
+			) {
+				try {
+					var section = await lingo.fetchSection(secUuid, version, page, limit);
+					fs.outputFileSync(
+						`./src/payloads/${DateTime.local().toISODate()}/section.json`,
+						JSON.stringify(section, null, 2)
+					);
+					for (let item of section.items) {
+						if (item.asset_uuid !== null) {
+							if (item.asset.hasOwnProperty("keywords")) {
+								var fileName = buildFileName(
+									item.asset.name,
+									item.asset.keywords
+								);
+							} else {
+								fileName = item.asset.name;
+							}
+							assetUuids.push(
+								Object.assign({}, { [item.asset_uuid]: fileName })
 							);
-						} else {
-							fileName = item.asset.name;
 						}
-						assetUuids.push(Object.assign({}, { [item.asset_uuid]: fileName }));
 					}
+				} catch (err) {
+					throw err;
 				}
 			} else {
-				// http://developer.lingoapp.com/lingojs/#heading-contents
-				//TODO: Check if possible to add version / page / limit
-				var headerAssets = await lingo.fetchAssetsForHeading(
-					sectionUuid,
-					headerUuid
-				);
-				// fs.writeFileSync(
-				// 	"./src/samplePayloads/headerAssets.json",
-				// 	JSON.stringify(headerAssets, null, 2)
-				// );
-
-				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
-					if (v.asset_uuid !== null) {
-						// log(`v.asset.name: ${v.asset.name}`);
-						// log(`v.asset.keywords: ${v.asset.keywords}`);
-						if (v.asset.hasOwnProperty("keywords")) {
-							var fileName = buildFileName(v.asset.name, v.asset.keywords);
-						} else {
-							fileName = v.asset.name;
+				try {
+					var headerAssets = await lingo.fetchAssetsForHeading(
+						secUuid,
+						header.uuid,
+						version
+					);
+					fs.outputFileSync(
+						`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
+						JSON.stringify(headerAssets, null, 2)
+					);
+					for (const [k, v] of Object.entries(headerAssets, null, 2)) {
+						if (v.asset_uuid !== null) {
+							// log(`v.asset.name: ${v.asset.name}`);
+							// log(`v.asset.keywords: ${v.asset.keywords}`);
+							if (v.asset.hasOwnProperty("keywords")) {
+								var fileName = buildFileName(v.asset.name, v.asset.keywords);
+							} else {
+								fileName = v.asset.name;
+							}
+							log(`header fileName: ${fileName}`);
+							assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
 						}
-						// log(`header fileName: ${fileName}`);
-						assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
 					}
+				} catch (err) {
+					throw err;
 				}
 			}
-		}
-		return assetUuids;
-	} catch (err) {
-		log(`getAssetUuids() ${err}`);
-	}
+		});
+	});
+	log(`assetUuids: ${assetUuids}`); // ?
+	return assetUuids; // ?
 }
+// export async function getAssetUuids(
+// 	singletonUuids,
+// 	version = 0,
+// 	page = 1,
+// 	limit = 2000
+// ) {
+// 	//TODO: Extract name from getAssetUuid (to name the file)
+// 	var assetUuids = [];
+// 	try {
+// 		for (let s of singletonUuids) {
+// 			let sectionUuid = Object.keys(s)[0];
+// 			let headerUuid = Object.values(s)[0];
+// 			if (headerUuid === null) {
+// 				// http://developer.lingoapp.com/lingojs/#sections
+// 				var section = await lingo.fetchSection(
+// 					sectionUuid,
+// 					version,
+// 					page,
+// 					limit
+// 				);
+// 				fs.writeFileSync(
+// 					`./src/payloads/${DateTime.local().toLocaleString()}/section.json`,
+// 					JSON.stringify(section, null, 2)
+// 				);
+// 				for (let item of section.items) {
+// 					if (item.asset_uuid !== null) {
+// 						if (item.asset.hasOwnProperty("keywords")) {
+// 							var fileName = buildFileName(
+// 								item.asset.name,
+// 								item.asset.keywords
+// 							);
+// 						} else {
+// 							fileName = item.asset.name;
+// 						}
+// 						assetUuids.push(Object.assign({}, { [item.asset_uuid]: fileName }));
+// 					}
+// 				}
+// 			} else {
+// 				// http://developer.lingoapp.com/lingojs/#heading-contents
+// 				//TODO: Check if possible to add version / page / limit
+// 				var headerAssets = await lingo.fetchAssetsForHeading(
+// 					sectionUuid,
+// 					headerUuid
+// 				);
+// 				// fs.writeFileSync(
+// 				// 	`./src/payloads/${DateTime.local().toLocaleString()}/headerAssets.json`,
+// 				// 	JSON.stringify(headerAssets, null, 2)
+// 				// );
+
+// 				for (const [k, v] of Object.entries(headerAssets, null, 2)) {
+// 					if (v.asset_uuid !== null) {
+// 						// log(`v.asset.name: ${v.asset.name}`);
+// 						// log(`v.asset.keywords: ${v.asset.keywords}`);
+// 						if (v.asset.hasOwnProperty("keywords")) {
+// 							var fileName = buildFileName(v.asset.name, v.asset.keywords);
+// 						} else {
+// 							fileName = v.asset.name;
+// 						}
+// 						// log(`header fileName: ${fileName}`);
+// 						assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
+// 					}
+// 				}
+// 			}
+// 		}
+// 		return assetUuids;
+// 	} catch (err) {
+// 		log(`getAssetUuids() ${err}`);
+// 	}
+// }
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
@@ -424,6 +454,21 @@ export async function init(
 // );
 // init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
-
-let x = 1;
-let y = x + 2; /*?*/
+(async () => {
+	const kitNameCS = "Capswan - Mobile App - Style Guide";
+	const kitNameAccessorCS = "capswan";
+	lingo.setup(process.env.SPACE_ID, process.env.API_TOKEN);
+	async function foo() {
+		return await getAU(
+			await getRAC(
+				await getKitId(kitNameCS),
+				config[kitNameAccessorCS]["targetOne"]
+			)
+		);
+	}
+	async function bar() {
+		let x = await foo();
+		log(`x: ${x}`);
+	}
+	bar();
+})();
