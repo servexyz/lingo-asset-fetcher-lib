@@ -4,6 +4,7 @@ docs/NPM.md
 downloads
 webpack.config.js
 src
+*docker*
 tests
 .babelrc
 .env
