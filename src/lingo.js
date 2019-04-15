@@ -236,17 +236,12 @@ export async function getAssetUuids(
 	limit = 2000
 ) {
 	//TODO: Extract name from getAssetUuid (to name the file)
-	var assetUuids = [];
 	try {
+		var assetUuids = [];
 		for (let c of container) {
-			c;
 			for (const [sectionUuid, header] of Object.entries(c)) {
 				let headerUuid = header.uuid;
-				sectionUuid;
-				headerUuid;
-				c;
-				if (headerUuid === null) {
-					headerUuid;
+				if (headerUuid === null || headerUuid === undefined) {
 					// http://developer.lingoapp.com/lingojs/#sections
 					var section = await lingo.fetchSection(
 						sectionUuid,
@@ -258,7 +253,11 @@ export async function getAssetUuids(
 						`./src/payloads/${DateTime.local().toISODate()}/section.json`,
 						JSON.stringify(section, null, 2)
 					);
+					log(`section.items: ${section.items}`);
+					section;
+					section.items;
 					for (let item of section.items) {
+						log(`item: ${item}`); // ?
 						if (item.asset_uuid !== null) {
 							if (item.asset.hasOwnProperty("keywords")) {
 								var fileName = buildFileName(
@@ -295,6 +294,7 @@ export async function getAssetUuids(
 							} else {
 								fileName = v.asset.name;
 							}
+
 							// log(`header fileName: ${fileName}`);
 							assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
 						}
@@ -302,6 +302,8 @@ export async function getAssetUuids(
 				}
 			}
 		}
+		// log(`assetUuids: ${assetUuids}`);
+		// log(`assetUuids: ${JSON.stringify(assetUuids, null, 2)}`);
 		return assetUuids;
 	} catch (err) {
 		log(`getAssetUuids() ${err}`);
@@ -358,7 +360,7 @@ export async function init(
 	if (extractTarget == null) {
 		throw Error("Extract Target is required");
 	}
-	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
+	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables from init function
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
 	try {
 		await batchDownload(
@@ -375,32 +377,26 @@ export async function init(
 	}
 }
 
-// Working:
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswan/One",
-	"PNG"
-);
+/////////////////////////////////////
+// * Capswan
+/////////////////////////////////////
 
-// Spontaneously stopped working:
+// init(
+// 	"Capswan - Mobile App - Style Guide",
+// 	config.capswan.targetOne,
+// 	"./downloads/capswan/One",
+// 	"PNG"
+// );
 // init(
 // 	"Capswan - Mobile App - Style Guide",
 // 	config.capswan.targetTwo,
 // 	"./downloads/capswan/Two",
 // 	"png"
 // );
+
+/////////////////////////////////////
+// * TestMe
+/////////////////////////////////////
+// ? The reason this was failing before was because "Illustrated" was capitalized in config, but "illustrated" was lowercase in Lingo
 // init("Test Me", config.testMe.targetOne, "./downloads/testMe/One", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMe/Two", "png");
-// (async () => {
-// 	const kitNameCS = "Capswan - Mobile App - Style Guide";
-// 	const kitNameAccessorCS = "capswan";
-// 	lingo.setup(process.env.SPACE_ID, process.env.API_TOKEN);
-// 	let au = await getAssetUuids(
-// 		await getRAC(
-// 			await getKitId(kitNameCS),
-// 			config[kitNameAccessorCS]["targetOne"]
-// 		)
-// 	);
-// 	log(`au: ${au}`);
-// })();
