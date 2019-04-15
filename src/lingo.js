@@ -162,6 +162,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 								return matchedUuidHeaderKV;
 							});
 					} else {
+						//TODO: Fix this (I believe this is the core issue / reason that configs without headers specified do not work)
 						return Object.assign({}, { [sectionUuid]: {} });
 					}
 				})
@@ -171,7 +172,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 				});
 		})
 		.map(x => {
-			// log(`x: ${JSON.stringify(x, null, 2)}`);
+			log(`x: ${JSON.stringify(x, null, 2)}`);
 			return Object.values(x.flat());
 		});
 	/* Output should look something like:
@@ -375,20 +376,20 @@ export async function init(
 }
 
 // Working:
-// init(
-// 	"Capswan - Mobile App - Style Guide",
-// 	config.capswan.targetOne,
-// 	"./downloads/capswan/One",
-// 	"PNG"
-// );
-
-// Spontaneously stopped working:
 init(
 	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetTwo,
-	"./downloads/capswan/Two",
-	"png"
+	config.capswan.targetOne,
+	"./downloads/capswan/One",
+	"PNG"
 );
+
+// Spontaneously stopped working:
+// init(
+// 	"Capswan - Mobile App - Style Guide",
+// 	config.capswan.targetTwo,
+// 	"./downloads/capswan/Two",
+// 	"png"
+// );
 // init("Test Me", config.testMe.targetOne, "./downloads/testMe/One", "PNG");
 // init("Test Me", config.testMe.targetTwo, "./downloads/testMe/Two", "png");
 // (async () => {

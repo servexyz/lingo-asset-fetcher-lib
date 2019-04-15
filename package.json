@@ -41,12 +41,11 @@
 		"react": "^16.8.6"
 	},
 	"scripts": {
-		"start": "npm run dev:lingo",
+		"start": "npm run dev",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:liveReloadedModule",
-		"dev:lingo": "babel-node src/lingo.js",
-		"dev:vanillaModule": "babel-node src/index.js",
-		"dev:liveReloadedModule": "nodemon --watch src/index.js --exec 'babel-node src/index.js'",
+		"dev:vanillaModule": "babel-node src/lingo.js",
+		"dev:liveReloadedModule": "nodemon --watch src/index.js --exec 'babel-node src/lingo.js'",
 		"test": "npm-run-all -s clean build test:liveReloadedAva",
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
@@ -60,7 +59,6 @@
 	},
 	"ava": {
 		"files": [
-			"!npm-starter-sample-module/**/*.js",
 			"tests/"
 		],
 		"require": [
