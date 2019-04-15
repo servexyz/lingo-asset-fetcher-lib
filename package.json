@@ -1,5 +1,5 @@
 {
-	"name": "lingo-asset-fetcher-lib",
+	"name": "laf-lib",
 	"version": "0.2.6",
 	"description": "batch downloads assets from lingo to your local project. Used by laf (the CLI version)",
 	"main": "build/main.js",

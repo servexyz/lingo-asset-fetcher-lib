@@ -348,6 +348,16 @@ export async function batchDownload(
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
+/**
+ *
+ * @param {string} kitName
+ * @param {object} extractTarget
+ * @param {string} outputDirectory
+ * @param {string} outputFormat
+ * @param {string} spaceId
+ * @param {string} apiToken
+ * @param {int} kitVersion
+ */
 export async function init(
 	kitName = "Test Me",
 	extractTarget = null,
