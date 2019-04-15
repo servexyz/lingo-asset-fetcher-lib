@@ -12,6 +12,7 @@
 		"@ava/babel-preset-stage-4": "^2.0.0",
 		"@babel/core": "7.4.3",
 		"@babel/node": "7.2.2",
+		"@babel/plugin-proposal-object-rest-spread": "^7.4.3",
 		"@babel/polyfill": "^7.4.3",
 		"@babel/preset-env": "7.4.3",
 		"@babel/preset-react": "^7.0.0",
@@ -20,7 +21,7 @@
 		"ava": "^1.4.1",
 		"babel-loader": "^8.0.5",
 		"duplicate-package-checker-webpack-plugin": "^3.0.0",
-		"nodemon": "^1.18.10",
+		"nodemon": "^1.18.11",
 		"nodemon-webpack-plugin": "^4.0.8",
 		"npm-run-all": "^4.1.5",
 		"npm-starter-sample-module": "0.0.4",
@@ -32,12 +33,13 @@
 	},
 	"dependencies": {
 		"Lingojs": "git+https://github.com/TheNounProject/LingoJS.git",
-		"clipboardy": "^1.2.3",
+		"clipboardy": "^2.0.0",
 		"dotenv": "^7.0.0",
 		"fs-extra": "^7.0.1",
 		"ink": "^2.1.1",
 		"ink-select-input": "^3.1.0",
 		"ink-text-input": "^3.1.0",
+		"luxon": "^1.12.1",
 		"react": "^16.8.6"
 	},
 	"scripts": {
@@ -50,7 +52,12 @@
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
 		"build": "webpack --mode production --display minimal",
-		"production": "npm run build && node build/main.js"
+		"production": "npm run build && node build/main.js",
+		"ci": "npm run build && npm run ci:local:timed",
+		"ci:local": "trevor",
+		"ci:local:timed": "npm run ci:local | gnomon --type=elapsed-total",
+		"ci:local:cache:install": "docker pull verdaccio/verdaccio",
+		"ci:local:cache:run": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio"
 	},
 	"ava": {
 		"files": [

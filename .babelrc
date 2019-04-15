@@ -1,6 +1,12 @@
 {
+	"plugins": ["@babel/plugin-proposal-object-rest-spread"],
 	"presets": [
-		"@babel/preset-env",
+		[
+			"@babel/preset-env",
+			{
+				"shippedProposals": true
+			}
+		],
 		"@ava/babel-preset-stage-4",
 		"@babel/preset-react"
 	]

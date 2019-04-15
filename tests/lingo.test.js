@@ -3,21 +3,22 @@ const log = console.log;
 import test from "ava";
 import lingo from "Lingojs";
 import {
-	SearchQuery,
-	initInk,
 	getRelevantAssetContainers,
+	getRAC,
 	getKitId,
 	getLingoSetupVariables,
 	getAssetUuids,
-	formatAssetContainers,
+	getAU,
 	batchDownload,
 	init
-} from "../src/index.js";
+} from "../src/lingo.js";
 
-import config from "../src/index.config";
+import config from "../src/lingo.config";
 
 const kitName = "Test Me";
 const kitNameAccessor = "testMe";
+const kitNameCS = "Capswan - Mobile App - Style Guide";
+const kitNameAccessorCS = "capswan";
 
 /*
  * **********************************
@@ -40,59 +41,36 @@ TODO: Store results of each async call in global variables to avoid hitting API 
 * Better solution would be to store return values of each stage globally and pass along.
 */
 //TODO: Change tests to be more concrete than snapshots
-test(`getKitId :: ${kitName}`, async t => {
-	t.snapshot(await getKitId(kitName));
+test(`getKitId :: ${kitNameCS}`, async t => {
+	t.snapshot(await getKitId(kitNameCS));
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target One`, async t => {
-	let containers = await getRelevantAssetContainers(
-		await getKitId(kitName),
-		config[kitNameAccessor]["targetOne"]
-	);
-	log(`containers: ${JSON.stringify(containers, null, 2)}`);
-	t.snapshot(containers);
+test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
+	var containers;
+	try {
+		let id = await getKitId(kitNameCS);
+		let extractTarget = config[kitNameAccessorCS]["targetOne"];
+		containers = await getRAC(id, extractTarget);
+		// log(`containers: ${JSON.stringify(containers, null, 2)}`);
+	} catch (err) {
+		log(`err: ${err}`);
+	}
+	t.truthy(containers);
 });
-test(`getRelevantAssetContainers :: ${kitName} - Target Two`, async t => {
-	let containers = await getRelevantAssetContainers(
-		await getKitId(kitName),
-		config[kitNameAccessor]["targetTwo"]
-	);
-	log(`containers: ${JSON.stringify(containers, null, 2)}`);
-	t.snapshot(containers);
-});
-test.skip(`getAssetUuids :: ${kitName} - Target One`, async t => {
-	t.snapshot(
-		await getAssetUuids(
-			formatAssetContainers(
-				await getRelevantAssetContainers(
-					await getKitId(kitName),
-					config[kitNameAccessor]["targetOne"]
-				)
-			)
-		)
-	);
-});
-test.skip(`getAssetUuids :: ${kitName} - Target Two`, async t => {
-	t.snapshot(
-		await getAssetUuids(
-			formatAssetContainers(
-				await getRelevantAssetContainers(
-					await getKitId(kitName),
-					config[kitNameAccessor]["targetTwo"]
-				)
-			)
-		)
-	);
+
+test(`getRelevantAssetContainers :: ${kitNameCS} - Target Two`, async t => {
+	let id = await getKitId(kitNameCS);
+	let extractTarget = config[kitNameAccessorCS]["targetTwo"];
+	let containers = await getRAC(id, extractTarget);
+	t.truthy(containers);
 });
 
 test.skip(`batchDownloads:: ${kitName} - Target One`, async t => {
 	t.snapshot(
 		await batchDownload(
 			await getAssetUuids(
-				formatAssetContainers(
-					await getRelevantAssetContainers(
-						await getKitId(kitName),
-						config[kitNameAccessor]["targetOne"]
-					)
+				await getRAC(
+					await getKitId(kitName),
+					config[kitNameAccessor]["targetOne"]
 				)
 			)
 		)
@@ -102,11 +80,9 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
 	t.snapshot(
 		await batchDownload(
 			await getAssetUuids(
-				formatAssetContainers(
-					await getRelevantAssetContainers(
-						await getKitId(kitName),
-						config[kitNameAccessor]["targetTwo"]
-					)
+				await getRAC(
+					await getKitId(kitName),
+					config[kitNameAccessor]["targetTwo"]
 				)
 			)
 		)

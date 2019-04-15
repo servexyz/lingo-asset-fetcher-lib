@@ -110,12 +110,12 @@ export class SearchQuery extends React.Component {
 		}
 	}
 	/*
-	***********************************************
-	*	setNestedState Factories
-	************************************************
-	? since event object is not available, what's the best way to create a generic handler?
-	? (ie. can't do e.target.name/value trick)
-	*/
+  ***********************************************
+  *	setNestedState Factories
+  ************************************************
+  ? since event object is not available, what's the best way to create a generic handler?
+  ? (ie. can't do e.target.name/value trick)
+  */
 
 	setNestedStateEnv(kv) {
 		let key = Object.keys(kv);
