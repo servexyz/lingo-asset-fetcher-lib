@@ -12,6 +12,7 @@
 		"@ava/babel-preset-stage-4": "^2.0.0",
 		"@babel/core": "7.4.3",
 		"@babel/node": "7.2.2",
+		"@babel/plugin-proposal-object-rest-spread": "^7.4.3",
 		"@babel/polyfill": "^7.4.3",
 		"@babel/preset-env": "7.4.3",
 		"@babel/preset-react": "^7.0.0",
@@ -51,7 +52,12 @@
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
 		"build": "webpack --mode production --display minimal",
-		"production": "npm run build && node build/main.js"
+		"production": "npm run build && node build/main.js",
+		"ci": "npm run build && npm run ci:local:timed",
+		"ci:local": "trevor",
+		"ci:local:timed": "npm run ci:local | gnomon --type=elapsed-total",
+		"ci:local:cache:install": "docker pull verdaccio/verdaccio",
+		"ci:local:cache:run": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio"
 	},
 	"ava": {
 		"files": [
