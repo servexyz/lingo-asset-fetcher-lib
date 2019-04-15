@@ -22,25 +22,23 @@ This is intended to be used with [laf](https://www.npmjs.com/package/laf)
 
 1. Create a configuration object, like so:
 
-````json
+```json
 {
-  sections: [
+  "sections": [
     {
-      name: "Illustrations"
+      "name": "Illustrations"
     },
     {
-      name: "Icons",
-      headers: ["Icons", "Components"]
+      "name": "Icons",
+      "headers": ["Icons", "Components"]
     }
   ]
 }
 ```
+
 These configurations are specific to my project, which currently looks like:
 
-![lingo_kit_screenshot](https://github.com/servexyz/lingo-asset-fetcher-lib/tree/prepare-for-cli-usage/docs/capswan_lingo.png)
-
-
-
+![lingo_kit_screenshot](./docs/capswan_lingo.png)
 
 ```js
 init(
@@ -49,4 +47,4 @@ init(
   "./downloads/capswan/One",
   "PNG"
 );
-````
+```
