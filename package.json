@@ -12,7 +12,6 @@
 		"@ava/babel-preset-stage-4": "^2.0.0",
 		"@babel/core": "7.4.3",
 		"@babel/node": "7.2.2",
-		"@babel/plugin-proposal-object-rest-spread": "^7.4.3",
 		"@babel/polyfill": "^7.4.3",
 		"@babel/preset-env": "7.4.3",
 		"@babel/preset-react": "^7.0.0",
@@ -42,9 +41,10 @@
 		"react": "^16.8.6"
 	},
 	"scripts": {
-		"start": "npm run dev",
+		"start": "npm run dev:lingo",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:liveReloadedModule",
+		"dev:lingo": "babel-node src/lingo.js",
 		"dev:vanillaModule": "babel-node src/index.js",
 		"dev:liveReloadedModule": "nodemon --watch src/index.js --exec 'babel-node src/index.js'",
 		"test": "npm-run-all -s clean build test:liveReloadedAva",

@@ -228,76 +228,6 @@ function buildFileName(assetName, assetKeywords) {
  * @param {integer} limit
  */
 
-// export async function getAU(container, version = 0, page = 1, limit = 2000) {
-// 	log(`container: ${JSON.stringify(container, null, 2)}`);
-// 	try {
-// 		return await Object.values(container)
-// 			.map(cSection => {
-// 				return Object.entries(cSection).map(async ([secUuid, header]) => {
-// 					if (
-// 						Object.entries(header).length === 0 &&
-// 						header.constructor === Object
-// 					) {
-// 						var section = await lingo.fetchSection(
-// 							secUuid,
-// 							version,
-// 							page,
-// 							limit
-// 						);
-// 						fs.outputFileSync(
-// 							`./src/payloads/${DateTime.local().toISODate()}/section.json`,
-// 							JSON.stringify(section, null, 2)
-// 						);
-// 						for (let item of section.items) {
-// 							if (item.asset_uuid !== null) {
-// 								if (item.asset.hasOwnProperty("keywords")) {
-// 									var fileName = buildFileName(
-// 										item.asset.name,
-// 										item.asset.keywords
-// 									);
-// 								} else {
-// 									fileName = item.asset.name;
-// 								}
-// 								return Object.assign({}, { [item.asset_uuid]: fileName });
-// 							}
-// 						}
-// 					} else {
-// 						var headerAssets = await lingo.fetchAssetsForHeading(
-// 							secUuid,
-// 							header.uuid,
-// 							version
-// 						);
-// 						fs.outputFileSync(
-// 							`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
-// 							JSON.stringify(headerAssets, null, 2)
-// 						);
-// 						for (const [k, v] of Object.entries(headerAssets, null, 2)) {
-// 							if (v.asset_uuid !== null) {
-// 								// log(`v.asset.name: ${v.asset.name}`);
-// 								// log(`v.asset.keywords: ${v.asset.keywords}`);
-// 								if (v.asset.hasOwnProperty("keywords")) {
-// 									var fileName = buildFileName(v.asset.name, v.asset.keywords);
-// 								} else {
-// 									fileName = v.asset.name;
-// 									assetUuids;
-// 								}
-// 								log(`header fileName: ${fileName}`);
-// 								return Object.assign({}, { [v.asset_uuid]: fileName });
-// 							}
-// 						}
-// 					}
-// 				});
-// 			})
-// 			.map(async prom => {
-// 				log(`length: ${prom.length}`);
-// 				let x = await Promise.resolve(prom);
-// 				x; // ?
-// 				return x;
-// 			});
-// 	} catch (err) {
-// 		throw err;
-// 	}
-// }
 export async function getAssetUuids(
 	container,
 	version = 0,
@@ -323,7 +253,7 @@ export async function getAssetUuids(
 						page,
 						limit
 					);
-					fs.writeFileSync(
+					fs.outputFileSync(
 						`./src/payloads/${DateTime.local().toISODate()}/section.json`,
 						JSON.stringify(section, null, 2)
 					);
@@ -350,7 +280,7 @@ export async function getAssetUuids(
 						sectionUuid,
 						headerUuid
 					);
-					fs.writeFileSync(
+					fs.outputFileSync(
 						`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
 						JSON.stringify(headerAssets, null, 2)
 					);
@@ -429,8 +359,6 @@ export async function init(
 	}
 	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	//TODO: Move formatAssetContainers as a call into getAsssetUuids.
-	//TODO: Flatten hellback
 	try {
 		await batchDownload(
 			await getAssetUuids(
@@ -439,28 +367,30 @@ export async function init(
 			outputFormat,
 			outputDirectory
 		);
+		return true;
 	} catch (err) {
 		log(`init() ${err}`);
+		return false;
 	}
 }
 
 // Working:
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswanOne",
-	"PNG"
-);
-
-// Spontaneously stopped working:
 // init(
 // 	"Capswan - Mobile App - Style Guide",
-// 	config.capswan.targetTwo,
-// 	"./downloads/capswanTwo",
-// 	"png"
+// 	config.capswan.targetOne,
+// 	"./downloads/capswan/One",
+// 	"PNG"
 // );
-// init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
-// init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
+
+// Spontaneously stopped working:
+init(
+	"Capswan - Mobile App - Style Guide",
+	config.capswan.targetTwo,
+	"./downloads/capswan/Two",
+	"png"
+);
+// init("Test Me", config.testMe.targetOne, "./downloads/testMe/One", "PNG");
+// init("Test Me", config.testMe.targetTwo, "./downloads/testMe/Two", "png");
 // (async () => {
 // 	const kitNameCS = "Capswan - Mobile App - Style Guide";
 // 	const kitNameAccessorCS = "capswan";

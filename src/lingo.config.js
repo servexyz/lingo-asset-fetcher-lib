@@ -31,7 +31,8 @@ export default {
 		targetTwo: {
 			sections: [
 				{
-					name: "Icons"
+					name: "Icons",
+					headers: ["Icons"]
 				}
 			]
 		}
