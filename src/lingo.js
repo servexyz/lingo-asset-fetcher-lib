@@ -162,6 +162,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 								return matchedUuidHeaderKV;
 							});
 					} else {
+						//TODO: Fix this (I believe this is the core issue / reason that configs without headers specified do not work)
 						return Object.assign({}, { [sectionUuid]: {} });
 					}
 				})
@@ -171,7 +172,7 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
 				});
 		})
 		.map(x => {
-			// log(`x: ${JSON.stringify(x, null, 2)}`);
+			log(`x: ${JSON.stringify(x, null, 2)}`);
 			return Object.values(x.flat());
 		});
 	/* Output should look something like:
@@ -228,76 +229,6 @@ function buildFileName(assetName, assetKeywords) {
  * @param {integer} limit
  */
 
-// export async function getAU(container, version = 0, page = 1, limit = 2000) {
-// 	log(`container: ${JSON.stringify(container, null, 2)}`);
-// 	try {
-// 		return await Object.values(container)
-// 			.map(cSection => {
-// 				return Object.entries(cSection).map(async ([secUuid, header]) => {
-// 					if (
-// 						Object.entries(header).length === 0 &&
-// 						header.constructor === Object
-// 					) {
-// 						var section = await lingo.fetchSection(
-// 							secUuid,
-// 							version,
-// 							page,
-// 							limit
-// 						);
-// 						fs.outputFileSync(
-// 							`./src/payloads/${DateTime.local().toISODate()}/section.json`,
-// 							JSON.stringify(section, null, 2)
-// 						);
-// 						for (let item of section.items) {
-// 							if (item.asset_uuid !== null) {
-// 								if (item.asset.hasOwnProperty("keywords")) {
-// 									var fileName = buildFileName(
-// 										item.asset.name,
-// 										item.asset.keywords
-// 									);
-// 								} else {
-// 									fileName = item.asset.name;
-// 								}
-// 								return Object.assign({}, { [item.asset_uuid]: fileName });
-// 							}
-// 						}
-// 					} else {
-// 						var headerAssets = await lingo.fetchAssetsForHeading(
-// 							secUuid,
-// 							header.uuid,
-// 							version
-// 						);
-// 						fs.outputFileSync(
-// 							`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
-// 							JSON.stringify(headerAssets, null, 2)
-// 						);
-// 						for (const [k, v] of Object.entries(headerAssets, null, 2)) {
-// 							if (v.asset_uuid !== null) {
-// 								// log(`v.asset.name: ${v.asset.name}`);
-// 								// log(`v.asset.keywords: ${v.asset.keywords}`);
-// 								if (v.asset.hasOwnProperty("keywords")) {
-// 									var fileName = buildFileName(v.asset.name, v.asset.keywords);
-// 								} else {
-// 									fileName = v.asset.name;
-// 									assetUuids;
-// 								}
-// 								log(`header fileName: ${fileName}`);
-// 								return Object.assign({}, { [v.asset_uuid]: fileName });
-// 							}
-// 						}
-// 					}
-// 				});
-// 			})
-// 			.map(async prom => {
-// 				log(`length: ${prom.length}`);
-// 				let x = await Promise.resolve(prom);
-// 				x; // ?
-// 				return x;
-// 			});
-// 	} catch (err) {
-// 		throw err;
-// 	}
-// }
 export async function getAssetUuids(
 	container,
 	version = 0,
@@ -305,17 +236,12 @@ export async function getAssetUuids(
 	limit = 2000
 ) {
 	//TODO: Extract name from getAssetUuid (to name the file)
-	var assetUuids = [];
 	try {
+		var assetUuids = [];
 		for (let c of container) {
-			c;
 			for (const [sectionUuid, header] of Object.entries(c)) {
 				let headerUuid = header.uuid;
-				sectionUuid;
-				headerUuid;
-				c;
-				if (headerUuid === null) {
-					headerUuid;
+				if (headerUuid === null || headerUuid === undefined) {
 					// http://developer.lingoapp.com/lingojs/#sections
 					var section = await lingo.fetchSection(
 						sectionUuid,
@@ -323,11 +249,15 @@ export async function getAssetUuids(
 						page,
 						limit
 					);
-					fs.writeFileSync(
+					fs.outputFileSync(
 						`./src/payloads/${DateTime.local().toISODate()}/section.json`,
 						JSON.stringify(section, null, 2)
 					);
+					log(`section.items: ${section.items}`);
+					section;
+					section.items;
 					for (let item of section.items) {
+						log(`item: ${item}`); // ?
 						if (item.asset_uuid !== null) {
 							if (item.asset.hasOwnProperty("keywords")) {
 								var fileName = buildFileName(
@@ -350,7 +280,7 @@ export async function getAssetUuids(
 						sectionUuid,
 						headerUuid
 					);
-					fs.writeFileSync(
+					fs.outputFileSync(
 						`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
 						JSON.stringify(headerAssets, null, 2)
 					);
@@ -364,6 +294,7 @@ export async function getAssetUuids(
 							} else {
 								fileName = v.asset.name;
 							}
+
 							// log(`header fileName: ${fileName}`);
 							assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
 						}
@@ -371,6 +302,8 @@ export async function getAssetUuids(
 				}
 			}
 		}
+		// log(`assetUuids: ${assetUuids}`);
+		// log(`assetUuids: ${JSON.stringify(assetUuids, null, 2)}`);
 		return assetUuids;
 	} catch (err) {
 		log(`getAssetUuids() ${err}`);
@@ -415,6 +348,16 @@ export async function batchDownload(
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
+/**
+ *
+ * @param {string} kitName
+ * @param {object} extractTarget
+ * @param {string} outputDirectory
+ * @param {string} outputFormat
+ * @param {string} spaceId
+ * @param {string} apiToken
+ * @param {int} kitVersion
+ */
 export async function init(
 	kitName = "Test Me",
 	extractTarget = null,
@@ -427,10 +370,8 @@ export async function init(
 	if (extractTarget == null) {
 		throw Error("Extract Target is required");
 	}
-	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables
+	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables from init function
 	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	//TODO: Move formatAssetContainers as a call into getAsssetUuids.
-	//TODO: Flatten hellback
 	try {
 		await batchDownload(
 			await getAssetUuids(
@@ -439,37 +380,33 @@ export async function init(
 			outputFormat,
 			outputDirectory
 		);
+		return true;
 	} catch (err) {
 		log(`init() ${err}`);
+		return false;
 	}
 }
 
-// Working:
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswanOne",
-	"PNG"
-);
+/////////////////////////////////////
+// * Capswan
+/////////////////////////////////////
 
-// Spontaneously stopped working:
+// init(
+// 	"Capswan - Mobile App - Style Guide",
+// 	config.capswan.targetOne,
+// 	"./downloads/capswan/One",
+// 	"PNG"
+// );
 // init(
 // 	"Capswan - Mobile App - Style Guide",
 // 	config.capswan.targetTwo,
-// 	"./downloads/capswanTwo",
+// 	"./downloads/capswan/Two",
 // 	"png"
 // );
-// init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
-// init("Test Me", config.testMe.targetTwo, "./downloads/testMeTwo", "png");
-// (async () => {
-// 	const kitNameCS = "Capswan - Mobile App - Style Guide";
-// 	const kitNameAccessorCS = "capswan";
-// 	lingo.setup(process.env.SPACE_ID, process.env.API_TOKEN);
-// 	let au = await getAssetUuids(
-// 		await getRAC(
-// 			await getKitId(kitNameCS),
-// 			config[kitNameAccessorCS]["targetOne"]
-// 		)
-// 	);
-// 	log(`au: ${au}`);
-// })();
+
+/////////////////////////////////////
+// * TestMe
+/////////////////////////////////////
+// ? The reason this was failing before was because "Illustrated" was capitalized in config, but "illustrated" was lowercase in Lingo
+// init("Test Me", config.testMe.targetOne, "./downloads/testMe/One", "PNG");
+// init("Test Me", config.testMe.targetTwo, "./downloads/testMe/Two", "png");

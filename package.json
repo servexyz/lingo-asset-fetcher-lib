@@ -1,5 +1,5 @@
 {
-	"name": "lingo-asset-fetcher-lib",
+	"name": "laf-lib",
 	"version": "0.2.6",
 	"description": "batch downloads assets from lingo to your local project. Used by laf (the CLI version)",
 	"main": "build/main.js",
@@ -12,7 +12,6 @@
 		"@ava/babel-preset-stage-4": "^2.0.0",
 		"@babel/core": "7.4.3",
 		"@babel/node": "7.2.2",
-		"@babel/plugin-proposal-object-rest-spread": "^7.4.3",
 		"@babel/polyfill": "^7.4.3",
 		"@babel/preset-env": "7.4.3",
 		"@babel/preset-react": "^7.0.0",
@@ -24,7 +23,6 @@
 		"nodemon": "^1.18.11",
 		"nodemon-webpack-plugin": "^4.0.8",
 		"npm-run-all": "^4.1.5",
-		"npm-starter-sample-module": "0.0.4",
 		"size-plugin": "^1.2.0",
 		"source-map-loader": "^0.2.4",
 		"webpack": "^4.29.6",
@@ -46,8 +44,8 @@
 		"start": "npm run dev",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:liveReloadedModule",
-		"dev:vanillaModule": "babel-node src/index.js",
-		"dev:liveReloadedModule": "nodemon --watch src/index.js --exec 'babel-node src/index.js'",
+		"dev:vanillaModule": "babel-node src/lingo.js",
+		"dev:liveReloadedModule": "nodemon --watch src/**/*.js --exec 'babel-node src/lingo.js'",
 		"test": "npm-run-all -s clean build test:liveReloadedAva",
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
@@ -57,11 +55,11 @@
 		"ci:local": "trevor",
 		"ci:local:timed": "npm run ci:local | gnomon --type=elapsed-total",
 		"ci:local:cache:install": "docker pull verdaccio/verdaccio",
-		"ci:local:cache:run": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio"
+		"ci:local:cache:run": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio",
+		"ci:prepare": "npm install -g trevor gnomon"
 	},
 	"ava": {
 		"files": [
-			"!npm-starter-sample-module/**/*.js",
 			"tests/"
 		],
 		"require": [
