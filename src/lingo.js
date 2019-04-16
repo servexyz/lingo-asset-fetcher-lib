@@ -35,53 +35,6 @@ export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
     log(`getKitId() ${err}`);
   }
 }
-//TODO: Experiment with functional style to try to solve scope issue
-export async function getRelevantAssetContainers(
-  kitId,
-  extractTarget,
-  kitVersion = 0
-) {
-  const uuids = { sections: [] };
-  try {
-    //? Might be failing because it's only checking headers and not sections
-    // let headerUuids = [];
-    let outline = await lingo.fetchKitOutline(kitId, kitVersion);
-    // log(`gRAC outline: ${JSON.stringify(outline, null, 2)}`);
-    extractTarget.sections.forEach(targetSec => {
-      // log(`gRAC targetSec: ${JSON.stringify(targetSec, null, 2)}`);
-      let headerUuids = [];
-      Object.values(outline).forEach(originSec => {
-        // log(`gRAC originSec: ${JSON.stringify(originSec, null, 2)}`);
-        //TODO: Add a test for sections with duplicate names
-        // let headerUuids = [];
-        if (targetSec.name === originSec.name) {
-          if (targetSec.hasOwnProperty("headers")) {
-            log(`targetSec has headers property`);
-            //TODO: Add a test for headers with duplicate names
-            targetSec.headers.forEach(tsHeaderName => {
-              originSec.headers.forEach(osHeader => {
-                if (tsHeaderName === osHeader.name) {
-                  log(`this should be added: ${osHeader.uuid}`);
-                  headerUuids.push(osHeader.uuid);
-                }
-              });
-            });
-          }
-          uuids.sections.push({
-            name: originSec.name,
-            uuid: originSec.uuid,
-            headers: headerUuids
-          });
-        }
-      });
-    });
-    log(`uuids 1: ${JSON.stringify(uuids, null, 2)}`);
-  } catch (err) {
-    log(`getRelevantAssetContainers() ${err}`);
-  }
-  log(`uuids 2: ${JSON.stringify(uuids, null, 2)}`);
-  return uuids;
-}
 
 /**
  * getRelevantAssetContainer
@@ -174,26 +127,26 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
       log(`x: ${JSON.stringify(x, null, 2)}`);
       return Object.values(x.flat());
     });
-  /* Output should look something like:
-    containers: [
-      {
-        "EE0669EA-0FA8-451D-B911-F7299602458F": {}
-      },
-      {
-        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
-          "name": "Icons",
-          "uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
-        }
-      },
-      {
-        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
-          "name": "Components",
-          "uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
-        }
-      }
-    ]
-  */
   return assetContainer.flat();
+  /* Output should look something like:
+			containers: [
+				{
+					"EE0669EA-0FA8-451D-B911-F7299602458F": {}
+				},
+				{
+					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
+						"name": "Icons",
+						"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
+					}
+				},
+				{
+					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
+						"name": "Components",
+						"uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
+					}
+				}
+			]
+		*/
 }
 
 /**
@@ -248,13 +201,10 @@ export async function getAssetUuids(
             page,
             limit
           );
-          fs.outputFileSync(
-            `./src/payloads/${DateTime.local().toISODate()}/section.json`,
-            JSON.stringify(section, null, 2)
-          );
-          log(`section.items: ${section.items}`);
-          section;
-          section.items;
+          // fs.outputFileSync(
+          //   `./src/payloads/${DateTime.local().toISODate()}/section.json`,
+          //   JSON.stringify(section, null, 2)
+          // );
           for (let item of section.items) {
             log(`item: ${item}`); // ?
             if (item.asset_uuid !== null) {
@@ -279,10 +229,10 @@ export async function getAssetUuids(
             sectionUuid,
             headerUuid
           );
-          fs.outputFileSync(
-            `./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
-            JSON.stringify(headerAssets, null, 2)
-          );
+          // fs.outputFileSync(
+          //   `./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
+          //   JSON.stringify(headerAssets, null, 2)
+          // );
 
           for (const [k, v] of Object.entries(headerAssets, null, 2)) {
             if (v.asset_uuid !== null) {
@@ -293,7 +243,6 @@ export async function getAssetUuids(
               } else {
                 fileName = v.asset.name;
               }
-
               // log(`header fileName: ${fileName}`);
               assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
             }
@@ -301,8 +250,6 @@ export async function getAssetUuids(
         }
       }
     }
-    // log(`assetUuids: ${assetUuids}`);
-    // log(`assetUuids: ${JSON.stringify(assetUuids, null, 2)}`);
     return assetUuids;
   } catch (err) {
     log(`getAssetUuids() ${err}`);
