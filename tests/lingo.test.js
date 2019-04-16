@@ -123,7 +123,7 @@ test.skip(`init :: ${kitName} - Target Two`, t => {
 
 test(`Capswan :: targetOne`, async t => {
   let dir = path.join(__dirname, "../downloads/capswan/one");
-  log(`dir 1: ${dir}`);
+  // log(`dir 1: ${dir}`);
   t.truthy(
     await init(
       "Capswan - Mobile App - Style Guide",
@@ -136,7 +136,7 @@ test(`Capswan :: targetOne`, async t => {
 
 test(`Capswan :: targetTwo`, async t => {
   let dir = path.join(__dirname, "../downloads/capswan/two");
-  log(`dir 2: ${dir}`);
+  // log(`dir 2: ${dir}`);
   t.truthy(
     await init(
       "Capswan - Mobile App - Style Guide",

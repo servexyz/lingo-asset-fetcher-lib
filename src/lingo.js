@@ -126,7 +126,7 @@ export async function getRelevantAssetContainer(
         });
     })
     .map(x => {
-      log(`x: ${JSON.stringify(x, null, 2)}`);
+      // log(`x: ${JSON.stringify(x, null, 2)}`);
       return Object.values(x.flat());
     });
   return assetContainer.flat();
@@ -207,7 +207,7 @@ export async function getAssetUuids(
           //   JSON.stringify(section, null, 2)
           // );
           for (let item of section.items) {
-            log(`item: ${item}`); // ?
+            // log(`item: ${item}`); // ?
             if (item.asset_uuid !== null) {
               if (item.asset.hasOwnProperty("keywords")) {
                 var fileName = buildFileName(
