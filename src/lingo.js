@@ -2,8 +2,9 @@ require("dotenv").config();
 const log = console.log;
 import fs from "fs-extra";
 import lingo from "Lingojs";
-import config from "./lingo.config";
-import { DateTime } from "luxon";
+
+import config from "./lingo.config"; // For init tests
+import { DateTime } from "luxon"; // For fs.outputFile
 
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
@@ -38,14 +39,16 @@ export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
 
 /**
  * getRelevantAssetContainer
- *  TODO: Rename getRAC to getRelevantAssetContainer after old is removed
  * @param {*} kitId
  * @param {*} extractTarget
  * @param {*} kitVersion
  */
-export async function getRAC(kitId, extractTarget, kitVersion = 0) {
+export async function getRelevantAssetContainer(
+  kitId,
+  extractTarget,
+  kitVersion = 0
+) {
   //getRelevantAssetContainer
-  //TODO: ATTN someone brave: refactor this.
   let outline = await lingo.fetchKitOutline(kitId, kitVersion);
   const { sections } = extractTarget;
   var assetContainer = Object.values(sections)
@@ -114,7 +117,6 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
                 return matchedUuidHeaderKV;
               });
           } else {
-            //TODO: Fix this (I believe this is the core issue / reason that configs without headers specified do not work)
             return Object.assign({}, { [sectionUuid]: {} });
           }
         })
@@ -187,7 +189,6 @@ export async function getAssetUuids(
   page = 1,
   limit = 2000
 ) {
-  //TODO: Extract name from getAssetUuid (to name the file)
   try {
     var assetUuids = [];
     for (let c of container) {
@@ -224,7 +225,6 @@ export async function getAssetUuids(
           }
         } else {
           // http://developer.lingoapp.com/lingojs/#heading-contents
-          //TODO: Check if possible to add version / page / limit
           var headerAssets = await lingo.fetchAssetsForHeading(
             sectionUuid,
             headerUuid
@@ -321,7 +321,11 @@ export async function init(
   try {
     await batchDownload(
       await getAssetUuids(
-        await getRAC(await getKitId(kitName), extractTarget, kitVersion)
+        await getRelevantAssetContainer(
+          await getKitId(kitName),
+          extractTarget,
+          kitVersion
+        )
       ),
       outputFormat,
       outputDirectory
