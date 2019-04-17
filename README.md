@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-npm install laf-lib -D
+npm install laf-lib -S
 ```
 
 ## Usage

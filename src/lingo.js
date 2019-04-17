@@ -2,20 +2,20 @@ require("dotenv").config();
 const log = console.log;
 import fs from "fs-extra";
 import lingo from "Lingojs";
-import config from "./lingo.config";
-// import lingoConfig from "./lingo.config";
-import { DateTime } from "luxon";
+
+import config from "./lingo.config"; // For init tests
+import { DateTime } from "luxon"; // For fs.outputFile
 
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
  * @param {int} apiToken :: Account root API
  */
 export function getLingoSetupVariables(spaceId, apiToken) {
-	if (spaceId == null || apiToken == null) {
-		return [process.env.SPACE_ID, process.env.API_TOKEN];
-	} else {
-		return [spaceId, apiToken];
-	}
+  if (spaceId == null || apiToken == null) {
+    return [process.env.SPACE_ID, process.env.API_TOKEN];
+  } else {
+    return [spaceId, apiToken];
+  }
 }
 
 /**
@@ -23,178 +23,132 @@ export function getLingoSetupVariables(spaceId, apiToken) {
  * @param {string} kitName
  */
 export async function getKitId(kitName = "Capswan - Mobile App - Style Guide") {
-	let kitUuid;
-	try {
-		let kits = await lingo.fetchKits();
-		kits.forEach(v => {
-			if (v.name === kitName) {
-				kitUuid = v.kit_uuid;
-			}
-		});
-		return kitUuid;
-	} catch (err) {
-		log(`getKitId() ${err}`);
-	}
-}
-//TODO: Experiment with functional style to try to solve scope issue
-export async function getRelevantAssetContainers(
-	kitId,
-	extractTarget,
-	kitVersion = 0
-) {
-	const uuids = { sections: [] };
-	try {
-		//? Might be failing because it's only checking headers and not sections
-		// let headerUuids = [];
-		let outline = await lingo.fetchKitOutline(kitId, kitVersion);
-		// log(`gRAC outline: ${JSON.stringify(outline, null, 2)}`);
-		extractTarget.sections.forEach(targetSec => {
-			// log(`gRAC targetSec: ${JSON.stringify(targetSec, null, 2)}`);
-			let headerUuids = [];
-			Object.values(outline).forEach(originSec => {
-				// log(`gRAC originSec: ${JSON.stringify(originSec, null, 2)}`);
-				//TODO: Add a test for sections with duplicate names
-				// let headerUuids = [];
-				if (targetSec.name === originSec.name) {
-					if (targetSec.hasOwnProperty("headers")) {
-						log(`targetSec has headers property`);
-						//TODO: Add a test for headers with duplicate names
-						targetSec.headers.forEach(tsHeaderName => {
-							originSec.headers.forEach(osHeader => {
-								if (tsHeaderName === osHeader.name) {
-									log(`this should be added: ${osHeader.uuid}`);
-									headerUuids.push(osHeader.uuid);
-								}
-							});
-						});
-					}
-					uuids.sections.push({
-						name: originSec.name,
-						uuid: originSec.uuid,
-						headers: headerUuids
-					});
-				}
-			});
-		});
-		log(`uuids 1: ${JSON.stringify(uuids, null, 2)}`);
-	} catch (err) {
-		log(`getRelevantAssetContainers() ${err}`);
-	}
-	log(`uuids 2: ${JSON.stringify(uuids, null, 2)}`);
-	return uuids;
+  let kitUuid;
+  try {
+    let kits = await lingo.fetchKits();
+    kits.forEach(v => {
+      if (v.name === kitName) {
+        kitUuid = v.kit_uuid;
+      }
+    });
+    return kitUuid;
+  } catch (err) {
+    log(`getKitId() ${err}`);
+  }
 }
 
 /**
  * getRelevantAssetContainer
- *  TODO: Rename getRAC to getRelevantAssetContainer after old is removed
  * @param {*} kitId
  * @param {*} extractTarget
  * @param {*} kitVersion
  */
-export async function getRAC(kitId, extractTarget, kitVersion = 0) {
-	//getRelevantAssetContainer
-	//TODO: ATTN someone brave: refactor this.
-	let outline = await lingo.fetchKitOutline(kitId, kitVersion);
-	const { sections } = extractTarget;
-	var assetContainer = Object.values(sections)
-		.map((extract, xIdx) => {
-			// log(`extract: ${JSON.stringify(extract, null, 2)}`);
-			return Object.values(outline)
-				.filter(origin => {
-					return origin.name === extract.name;
-				})
-				.map(matchingOrigin => {
-					const { uuid, headers } = matchingOrigin;
-					return Object.assign({}, { [uuid]: headers });
-				})
-				.map(slimmedOrigin => {
-					// log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
-					let sectionUuid = Object.keys(slimmedOrigin);
-					if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
-						return Object.values(extract.headers)
-							.map(extractHeaderName => {
-								// log(
-								// 	`extractHeaderName: ${JSON.stringify(
-								// 		extractHeaderName,
-								// 		null,
-								// 		2
-								// 	)}`
-								// );
-								return extractHeaderName;
-							})
-							.map(xHeader => {
-								let headers = Object.values(slimmedOrigin).flat();
-								// log(`headers: ${JSON.stringify(headers, null, 2)}`);
-								return headers.filter((oHeader, idx) => {
-									// log(`oHeader: ${JSON.stringify(oHeader, null, 2)}`);
-									const { name, uuid } = oHeader;
-									// log(`nameee${idx}: ${name}`);
-									// log(`uuuuid${idx}: ${uuid}`);
-									// log(`xHeader${idx}: ${xHeader}`);
-									// log(`insideeee headers`);
-									if (name === xHeader) {
-										// log(`insiiiiide nameXheader`);
-										return Object.assign({}, { name, uuid });
-									}
-								});
-							})
-							.map(matchedOriginHeaders => {
-								// log(
-								// 	`matchedOriginHeaders: ${JSON.stringify(
-								// 		matchedOriginHeaders,
-								// 		null,
-								// 		2
-								// 	)}`
-								// );
-								const { name, uuid } = matchedOriginHeaders[0];
-								// log(`name: ${name}`);
-								// log(`uuid: ${uuid}`);
-								return Object.assign({}, { [sectionUuid]: { name, uuid } });
-							})
-							.map(matchedUuidHeaderKV => {
-								// log(
-								// 	`matchedUuidHeaderKV: ${JSON.stringify(
-								// 		matchedUuidHeaderKV,
-								// 		null,
-								// 		2
-								// 	)}`
-								// );
-								return matchedUuidHeaderKV;
-							});
-					} else {
-						//TODO: Fix this (I believe this is the core issue / reason that configs without headers specified do not work)
-						return Object.assign({}, { [sectionUuid]: {} });
+export async function getRelevantAssetContainer(
+  kitId,
+  extractTarget,
+  kitVersion = 0
+) {
+  //getRelevantAssetContainer
+  let outline = await lingo.fetchKitOutline(kitId, kitVersion);
+  const { sections } = extractTarget;
+  var assetContainer = Object.values(sections)
+    .map((extract, xIdx) => {
+      // log(`extract: ${JSON.stringify(extract, null, 2)}`);
+      return Object.values(outline)
+        .filter(origin => {
+          return origin.name === extract.name;
+        })
+        .map(matchingOrigin => {
+          const { uuid, headers } = matchingOrigin;
+          return Object.assign({}, { [uuid]: headers });
+        })
+        .map(slimmedOrigin => {
+          // log(`slimmedOrigin: ${JSON.stringify(slimmedOrigin, null, 2)}`);
+          let sectionUuid = Object.keys(slimmedOrigin);
+          if (extract.hasOwnProperty("headers") && extract.headers.length > 0) {
+            return Object.values(extract.headers)
+              .map(extractHeaderName => {
+                // log(
+                // 	`extractHeaderName: ${JSON.stringify(
+                // 		extractHeaderName,
+                // 		null,
+                // 		2
+                // 	)}`
+                // );
+                return extractHeaderName;
+              })
+              .map(xHeader => {
+                let headers = Object.values(slimmedOrigin).flat();
+                // log(`headers: ${JSON.stringify(headers, null, 2)}`);
+                return headers.filter((oHeader, idx) => {
+                  // log(`oHeader: ${JSON.stringify(oHeader, null, 2)}`);
+                  const { name, uuid } = oHeader;
+                  // log(`nameee${idx}: ${name}`);
+                  // log(`uuuuid${idx}: ${uuid}`);
+                  // log(`xHeader${idx}: ${xHeader}`);
+                  // log(`insideeee headers`);
+                  if (name === xHeader) {
+                    // log(`insiiiiide nameXheader`);
+                    return Object.assign({}, { name, uuid });
+                  }
+                });
+              })
+              .map(matchedOriginHeaders => {
+                // log(
+                // 	`matchedOriginHeaders: ${JSON.stringify(
+                // 		matchedOriginHeaders,
+                // 		null,
+                // 		2
+                // 	)}`
+                // );
+                const { name, uuid } = matchedOriginHeaders[0];
+                // log(`name: ${name}`);
+                // log(`uuid: ${uuid}`);
+                return Object.assign({}, { [sectionUuid]: { name, uuid } });
+              })
+              .map(matchedUuidHeaderKV => {
+                // log(
+                // 	`matchedUuidHeaderKV: ${JSON.stringify(
+                // 		matchedUuidHeaderKV,
+                // 		null,
+                // 		2
+                // 	)}`
+                // );
+                return matchedUuidHeaderKV;
+              });
+          } else {
+            return Object.assign({}, { [sectionUuid]: {} });
+          }
+        })
+        .map(extracted => {
+          // log(`extracted: ${JSON.stringify(extracted, null, 2)}`);
+          return extracted;
+        });
+    })
+    .map(x => {
+      // log(`x: ${JSON.stringify(x, null, 2)}`);
+      return Object.values(x.flat());
+    });
+  return assetContainer.flat();
+  /* Output should look something like:
+			containers: [
+				{
+					"EE0669EA-0FA8-451D-B911-F7299602458F": {}
+				},
+				{
+					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
+						"name": "Icons",
+						"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
 					}
-				})
-				.map(extracted => {
-					// log(`extracted: ${JSON.stringify(extracted, null, 2)}`);
-					return extracted;
-				});
-		})
-		.map(x => {
-			log(`x: ${JSON.stringify(x, null, 2)}`);
-			return Object.values(x.flat());
-		});
-	/* Output should look something like:
-    containers: [
-      {
-        "EE0669EA-0FA8-451D-B911-F7299602458F": {}
-      },
-      {
-        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
-          "name": "Icons",
-          "uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
-        }
-      },
-      {
-        "9533C6B8-599E-4709-9120-9DA8E10A2922": {
-          "name": "Components",
-          "uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
-        }
-      }
-    ]
-  */
-	return assetContainer.flat();
+				},
+				{
+					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
+						"name": "Components",
+						"uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
+					}
+				}
+			]
+		*/
 }
 
 /**
@@ -203,23 +157,23 @@ export async function getRAC(kitId, extractTarget, kitVersion = 0) {
  * @param {Array[string]} assetKeywords
  */
 function buildFileName(assetName, assetKeywords) {
-	//TODO: Make this extensible so people can pass their own options
-	if (assetKeywords.length >= 1) {
-		let tags = assetKeywords
-			.split(",")
-			.map(tag => {
-				return tag.trim();
-			})
-			.map(trimmed => {
-				return trimmed.replace(/ /g, "_");
-			});
-		let underscoredKeywords = tags.join("_");
-		let underscoredAssetName = assetName.replace(/ /g, "_");
-		let newName = underscoredAssetName + "_" + underscoredKeywords;
-		return newName;
-	} else {
-		return assetName;
-	}
+  //TODO: Make this extensible so people can pass their own options
+  if (assetKeywords.length >= 1) {
+    let tags = assetKeywords
+      .split(",")
+      .map(tag => {
+        return tag.trim();
+      })
+      .map(trimmed => {
+        return trimmed.replace(/ /g, "_");
+      });
+    let underscoredKeywords = tags.join("_");
+    let underscoredAssetName = assetName.replace(/ /g, "_");
+    let newName = underscoredAssetName + "_" + underscoredKeywords;
+    return newName;
+  } else {
+    return assetName;
+  }
 }
 /**
  *
@@ -230,84 +184,76 @@ function buildFileName(assetName, assetKeywords) {
  */
 
 export async function getAssetUuids(
-	container,
-	version = 0,
-	page = 1,
-	limit = 2000
+  container,
+  version = 0,
+  page = 1,
+  limit = 2000
 ) {
-	//TODO: Extract name from getAssetUuid (to name the file)
-	try {
-		var assetUuids = [];
-		for (let c of container) {
-			for (const [sectionUuid, header] of Object.entries(c)) {
-				let headerUuid = header.uuid;
-				if (headerUuid === null || headerUuid === undefined) {
-					// http://developer.lingoapp.com/lingojs/#sections
-					var section = await lingo.fetchSection(
-						sectionUuid,
-						version,
-						page,
-						limit
-					);
-					fs.outputFileSync(
-						`./src/payloads/${DateTime.local().toISODate()}/section.json`,
-						JSON.stringify(section, null, 2)
-					);
-					log(`section.items: ${section.items}`);
-					section;
-					section.items;
-					for (let item of section.items) {
-						log(`item: ${item}`); // ?
-						if (item.asset_uuid !== null) {
-							if (item.asset.hasOwnProperty("keywords")) {
-								var fileName = buildFileName(
-									item.asset.name,
-									item.asset.keywords
-								);
-							} else {
-								fileName = item.asset.name;
-							}
-							assetUuids.push(
-								Object.assign({}, { [item.asset_uuid]: fileName })
-							);
-							assetUuids;
-						}
-					}
-				} else {
-					// http://developer.lingoapp.com/lingojs/#heading-contents
-					//TODO: Check if possible to add version / page / limit
-					var headerAssets = await lingo.fetchAssetsForHeading(
-						sectionUuid,
-						headerUuid
-					);
-					fs.outputFileSync(
-						`./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
-						JSON.stringify(headerAssets, null, 2)
-					);
+  try {
+    var assetUuids = [];
+    for (let c of container) {
+      for (const [sectionUuid, header] of Object.entries(c)) {
+        let headerUuid = header.uuid;
+        if (headerUuid === null || headerUuid === undefined) {
+          // http://developer.lingoapp.com/lingojs/#sections
+          var section = await lingo.fetchSection(
+            sectionUuid,
+            version,
+            page,
+            limit
+          );
+          // fs.outputFileSync(
+          //   `./src/payloads/${DateTime.local().toISODate()}/section.json`,
+          //   JSON.stringify(section, null, 2)
+          // );
+          for (let item of section.items) {
+            // log(`item: ${item}`); // ?
+            if (item.asset_uuid !== null) {
+              if (item.asset.hasOwnProperty("keywords")) {
+                var fileName = buildFileName(
+                  item.asset.name,
+                  item.asset.keywords
+                );
+              } else {
+                fileName = item.asset.name;
+              }
+              assetUuids.push(
+                Object.assign({}, { [item.asset_uuid]: fileName })
+              );
+              assetUuids;
+            }
+          }
+        } else {
+          // http://developer.lingoapp.com/lingojs/#heading-contents
+          var headerAssets = await lingo.fetchAssetsForHeading(
+            sectionUuid,
+            headerUuid
+          );
+          // fs.outputFileSync(
+          //   `./src/payloads/${DateTime.local().toISODate()}/headerAssets.json`,
+          //   JSON.stringify(headerAssets, null, 2)
+          // );
 
-					for (const [k, v] of Object.entries(headerAssets, null, 2)) {
-						if (v.asset_uuid !== null) {
-							// log(`v.asset.name: ${v.asset.name}`);
-							// log(`v.asset.keywords: ${v.asset.keywords}`);
-							if (v.asset.hasOwnProperty("keywords")) {
-								var fileName = buildFileName(v.asset.name, v.asset.keywords);
-							} else {
-								fileName = v.asset.name;
-							}
-
-							// log(`header fileName: ${fileName}`);
-							assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
-						}
-					}
-				}
-			}
-		}
-		// log(`assetUuids: ${assetUuids}`);
-		// log(`assetUuids: ${JSON.stringify(assetUuids, null, 2)}`);
-		return assetUuids;
-	} catch (err) {
-		log(`getAssetUuids() ${err}`);
-	}
+          for (const [k, v] of Object.entries(headerAssets, null, 2)) {
+            if (v.asset_uuid !== null) {
+              // log(`v.asset.name: ${v.asset.name}`);
+              // log(`v.asset.keywords: ${v.asset.keywords}`);
+              if (v.asset.hasOwnProperty("keywords")) {
+                var fileName = buildFileName(v.asset.name, v.asset.keywords);
+              } else {
+                fileName = v.asset.name;
+              }
+              // log(`header fileName: ${fileName}`);
+              assetUuids.push(Object.assign({}, { [v.asset_uuid]: fileName }));
+            }
+          }
+        }
+      }
+    }
+    return assetUuids;
+  } catch (err) {
+    log(`getAssetUuids() ${err}`);
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -320,29 +266,29 @@ export async function getAssetUuids(
  * @param {string} outDir
  */
 export async function batchDownload(
-	asset,
-	outFormat = "png",
-	outDir = "./downloads"
+  asset,
+  outFormat = "png",
+  outDir = "./downloads"
 ) {
-	try {
-		asset.forEach(async a => {
-			let uuid = Object.keys(a);
-			let fileName = Object.values(a);
-			var buffer;
-			try {
-				buffer = await lingo.downloadAsset(uuid, outFormat.toUpperCase());
-				await fs.outputFile(
-					`${outDir}/${fileName}.${outFormat.toLowerCase()}`,
-					buffer,
-					"binary"
-				);
-			} catch (err) {
-				log(`Err: ${err}`);
-			}
-		});
-	} catch (err) {
-		log(`batchDownload(): ${err}`);
-	}
+  try {
+    asset.forEach(async a => {
+      let uuid = Object.keys(a);
+      let fileName = Object.values(a);
+      var buffer;
+      try {
+        buffer = await lingo.downloadAsset(uuid, outFormat.toUpperCase());
+        fs.outputFileSync(
+          `${outDir}/${fileName}.${outFormat.toLowerCase()}`,
+          buffer,
+          "binary"
+        );
+      } catch (err) {
+        log(`Err: ${err}`);
+      }
+    });
+  } catch (err) {
+    log(`batchDownload(): ${err}`);
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -359,32 +305,36 @@ export async function batchDownload(
  * @param {int} kitVersion
  */
 export async function init(
-	kitName = "Test Me",
-	extractTarget = null,
-	outputDirectory = "./downloads",
-	outputFormat = "PNG",
-	spaceId = null,
-	apiToken = null,
-	kitVersion = 0
+  kitName = "Test Me",
+  extractTarget = null,
+  outputDirectory = "./downloads",
+  outputFormat = "PNG",
+  spaceId = null,
+  apiToken = null,
+  kitVersion = 0
 ) {
-	if (extractTarget == null) {
-		throw Error("Extract Target is required");
-	}
-	let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables from init function
-	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
-	try {
-		await batchDownload(
-			await getAssetUuids(
-				await getRAC(await getKitId(kitName), extractTarget, kitVersion)
-			),
-			outputFormat,
-			outputDirectory
-		);
-		return true;
-	} catch (err) {
-		log(`init() ${err}`);
-		return false;
-	}
+  if (extractTarget == null) {
+    throw Error("Extract Target is required");
+  }
+  let lsConfig = getLingoSetupVariables(spaceId, apiToken); //Allow overwriting of env variables from init function
+  lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
+  try {
+    await batchDownload(
+      await getAssetUuids(
+        await getRelevantAssetContainer(
+          await getKitId(kitName),
+          extractTarget,
+          kitVersion
+        )
+      ),
+      outputFormat,
+      outputDirectory
+    );
+    return true;
+  } catch (err) {
+    log(`init() ${err}`);
+    return false;
+  }
 }
 
 /////////////////////////////////////

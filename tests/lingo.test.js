@@ -4,12 +4,12 @@ import test from "ava";
 import path from "path";
 import lingo from "Lingojs";
 import {
-	getRAC,
-	getKitId,
-	getLingoSetupVariables,
-	getAssetUuids,
-	batchDownload,
-	init
+  getRelevantAssetContainer,
+  getKitId,
+  getLingoSetupVariables,
+  getAssetUuids,
+  batchDownload,
+  init
 } from "../src/lingo.js";
 
 import config from "../src/lingo.config";
@@ -25,11 +25,11 @@ const kitNameAccessorCS = "capswan";
  * **********************************
  */
 test.before(t => {
-	let lsConfig = getLingoSetupVariables(
-		process.env.SPACE_ID,
-		process.env.API_TOKEN
-	);
-	lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
+  let lsConfig = getLingoSetupVariables(
+    process.env.SPACE_ID,
+    process.env.API_TOKEN
+  );
+  lingo.setup(lsConfig[0], lsConfig[1]); //[0] => spaceId, [1] => apiToken
 });
 
 /*
@@ -39,53 +39,52 @@ TODO: Store results of each async call in global variables to avoid hitting API 
 * Skipping prevents unnecssary API roundtrips and mitigates risk of hitting rate limit.
 * Better solution would be to store return values of each stage globally and pass along.
 */
-//TODO: Change tests to be more concrete than snapshots
 test(`getKitId :: ${kitNameCS}`, async t => {
-	t.snapshot(await getKitId(kitNameCS));
+  t.snapshot(await getKitId(kitNameCS));
 });
 test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
-	var containers;
-	try {
-		let id = await getKitId(kitNameCS);
-		let extractTarget = config[kitNameAccessorCS]["targetOne"];
-		containers = await getRAC(id, extractTarget);
-		// log(`containers: ${JSON.stringify(containers, null, 2)}`);
-	} catch (err) {
-		log(`err: ${err}`);
-	}
-	t.truthy(containers);
+  var containers;
+  try {
+    let id = await getKitId(kitNameCS);
+    let extractTarget = config[kitNameAccessorCS]["targetOne"];
+    containers = await getRelevantAssetContainer(id, extractTarget);
+    // log(`containers: ${JSON.stringify(containers, null, 2)}`);
+  } catch (err) {
+    log(`err: ${err}`);
+  }
+  t.truthy(containers);
 });
 
 test(`getRelevantAssetContainers :: ${kitNameCS} - Target Two`, async t => {
-	let id = await getKitId(kitNameCS);
-	let extractTarget = config[kitNameAccessorCS]["targetTwo"];
-	let containers = await getRAC(id, extractTarget);
-	t.truthy(containers);
+  let id = await getKitId(kitNameCS);
+  let extractTarget = config[kitNameAccessorCS]["targetTwo"];
+  let containers = await getRelevantAssetContainer(id, extractTarget);
+  t.truthy(containers);
 });
 
 test.skip(`batchDownloads:: ${kitName} - Target One`, async t => {
-	t.snapshot(
-		await batchDownload(
-			await getAssetUuids(
-				await getRAC(
-					await getKitId(kitName),
-					config[kitNameAccessor]["targetOne"]
-				)
-			)
-		)
-	);
+  t.snapshot(
+    await batchDownload(
+      await getAssetUuids(
+        await getRelevantAssetContainer(
+          await getKitId(kitName),
+          config[kitNameAccessor]["targetOne"]
+        )
+      )
+    )
+  );
 });
 test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
-	t.snapshot(
-		await batchDownload(
-			await getAssetUuids(
-				await getRAC(
-					await getKitId(kitName),
-					config[kitNameAccessor]["targetTwo"]
-				)
-			)
-		)
-	);
+  t.snapshot(
+    await batchDownload(
+      await getAssetUuids(
+        await getRelevantAssetContainer(
+          await getKitId(kitName),
+          config[kitNameAccessor]["targetTwo"]
+        )
+      )
+    )
+  );
 });
 
 /*
@@ -94,56 +93,56 @@ test.skip(`batchDownloads :: ${kitName} - Target Two`, async t => {
  * **********************************
  */
 test.skip(`init :: ${kitName} - Target One`, t => {
-	// log(
-	// 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetOne"], null, 2)}`
-	// );
+  // log(
+  // 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetOne"], null, 2)}`
+  // );
 
-	t.truthy(
-		init(
-			kitName,
-			config[kitNameAccessor]["targetOne"],
-			"./downloads/testMeOne",
-			"PNG"
-		)
-	);
+  t.truthy(
+    init(
+      kitName,
+      config[kitNameAccessor]["targetOne"],
+      "./downloads/testMeOne",
+      "PNG"
+    )
+  );
 });
 test.skip(`init :: ${kitName} - Target Two`, t => {
-	// log(
-	// 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetTwo"], null, 2)}`
-	// );
+  // log(
+  // 	`Config: ${JSON.stringify(config[kitNameAccessor]["targetTwo"], null, 2)}`
+  // );
 
-	t.truthy(
-		init(
-			kitName,
-			config[kitNameAccessor]["targetTwo"],
-			"./downloads/testMeTwo",
-			"PNG"
-		)
-	);
+  t.truthy(
+    init(
+      kitName,
+      config[kitNameAccessor]["targetTwo"],
+      "./downloads/testMeTwo",
+      "PNG"
+    )
+  );
 });
 
 test(`Capswan :: targetOne`, async t => {
-	let dir = path.join(__dirname, "../downloads/capswan/one");
-	log(`dir 1: ${dir}`);
-	t.truthy(
-		await init(
-			"Capswan - Mobile App - Style Guide",
-			config.capswan.targetOne,
-			dir,
-			"PNG"
-		)
-	);
+  let dir = path.join(__dirname, "../downloads/capswan/one");
+  // log(`dir 1: ${dir}`);
+  t.truthy(
+    await init(
+      "Capswan - Mobile App - Style Guide",
+      config.capswan.targetOne,
+      dir,
+      "PNG"
+    )
+  );
 });
 
 test(`Capswan :: targetTwo`, async t => {
-	let dir = path.join(__dirname, "../downloads/capswan/two");
-	log(`dir 2: ${dir}`);
-	t.truthy(
-		await init(
-			"Capswan - Mobile App - Style Guide",
-			config.capswan.targetTwo,
-			dir,
-			"PNG"
-		)
-	);
+  let dir = path.join(__dirname, "../downloads/capswan/two");
+  // log(`dir 2: ${dir}`);
+  t.truthy(
+    await init(
+      "Capswan - Mobile App - Style Guide",
+      config.capswan.targetTwo,
+      dir,
+      "PNG"
+    )
+  );
 });
