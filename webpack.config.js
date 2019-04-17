@@ -4,9 +4,10 @@ const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack
 // const PacktrackerPlugin = require("@packtracker/webpack-plugin");
 const NodeExternals = require("webpack-node-externals");
 const SizePlugin = require("size-plugin");
-// entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
+
+// entry: [path.resolve(__dirname, "src/index.js")],
 module.exports = {
-  entry: [path.resolve(__dirname, "src/index.js")],
+  entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "main.js",
