@@ -3,8 +3,8 @@ const log = console.log;
 import fs from "fs-extra";
 import lingo from "Lingojs";
 
-import config from "./lingo.config"; // For init tests
-import { DateTime } from "luxon"; // For fs.outputFile
+// import config from "./lingo.config"; // For init tests
+// import { DateTime } from "luxon"; // For fs.outputFile
 
 /**
  * @param {int} spaceId :: Lingo Space ID (6 digits)
@@ -130,25 +130,6 @@ export async function getRelevantAssetContainer(
       return Object.values(x.flat());
     });
   return assetContainer.flat();
-  /* Output should look something like:
-			containers: [
-				{
-					"EE0669EA-0FA8-451D-B911-F7299602458F": {}
-				},
-				{
-					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
-						"name": "Icons",
-						"uuid": "32CACAE6-AD11-4FD6-B204-A16A17239D94"
-					}
-				},
-				{
-					"9533C6B8-599E-4709-9120-9DA8E10A2922": {
-						"name": "Components",
-						"uuid": "51CA5C83-10FA-4420-B768-A68306EF7656"
-					}
-				}
-			]
-		*/
 }
 
 /**
