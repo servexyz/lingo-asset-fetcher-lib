@@ -16,7 +16,7 @@ npm install laf-lib -S
 
 #### Core Experience
 
-This is intended to be used with [laf](https://www.npmjs.com/package/laf)
+`laf-lib` is a core dependency of [laf](https://www.npmjs.com/package/laf) CLI
 
 ---
 
