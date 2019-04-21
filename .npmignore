@@ -1,4 +1,6 @@
 node_modules
+.DS_Store
+.env.sample
 docs/node-starter-scripts.gif
 docs/NPM.md
 *download*
