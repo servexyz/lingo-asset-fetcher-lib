@@ -16,7 +16,12 @@ npm install laf-lib -S
 
 #### Core Experience
 
-`laf-lib` is a core dependency of [laf](https://www.npmjs.com/package/laf) CLI
+**lingo-asset-fetcher-lib** is a core dependency of [LAF](https://www.npmjs.com/package/laf). LAF is a CLI which abstracts all of this functionality into a single, easy-to-use command which can run from your terminal or package.json.
+
+If you're looking for an out-of-the-box solution, check LAF out here:
+
+- `@github`: [lingo-asset-fetcher-cli](https://github.com/servexyz/lingo-asset-fetcher-cli)
+- `@npm`: [laf](https://www.npmjs.com/package/laf)
 
 ---
 
