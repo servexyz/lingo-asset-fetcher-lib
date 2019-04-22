@@ -68,6 +68,10 @@ init(
 );
 ```
 
+> Curious about which fileFormats options are available? Read more here:
+>
+> [http://developer.lingoapp.com/lingojs/#available-file-cuts](http://developer.lingoapp.com/lingojs/#available-file-cuts)
+
 ###### 3. This is how that might look for my project:
 
 > Important _Case Sensitive_ note:
