@@ -344,7 +344,7 @@ export class SearchQuery extends React.Component {
    */
   //TODO: Create uGenerateEnvBoilerplate
   //TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
-  uGenerateLAFBoilerplate(configName, kitNames) {
+  uGenerateLAFBoilerplate(configName = ".laf.json", kitNames) {
     let kits = kitNames.map(kit => {
       let name = kit.name;
       return {
