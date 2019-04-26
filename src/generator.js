@@ -4,6 +4,7 @@ import TextInput from "ink-text-input";
 import SelectInput from "ink-select-input";
 import fs from "fs-extra";
 import clipboardy from "clipboardy";
+import { uGenerateLAFBoilerplate } from "./utilities";
 const log = console.log;
 
 /*
@@ -180,7 +181,7 @@ export class LAFGenerator extends React.Component {
     //TODO: Abstract below into utility function for cEnd and cEnvDone's inline function
     //TODO: Add a check to see whether clipboard is already filled. If so, forego this option and write to laf.json
     let config = JSON.stringify(
-      this.uGenerateLAFBoilerplate(".laf.json", Object.values(kits)),
+      uGenerateLAFBoilerplate(".laf.json", Object.values(kits)),
       null,
       2
     );
@@ -226,7 +227,7 @@ export class LAFGenerator extends React.Component {
   cEmptyBoilerplate(kitNames = [""]) {
     let rootDir = process.cwd();
     let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
-    let config = this.uGenerateLAFBoilerplate(".laf.json", kitNames);
+    let config = uGenerateLAFBoilerplate(".laf.json", kitNames);
     //TODO: Any reason I should not remove rootDir and replace it with cwd?
     fs.outputFile(`${rootDir}/${env.name}`, env.value, err => {
       if (err) return this.cError("cEmptyBoilerplate", err);
@@ -341,28 +342,7 @@ export class LAFGenerator extends React.Component {
    * Utilities
    ************************************************
    */
-  //TODO: Create uGenerateEnvBoilerplate
-  //TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
-  static uGenerateLAFBoilerplate(configName = ".laf.json", kitNames) {
-    let kits = kitNames.map(kit => {
-      log(`kit.name: ${kit.name}`);
-      return {
-        name: kit.name,
-        sections: [
-          {
-            name: "",
-            headers: [""]
-          }
-        ]
-      };
-    });
-    return {
-      name: configName,
-      value: {
-        kits
-      }
-    };
-  }
+
   /*
    ***********************************************
    * Conditional Rendering (phase checkers)
