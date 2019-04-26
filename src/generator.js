@@ -18,7 +18,8 @@ const log = console.log;
 */
 
 //TODO: Add a check if laf.json already exists to prevent overwriting
-export class SearchQuery extends React.Component {
+//TODO: Update expor
+export class LAFGenerator extends React.Component {
   constructor() {
     super();
 
@@ -174,8 +175,6 @@ export class SearchQuery extends React.Component {
   //TODO: Refactor cEnd to "cConfigEnd"
   cEnd() {
     const {
-      spaceId,
-      apiToken,
       config: { outputLoc, kits }
     } = this.state;
     //TODO: Abstract below into utility function for cEnd and cEnvDone's inline function
@@ -346,9 +345,9 @@ export class SearchQuery extends React.Component {
   //TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
   uGenerateLAFBoilerplate(configName = ".laf.json", kitNames) {
     let kits = kitNames.map(kit => {
-      let name = kit.name;
+      log(`kit.name: ${kit.name}`);
       return {
-        name,
+        name: kit.name,
         sections: [
           {
             name: "",
@@ -450,5 +449,5 @@ export class SearchQuery extends React.Component {
 }
 
 export function initInk() {
-  render(<SearchQuery />);
+  render(<LAFGenerator />);
 }

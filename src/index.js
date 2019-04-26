@@ -1,4 +1,4 @@
-export { SearchQuery, initInk } from "./generator";
+export { LAFGenerator, initInk } from "./generator";
 export {
   getRelevantAssetContainers,
   getKitId,
