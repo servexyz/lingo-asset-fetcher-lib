@@ -1,6 +1,6 @@
 {
   "name": "laf-lib",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "batch downloads assets from lingo to your local project. Used by laf (the CLI version)",
   "main": "build/main.js",
   "license": "MIT",
