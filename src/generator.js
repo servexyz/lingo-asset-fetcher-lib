@@ -343,7 +343,7 @@ export class LAFGenerator extends React.Component {
    */
   //TODO: Create uGenerateEnvBoilerplate
   //TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
-  uGenerateLAFBoilerplate(configName = ".laf.json", kitNames) {
+  static uGenerateLAFBoilerplate(configName = ".laf.json", kitNames) {
     let kits = kitNames.map(kit => {
       log(`kit.name: ${kit.name}`);
       return {
