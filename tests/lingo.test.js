@@ -2,7 +2,7 @@ require("dotenv").config();
 const log = console.log;
 import test from "ava";
 import path from "path";
-import lingo from "Lingojs";
+import lingo from "lingo-sdk";
 import {
   getRelevantAssetContainer,
   getKitId,

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const log = console.log;
 import fs from "fs-extra";
-import lingo from "Lingojs";
+import lingo from "lingo-sdk";
 
 // import config from "./lingo.config"; // For init tests
 // import { DateTime } from "luxon"; // For fs.outputFile

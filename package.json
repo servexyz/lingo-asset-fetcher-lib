@@ -1,7 +1,7 @@
 {
   "name": "laf-lib",
-  "version": "0.3.11",
-  "description": "batch downloads assets from lingo to your local project. Used by laf (the CLI version)",
+  "version": "0.3.12",
+  "description": "batch downloads assets from lingo to your local project. Used by laf (the CLI)",
   "main": "build/main.js",
   "license": "MIT",
   "keywords": [
@@ -39,13 +39,13 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "Lingojs": "git+https://github.com/TheNounProject/LingoJS.git",
     "clipboardy": "^2.0.0",
     "dotenv": "^7.0.0",
     "fs-extra": "^7.0.1",
     "ink": "^2.1.1",
     "ink-select-input": "^3.1.0",
     "ink-text-input": "^3.1.1",
+    "lingo-sdk": "^0.1.1",
     "luxon": "^1.12.1",
     "react": "^16.8.6"
   },
@@ -55,7 +55,7 @@
     "dev": "npm run dev:liveReloadedModule",
     "dev:vanillaModule": "babel-node src/lingo.js",
     "dev:liveReloadedModule": "nodemon --watch src/**/*.js --exec 'babel-node src/lingo.js'",
-    "test": "npm-run-all -s clean build test:liveReloadedAva",
+    "test": "npm-run-all -s clean build test:ava",
     "test:ava": "ava",
     "test:liveReloadedAva": "ava --watch",
     "build": "webpack --mode production --display minimal",
