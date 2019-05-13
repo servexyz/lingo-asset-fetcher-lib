@@ -168,7 +168,7 @@ export async function getAssetUuids(
   container,
   version = 0,
   page = 1,
-  limit = 2000
+  limit = 200
 ) {
   try {
     var assetUuids = [];
