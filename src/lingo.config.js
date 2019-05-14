@@ -1,41 +1,38 @@
 export default {
-	testMe: {
-		targetOne: {
-			sections: [
-				{
-					name: "Illustrations"
-				}
-			]
-		},
-		targetTwo: {
-			sections: [
-				{
-					name: "Illustrations",
-					headers: ["Lined"]
-				}
-			]
-		}
-	},
-	capswan: {
-		targetOne: {
-			sections: [
-				{
-					name: "Illustrations"
-				},
-				{
-					name: "Icons",
-					headers: ["Icons", "Components"]
-				}
-			]
-		},
-		targetTwo: {
-			sections: [
-				{
-					name: "Icons"
-				}
-			]
-		}
-	}
+  testMe: {
+    targetOne: {
+      sections: [
+        {
+          name: "Illustrations"
+        }
+      ]
+    },
+    targetTwo: {
+      sections: [
+        {
+          name: "Illustrations",
+          headers: ["Lined"]
+        }
+      ]
+    }
+  },
+  capswan: {
+    targetOne: {
+      sections: [
+        {
+          name: "Symbols",
+          headers: ["Icons", "Components"]
+        }
+      ]
+    },
+    targetTwo: {
+      sections: [
+        {
+          name: "Symbols"
+        }
+      ]
+    }
+  }
 };
 
 /* Sample output from capswanExampleExtractTargetOne =>
