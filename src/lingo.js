@@ -264,7 +264,7 @@ export async function batchDownload(
           "binary"
         );
       } catch (err) {
-        log(`Err: ${err}`);
+        log(err);
       }
     });
   } catch (err) {

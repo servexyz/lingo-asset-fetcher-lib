@@ -16,7 +16,7 @@ import config from "../src/lingo.config";
 
 const kitName = "Test Me";
 const kitNameAccessor = "testMe";
-const kitNameCS = "Capswan - Mobile App - Style Guide";
+const kitNameCS = "Capswan UI";
 const kitNameAccessorCS = "capswan";
 
 /*
@@ -50,7 +50,7 @@ test(`getRelevantAssetContainersTwo :: ${kitNameCS} - Target One`, async t => {
     containers = await getRelevantAssetContainer(id, extractTarget);
     // log(`containers: ${JSON.stringify(containers, null, 2)}`);
   } catch (err) {
-    log(`err: ${err}`);
+    log(err);
   }
   t.truthy(containers);
 });
@@ -125,25 +125,11 @@ test.skip(`init :: ${kitName} - Target Two`, t => {
 test(`Capswan :: targetOne`, async t => {
   let dir = path.join(__dirname, "../downloads/capswan/one");
   // log(`dir 1: ${dir}`);
-  t.truthy(
-    await init(
-      "Capswan - Mobile App - Style Guide",
-      config.capswan.targetOne,
-      dir,
-      "PNG"
-    )
-  );
+  t.truthy(await init(kitNameCS, config.capswan.targetOne, dir, "PNG"));
 });
 
 test(`Capswan :: targetTwo`, async t => {
   let dir = path.join(__dirname, "../downloads/capswan/two");
   // log(`dir 2: ${dir}`);
-  t.truthy(
-    await init(
-      "Capswan - Mobile App - Style Guide",
-      config.capswan.targetTwo,
-      dir,
-      "PNG"
-    )
-  );
+  t.truthy(await init(kitNameCS, config.capswan.targetTwo, dir, "PNG"));
 });
