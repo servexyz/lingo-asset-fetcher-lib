@@ -42,7 +42,7 @@
     "clipboardy": "^2.0.0",
     "dotenv": "^7.0.0",
     "fs-extra": "^7.0.1",
-    "ink": "^2.1.1",
+    "ink": "^3.0.9",
     "ink-select-input": "^3.1.0",
     "ink-text-input": "^3.1.1",
     "lingo-sdk": "^0.1.1",
